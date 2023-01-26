@@ -1,1 +1,1 @@
-# user-mobile-app
+# organizer-mobile-app

@@ -1,7 +1,7 @@
 import EutopicCore from '@ticketland-io/eutopic-core'
 import EutopicSolanaWallet from '@ticketland-io/eutopic-solana-wallet'
 import Enclave from '@ticketland-io/eutopic-web-enclave'
-import FirebaseAuth from './firebase';
+import FirebaseAuth from '@ticketland-io/eutopic-firebase-auth-rn';
 
 const Wallet = () => EutopicSolanaWallet({enclave: Enclave()})
 const eutopicCore = EutopicCore({Wallet})

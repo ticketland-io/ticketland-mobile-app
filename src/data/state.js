@@ -19,7 +19,7 @@ export const initState = {
   walletType: 'custody', // custody or injected
   eutopicCore,
   firebase,
-  loading: true,
+  loading: false,
   user: null,
 }
 

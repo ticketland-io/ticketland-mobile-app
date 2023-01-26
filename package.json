@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "NODE_ENV=development react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
+    "start": "NODE_ENV=development react-native start",
     "test": "jest"
   },
   "dependencies": {
@@ -19,7 +19,7 @@
     "@rneui/base": "^4.0.0-rc.7",
     "@rneui/themed": "^4.0.0-rc.7",
     "@ticketland-io/eutopic-core": "0.1.23",
-    "@ticketland-io/eutopic-firebase-auth": "0.1.25",
+    "@ticketland-io/eutopic-firebase-auth-rn": "0.1.0",
     "@ticketland-io/eutopic-solana-wallet": "0.1.22",
     "@ticketland-io/eutopic-web-enclave": "0.1.22",
     "@ticketland-io/ticket-verification-js": "0.1.9",

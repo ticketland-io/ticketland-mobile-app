@@ -7,12 +7,12 @@ const Splash = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!state.loading && state.user) {
+    if (state.user != null && Object.keys(state.user).length != 0) {
       navigate('/home')
-    } else if (!state.loading) {
+    } else if (state.user != null && Object.keys(state.user).length === 0) {
       navigate('/login')
     }
-  }, [state.loading, state.user])
+  }, [state.user])
 
   // TODO: add design
   return (null)

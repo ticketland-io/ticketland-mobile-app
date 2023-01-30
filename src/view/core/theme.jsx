@@ -105,12 +105,32 @@ export const getTheme = () => createTheme({
           fontWeight: 400,
           fontSize: 16,
           lineHeight: 24
+        }) ||
+        (prop.title &&
+        {
+          color: colors.gray800,
+          fontWeight: 600,
+          fontSize: 24
         })
     }),
     Button: {
       buttonStyle: {
         borderColor: colors.gray500,
         borderRadius: 8
+      }
+    },
+    Input: {
+      inputStyle: {
+        fontSize: 16,
+      },
+      containerStyle: {
+        paddingHorizontal: 0
+      },
+      inputContainerStyle: {
+        borderRadius: 8,
+        borderWidth: 1,
+        height: 48,
+        paddingLeft: 18
       }
     }
   }

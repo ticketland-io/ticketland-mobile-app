@@ -1,15 +1,15 @@
 import EutopicCore from '@ticketland-io/eutopic-core'
-import EutopicSolanaWallet from '@ticketland-io/eutopic-solana-wallet'
-import Enclave from '@ticketland-io/eutopic-web-enclave'
+import EutopicSolanaWallet from '@ticketland-io/eutopic-solana-wallet-rn'
 import FirebaseAuth from '@ticketland-io/eutopic-firebase-auth-rn';
+import {VAULT, EUTOPIC_API} from "@env"
 
-const Wallet = () => EutopicSolanaWallet({enclave: Enclave()})
-const firebase = FirebaseAuth()
+const Wallet = () => EutopicSolanaWallet()
 const eutopicCore = EutopicCore({Wallet})
+const firebase = FirebaseAuth()
 
 eutopicCore.init(
-  process.env.VAULT,
-  process.env.EUTOPIC_API,
+  VAULT,
+  EUTOPIC_API,
   firebase
 )
 

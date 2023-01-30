@@ -4,7 +4,6 @@ import {getTheme} from './theme'
 import Router from './Router'
 import Auth from '../components/Auth'
 import Store from './Store'
-import PolyfillCrypto from 'react-native-webview-crypto'
 import useConnection from '../hooks/useConnection'
 import {Context} from './Store'
 import {setConnection, setWeb3, setWs} from '../../data/actions'
@@ -14,16 +13,16 @@ import useWs from '../hooks/useWs'
 const theme = getTheme()
 
 const Init = () => {
-  const [state, dispatch] = useContext(Context)
+  const [_, dispatch] = useContext(Context)
   const web3 = useWeb3()
   const connection = useConnection(process.env.CLUSTER_ENDPOINT)
   const ws = useWs()
-  
+
   useEffect(() => {
     dispatch(setWeb3(web3))
     dispatch(setConnection(connection))
     dispatch(setWs(ws))
-  }, [connection])
+  }, [connection, web3, ws])
 
   return null
 }

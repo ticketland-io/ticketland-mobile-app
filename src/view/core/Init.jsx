@@ -12,11 +12,11 @@ const Init = () => {
   const [, dispatch] = useContext(Context)
   const web3 = useWeb3()
   const connection = useConnection(process.env.CLUSTER_ENDPOINT)
-  
+
   useEffect(() => {
     dispatch(setWeb3(web3))
     dispatch(setConnection(connection))
-  }, [connection])
+  }, [connection, web3])
 
   return null
 }

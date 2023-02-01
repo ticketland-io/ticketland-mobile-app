@@ -11,7 +11,7 @@ import {getTheme} from './theme'
 
 const theme = getTheme()
 
-const Core = () => {
+const App = () => {
   const [, dispatch] = useContext(Context)
   const web3 = useWeb3()
   const connection = useConnection(CLUSTER_ENDPOINT)
@@ -29,5 +29,4 @@ const Core = () => {
   )
 }
 
-
-export default Core
+export default App

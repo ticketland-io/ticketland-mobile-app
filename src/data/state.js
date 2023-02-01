@@ -35,8 +35,6 @@ export const reducer = (state, action) => {
       return {...state, web3: action.value}
     case 'connection':
       return {...state, connection: action.value}
-    case 'ws':
-      return {...state, ws: action.value}
     default:
       return state
   }

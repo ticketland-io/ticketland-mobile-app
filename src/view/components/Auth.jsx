@@ -7,10 +7,6 @@ const Auth = () => {
 
   useEffect(() => {
     state.firebase.onUserChanged(async currentUser => {
-      if (currentUser) {
-        currentUser.accessToken = await state.firebase.accessToken()
-      }
-
       dispatch(setUser(currentUser))
       dispatch(setLoading(false))
     })

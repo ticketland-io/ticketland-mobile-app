@@ -1,19 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {ImageBackground, SafeAreaView, ScrollView, View} from 'react-native'
 import {Button, Image, Text} from '@rneui/themed'
-import {useNavigate} from 'react-router-native'
+import {Input} from '@rneui/themed';
+import {useNavigate, Link} from 'react-router-native'
+import Carousel from 'react-native-reanimated-carousel';
 import {Context} from '../../core/Store'
+import {fetchAllEvents} from '../../../services/event'
+import SectionTitle from '../../components/SectionTitle'
 import Shadow from '../../components/Shadow'
 import Logo from '../../../assets/logo.png'
-import useStyles from './styles'
-import {Input} from '@rneui/themed';
 import SearchIcon from '../../../assets/searchIcon.png'
 import Dot from '../../../assets/dot.png'
-import SectionTitle from '../../components/SectionTitle'
 import Card from './Card'
-import Carousel from 'react-native-reanimated-carousel';
 import Pagination from './Pagination';
-import {fetchAllEvents} from '../../../services/event'
+import useStyles from './styles'
 
 const Home = () => {
   const [state] = useContext(Context)
@@ -23,40 +23,40 @@ const Home = () => {
   const classes = useStyles()
   const navigate = useNavigate()
 
-  // const test = async () => {
-  //   console.log(await state.eutopicCore.Wallet().signMessage('test'))
-  // }
-
   const getEvents = async () => {
     try {
       setLoading(true)
-      setEvents((await fetchAllEvents()).result)
+      setEvents((await fetchAllEvents(currentPage - 1)).result)
     } catch (error) {
       // ignore
     }
+
     setLoading(false)
   }
 
   useEffect(() => {
     getEvents()
   }, [])
-
-  // useEffect(() => {
-  //   test()
-  // }, [])
-
   const renderHeader = () => (
     <View style={{flex: 1}}>
       <View style={classes.headerContainer}>
-        <View style={{flex: 1, alignSelf: 'center', flexDirection: 'row'}}>
-          <Image source={Logo} style={{width: 30, height: 24, marginRight: 8}} />
+        <View style={classes.logoContainer}>
+          <Image source={Logo} style={classes.logoImage} />
           <View style={{justifyContent: 'center'}}>
             <Text>Ticketland</Text>
           </View>
         </View>
-        <View style={{flex: 1, justifyContent: 'center'}}>
-          <Shadow alignSelf='flex-end' style={classes.shadowUserIcon} styleInner={{borderRadius: 12}}>
-            <Button type='clear' buttonStyle={classes.userImage} onPress={() => {navigate('/profile')}}>
+        <View style={classes.profileIconContainer}>
+          <Shadow
+            alignSelf='flex-end'
+            style={classes.shadowUserIcon}
+            styleInner={{borderRadius: 12}}
+          >
+            <Button
+              type='clear'
+              buttonStyle={classes.userImage}
+              onPress={() => {navigate('/profile')}}
+            >
               <Image source={{uri: state.user?.photoURL}} style={classes.userImage} />
             </Button>
           </Shadow>
@@ -65,9 +65,7 @@ const Home = () => {
       <View style={{flex: 1}}>
         <Input
           placeholder='Find event'
-          leftIcon={
-            <Image source={SearchIcon} style={classes.searchIcon} />
-          }
+          leftIcon={<Image source={SearchIcon} style={classes.searchIcon} />}
         />
       </View>
     </View>
@@ -75,13 +73,55 @@ const Home = () => {
   )
 
   const renderUpcomingEvents = () => (
-    <View>
-      <SectionTitle style={{marginHorizontal: 16}} title={'Upcoming'} />
+    <View style={{marginBottom: 28}}>
+      <SectionTitle
+        style={classes.upcomingSectionTitle}
+        innerStyle={{transform: 'rotate(-1.2deg)'}}
+        title={'Upcoming'}
+      />
       {events.map((event, index) => (
-        <Card event={event} key={index} style={{width: 345, marginHorizontal: 16}} />
+        <Card
+          key={index}
+          event={event}
+          containerStyle={classes.upcomingEventsCard}
+          style={{width: '100%'}}
+        />
       ))}
     </View>
   )
+
+
+  const renderCarousel = () => events.length !== 0
+    ? (
+      <Carousel
+        snapEnabled={false}
+        pagingEnabled={false}
+        width={340}
+        height={330}
+        loop={false}
+        style={{width: '100%'}}
+        data={events}
+        renderItem={({item, index}) => (
+          <Link
+            underlayColor='white'
+            activeOpacity={1}
+            style={{flex: 1}}
+            to={`/events/${item.event_id}`}
+          >
+            <Card
+              event={item}
+              key={index}
+              index={index}
+              containerStyle={{paddingHorizontal: 16}}
+            />
+          </Link>
+        )}
+      />
+    )
+    : null //TODO: add skeleton
+
+
+
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -89,36 +129,20 @@ const Home = () => {
         <View style={classes.container}>
           {renderHeader()}
         </View>
-        <ImageBackground source={Dot} resizeMode="repeat" style={{paddingVertical: 40}}>
-          <SectionTitle style={{marginHorizontal: 16}} title={'Today'} />
-          {events.length
-            ? (
-              <Carousel
-                //TODO: check if it fits on other screens
-                width={340}
-                height={330}
-                // width={375 * 0.85}
-                loop={false}
-                style={{width: '100%'}}
-                // autoPlay={true}
-                // autoPlayInterval={2000}
-                data={events}
-                // onSnapToItem={index => console.log("current index:", index)}
-                renderItem={({item, index}) => (
-                  <Card event={item} key={index} index={index} />
-                )}
-              />
-            )
-            : null //TODO: add skeleton
-          }
+        <ImageBackground
+          source={Dot}
+          resizeMode="repeat"
+          style={{paddingVertical: 28}}
+        >
+          <SectionTitle style={classes.todaySectionTitle} title={'Today'} />
+          {renderCarousel()}
         </ImageBackground>
         {renderUpcomingEvents()}
         <Pagination
-          // className="pagination-bar"
           currentPage={currentPage}
-          totalCount={events.length}
+          // totalCount={events.length}
+          totalCount={50}
           pageSize={5}
-          siblingCount={1}
           onPageChange={page => setCurrentPage(page)}
         />
       </ScrollView>

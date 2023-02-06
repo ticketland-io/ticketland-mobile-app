@@ -23,6 +23,7 @@
     "@ticketland-io/eutopic-solana-wallet-rn": "0.0.1",
     "@ticketland-io/eutopic-web-enclave": "0.1.22",
     "@ticketland-io/ticket-verification-js": "0.1.9",
+    "date-fns": "^2.29.3",
     "jwt-decode": "^3.1.2",
     "node-libs-react-native": "^1.2.1",
     "react": "18.2.0",

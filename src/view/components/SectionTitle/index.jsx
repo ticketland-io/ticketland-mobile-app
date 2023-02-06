@@ -8,14 +8,17 @@ const SectionTitle = props => {
   const {
     title = '',
     secondaryTitle = 'events',
-    style = ''
+    style = '',
+    innerStyle = ''
   } = props
   const classes = useStyles()
 
   return (
     <View style={[classes.root, style]}>
-      <Text title>{capitalizeFirstLetter(title)} </Text>
-      <Text title style={classes.eventsText}>{secondaryTitle}</Text>
+      <View style={[classes.innerRoot, innerStyle]}>
+        <Text title>{capitalizeFirstLetter(title)} </Text>
+        <Text title style={classes.eventsText}>{secondaryTitle}</Text>
+      </View>
     </View>
   );
 };

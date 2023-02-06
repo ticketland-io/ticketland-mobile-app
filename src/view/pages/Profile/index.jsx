@@ -5,11 +5,11 @@ import {useNavigate, useLocation} from 'react-router-native'
 import {Button, Image, Text} from '@rneui/themed'
 import {Context} from '../../core/Store'
 import Shadow from '../../components/Shadow'
-import useStyle from './styles'
+import useStyles from './styles'
 
 const Profile = () => {
   const [state] = useContext(Context)
-  const classes = useStyle()
+  const classes = useStyles()
   const navigate = useNavigate()
   const location = useLocation()
 

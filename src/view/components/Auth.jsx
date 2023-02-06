@@ -6,7 +6,7 @@ const Auth = () => {
   const [state, dispatch] = useContext(Context)
 
   useEffect(() => {
-    state.firebase.onUserChanged(currentUser => {
+    state.firebase.onUserChanged(async currentUser => {
       dispatch(setUser(currentUser))
       dispatch(setLoading(false))
     })

@@ -1,15 +1,15 @@
 import EutopicCore from '@ticketland-io/eutopic-core'
-import EutopicSolanaWallet from '@ticketland-io/eutopic-solana-wallet'
-import Enclave from '@ticketland-io/eutopic-web-enclave'
-import FirebaseAuth from './firebase';
+import EutopicSolanaWallet from '@ticketland-io/eutopic-solana-wallet-rn'
+import FirebaseAuth from '@ticketland-io/eutopic-firebase-auth-rn';
+import {VAULT, EUTOPIC_API} from "@env"
 
-const Wallet = () => EutopicSolanaWallet({enclave: Enclave()})
+const Wallet = () => EutopicSolanaWallet()
 const eutopicCore = EutopicCore({Wallet})
 const firebase = FirebaseAuth()
 
 eutopicCore.init(
-  process.env.VAULT,
-  process.env.EUTOPIC_API,
+  VAULT,
+  EUTOPIC_API,
   firebase
 )
 
@@ -35,8 +35,6 @@ export const reducer = (state, action) => {
       return {...state, web3: action.value}
     case 'connection':
       return {...state, connection: action.value}
-    case 'ws':
-      return {...state, ws: action.value}
     default:
       return state
   }

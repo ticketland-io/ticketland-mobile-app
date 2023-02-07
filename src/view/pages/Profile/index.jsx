@@ -57,7 +57,7 @@ const Profile = () => {
           <View style={{flex: 2}} />
         </View>
         <View style={classes.secondInnerContainer}>
-          <Shadow alignSelf='center'>
+          <Shadow alignSelf='center' style={{marginBottom: 24}}>
             <Image source={{uri: state.user?.photoURL}} style={classes.userImage} />
           </Shadow>
           <Text h4 style={{textAlign: 'center'}}>

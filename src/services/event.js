@@ -1,10 +1,13 @@
 import fetch, {createBearerHeader} from './api'
 import {TICKETLAND_API} from "@env"
 
-export const fetchAllEvents = async (skip = 0, limit = 5) => {
+export const fetchUserEvents = async (firebase, skip = 0, limit = 5) => {
   return await fetch(
-    `${TICKETLAND_API}/events?skip=${skip}&limit=${limit}`,
-    'GET'
+    `${process.env.TICKETLAND_API}/events/current-user?skip=${skip}&limit=${limit}`,
+    'GET',
+    {
+      headers: createBearerHeader(await firebase.accessToken())
+    }
   )
 }
 

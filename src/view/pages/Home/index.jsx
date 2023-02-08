@@ -11,7 +11,7 @@ import {Input} from '@rneui/themed';
 import {useNavigate, Link} from 'react-router-native'
 import Carousel from 'react-native-reanimated-carousel';
 import {Context} from '../../core/Store'
-import {fetchAllEvents} from '../../../services/event'
+import {fetchUserEvents} from '../../../services/event'
 import SectionTitle from '../../components/SectionTitle'
 import Shadow from '../../components/Shadow'
 import Logo from '../../../assets/logo.png'
@@ -33,7 +33,7 @@ const Home = () => {
   const getEvents = async () => {
     try {
       setLoading(true)
-      setEvents((await fetchAllEvents(currentPage - 1)).result)
+      setEvents((await fetchUserEvents(state.firebase, currentPage - 1)).result)
     } catch (error) {
       // ignore
     }
@@ -146,8 +146,8 @@ const Home = () => {
         refreshControl={
           <RefreshControl tintColor={classes.refreshIndicatorColor.color} colors={'red'} refreshing={refreshing} onRefresh={onRefresh} />
         }
-        
-        
+
+
       >
         <View style={classes.container}>
           {renderHeader()}

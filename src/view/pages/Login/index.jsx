@@ -3,7 +3,7 @@ import {SafeAreaView, View, ImageBackground} from 'react-native'
 import {Button, Image, Text, Divider} from '@rneui/themed'
 import {useNavigate} from 'react-router-native'
 import {Context} from '../../core/Store'
-import {capitalizeFirstLetter} from '../../../helpers/format'
+import {capitalizeFirstLetter} from '../../../helpers/string'
 import Shadow from '../../components/Shadow'
 import FacebookIcon from '../../../assets/facebookIcon.png';
 import GoogleIcon from '../../../assets/googleIcon.png';

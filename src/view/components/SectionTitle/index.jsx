@@ -1,7 +1,7 @@
 import React from 'react'
 import {View} from 'react-native'
 import {Text} from '@rneui/themed'
-import {capitalizeFirstLetter} from '../../../helpers/format';
+import {capitalizeFirstLetter} from '../../../helpers/string';
 import useStyles from './styles'
 
 const SectionTitle = props => {

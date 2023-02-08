@@ -111,10 +111,10 @@ export default makeStyles(theme => ({
   paginationButton: {
     width: 40,
     height: 40,
-    selected:{
+    selected: {
       backgroundColor: theme.palette.common.gray800
     },
-    unSelected:{
+    unSelected: {
       backgroundColor: theme.palette.common.white
     }
   },
@@ -123,12 +123,15 @@ export default makeStyles(theme => ({
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
-  paginationButtonText:{
-    selected:{
+  paginationButtonText: {
+    selected: {
       color: theme.palette.common.yellow500
     },
-    unSelected:{
+    unSelected: {
       color: theme.palette.common.gray800
     }
+  },
+  refreshIndicatorColor: {
+    color: theme.palette.common.yellow500
   }
 }))

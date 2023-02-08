@@ -1,5 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {ImageBackground, SafeAreaView, ScrollView, View} from 'react-native'
+import React, {useCallback, useContext, useEffect, useState} from 'react'
+import {
+  ImageBackground,
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  View
+} from 'react-native'
 import {Button, Image, Text} from '@rneui/themed'
 import {Input} from '@rneui/themed';
 import {useNavigate, Link} from 'react-router-native'
@@ -19,6 +25,7 @@ const Home = () => {
   const [state] = useContext(Context)
   const [currentPage, setCurrentPage] = useState(1)
   const [loading, setLoading] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
   const [events, setEvents] = useState([])
   const classes = useStyles()
   const navigate = useNavigate()
@@ -37,6 +44,16 @@ const Home = () => {
   useEffect(() => {
     getEvents()
   }, [])
+
+  useEffect(() => {
+    const run = async () => {
+      getEvents()
+      setRefreshing(false)
+    }
+
+    refreshing && run()
+  }, [refreshing])
+
   const renderHeader = () => (
     <View style={{flex: 1}}>
       <View style={classes.headerContainer}>
@@ -90,7 +107,6 @@ const Home = () => {
     </View>
   )
 
-
   const renderCarousel = () => events.length !== 0
     ? (
       <Carousel
@@ -120,12 +136,19 @@ const Home = () => {
     )
     : null //TODO: add skeleton
 
-
-
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+  }, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl tintColor={classes.refreshIndicatorColor.color} colors={'red'} refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        
+        
+      >
         <View style={classes.container}>
           {renderHeader()}
         </View>

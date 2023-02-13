@@ -1,9 +1,17 @@
 import fetch, {createBearerHeader} from './api'
 import {TICKETLAND_API} from "@env"
+import qs from 'qs'
 
-export const fetchUserEvents = async (firebase, skip = 0, limit = 5) => {
+export const fetchUserEvents = async (firebase, params) => {
+  const query = qs.stringify({
+    start_date_from: params.startDateFrom ? String(params.startDateFrom) : null,
+    start_date_to: params.startDateTo ? String(params.startDateTo) : null,
+    skip: params.skip ? params.skip : 0,
+    limit: params.limit ? params.limit : 5
+  }, {skipNulls: true, encode: false})
+
   return await fetch(
-    `${process.env.TICKETLAND_API}/events/current-user?skip=${skip}&limit=${limit}`,
+    `${process.env.TICKETLAND_API}/events/current-user?${query}`,
     'GET',
     {
       headers: createBearerHeader(await firebase.accessToken())

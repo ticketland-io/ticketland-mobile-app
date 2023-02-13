@@ -11,6 +11,7 @@ import {Input} from '@rneui/themed';
 import {useNavigate, Link} from 'react-router-native'
 import Carousel from 'react-native-reanimated-carousel';
 import {Context} from '../../core/Store'
+import {getEndOfDay, getStartOfDay, getStartOfTomorrow} from '../../../helpers/time';
 import {fetchUserEvents} from '../../../services/event'
 import SectionTitle from '../../components/SectionTitle'
 import Shadow from '../../components/Shadow'
@@ -26,15 +27,35 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
-  const [events, setEvents] = useState([])
+  const [todayEvents, setTodayEvents] = useState([])
+  const [upcomingEvents, setUpcomingEvents] = useState([])
   const classes = useStyles()
   const navigate = useNavigate()
 
   const getEvents = async () => {
     try {
       setLoading(true)
-      console.log(await state.firebase.accessToken())
-      setEvents((await fetchUserEvents(state.firebase, currentPage - 1)).result)
+
+      setTodayEvents((
+        await fetchUserEvents(
+          state.firebase,
+          {
+            skip: currentPage - 1,
+            startDateFrom: getStartOfDay(),
+            startDateTo: getEndOfDay()
+          }
+        )
+      ).result)
+
+      setUpcomingEvents((
+        await fetchUserEvents(
+          state.firebase,
+          {
+            skip: currentPage - 1,
+            startDateFrom: getStartOfTomorrow()
+          }
+        )
+      ).result)
     } catch (error) {
       // ignore
     }
@@ -97,7 +118,7 @@ const Home = () => {
         innerStyle={{transform: 'rotate(-1.2deg)'}}
         title={'Upcoming'}
       />
-      {events.map((event, index) => (
+      {upcomingEvents.map((event, index) => (
         <Card
           key={index}
           event={event}
@@ -108,7 +129,7 @@ const Home = () => {
     </View>
   )
 
-  const renderCarousel = () => events.length !== 0
+  const renderCarousel = () => todayEvents.length !== 0
     ? (
       <Carousel
         snapEnabled={false}
@@ -117,7 +138,7 @@ const Home = () => {
         height={330}
         loop={false}
         style={{width: '100%'}}
-        data={events}
+        data={todayEvents}
         renderItem={({item, index}) => (
           <Link
             underlayColor='white'
@@ -145,10 +166,13 @@ const Home = () => {
     <SafeAreaView style={{flex: 1}}>
       <ScrollView
         refreshControl={
-          <RefreshControl tintColor={classes.refreshIndicatorColor.color} colors={'red'} refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl
+            tintColor={classes.refreshIndicatorColor.color}
+            colors={'red'}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
         }
-
-
       >
         <View style={classes.container}>
           {renderHeader()}
@@ -164,7 +188,7 @@ const Home = () => {
         {renderUpcomingEvents()}
         <Pagination
           currentPage={currentPage}
-          totalCount={events.length}
+          totalCount={upcomingEvents.length}
           pageSize={5}
           onPageChange={page => setCurrentPage(page)}
         />

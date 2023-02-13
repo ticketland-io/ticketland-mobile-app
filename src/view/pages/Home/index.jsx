@@ -33,6 +33,7 @@ const Home = () => {
   const getEvents = async () => {
     try {
       setLoading(true)
+      console.log(await state.firebase.accessToken())
       setEvents((await fetchUserEvents(state.firebase, currentPage - 1)).result)
     } catch (error) {
       // ignore
@@ -163,8 +164,7 @@ const Home = () => {
         {renderUpcomingEvents()}
         <Pagination
           currentPage={currentPage}
-          // totalCount={events.length}
-          totalCount={50}
+          totalCount={events.length}
           pageSize={5}
           onPageChange={page => setCurrentPage(page)}
         />

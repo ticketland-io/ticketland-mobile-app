@@ -1,6 +1,6 @@
 import React from 'react'
 import {View} from 'react-native'
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../pages/Home'
 import Login from '../pages/Login'
@@ -15,9 +15,17 @@ const Router = props => {
   const classes = useStyles()
   const Stack = createNativeStackNavigator();
 
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: 'white'
+    },
+  };
+
   return (
     <View style={classes.root}>
-      <NavigationContainer>
+      <NavigationContainer theme={MyTheme}>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="Splash" component={Splash} />
           <Stack.Screen name="Home" component={Home} />

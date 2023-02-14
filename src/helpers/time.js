@@ -1,5 +1,25 @@
-import {endOfDay, startOfDay, startOfTomorrow} from 'date-fns'
+import {endOfDay} from 'date-fns'
 
-export const getStartOfDay = () => Math.floor((startOfDay(Date.now())).getTime() / 1000)
-export const getEndOfDay = () => Math.floor((endOfDay(Date.now())).getTime() / 1000)
-export const getStartOfTomorrow = () => Math.floor((startOfTomorrow(Date.now())).getTime() / 1000)
+const timeOffset = new Date().getTimezoneOffset() * 60000
+
+export const getStartOfDay = () => {
+  const date = new Date()
+  const startOfDayUTC = new Date(endOfDay(date).setUTCHours(0, 0, 0, 0))
+
+  return Math.floor(Date.parse(startOfDayUTC) / 1000)
+}
+export const getEndOfDay = () => {
+  const date = new Date()
+  const endOfDayUTC = new Date(endOfDay(date).setUTCHours(23, 59, 59, 999))
+
+  return Math.floor(Date.parse(endOfDayUTC) / 1000)
+}
+
+export const getStartOfTomorrow = () => {
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+
+  const startOfDayUTC = new Date(endOfDay(tomorrow).setUTCHours(0, 0, 0, 0))
+
+  return Math.floor(Date.parse(startOfDayUTC) / 1000)
+}

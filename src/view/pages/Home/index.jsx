@@ -29,6 +29,7 @@ const Home = () => {
   const [refreshing, setRefreshing] = useState(false)
   const [todayEvents, setTodayEvents] = useState([])
   const [upcomingEvents, setUpcomingEvents] = useState([])
+  const [searchFilter, setSearchFilter] = useState('')
   const classes = useStyles()
   const navigate = useNavigate()
 
@@ -41,6 +42,7 @@ const Home = () => {
           state.firebase,
           {
             skip: currentPage - 1,
+            search: searchFilter,
             startDateFrom: getStartOfDay(),
             startDateTo: getEndOfDay()
           }
@@ -52,6 +54,7 @@ const Home = () => {
           state.firebase,
           {
             skip: currentPage - 1,
+            search: searchFilter,
             startDateFrom: getStartOfTomorrow()
           }
         )
@@ -65,7 +68,7 @@ const Home = () => {
 
   useEffect(() => {
     getEvents()
-  }, [])
+  }, [searchFilter, currentPage])
 
   useEffect(() => {
     const run = async () => {
@@ -105,6 +108,7 @@ const Home = () => {
         <Input
           placeholder='Find event'
           leftIcon={<Image source={SearchIcon} style={classes.searchIcon} />}
+          onChangeText={value => {setSearchFilter(value)}}
         />
       </View>
     </View>

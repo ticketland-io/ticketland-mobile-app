@@ -37,7 +37,8 @@ export default makeStyles(theme => ({
   },
   upcomingEventsCardContainer: {
     flex: 1,
-    width: Dimensions.get("window").width
+    flexDirection: 'row',
+    width: '100%'
   },
   upcomingEventsCard: {
     paddingHorizontal: 16,

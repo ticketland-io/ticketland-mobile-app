@@ -126,7 +126,6 @@ const Home = ({navigation}) => {
           <Link key={index} to={{screen: 'Event', params: {eventId: event.event_id}}}>
             <View style={classes.upcomingEventsCardContainer}>
           <Card
-            key={index}
                 loading={false}
             event={event}
             containerStyle={classes.upcomingEventsCard}

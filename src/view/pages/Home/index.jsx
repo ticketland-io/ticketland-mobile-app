@@ -123,16 +123,20 @@ const Home = ({navigation}) => {
       />
       {!loading
         ? upcomingEvents.map((event, index) => (
+          <Link key={index} to={{screen: 'Event', params: {eventId: event.event_id}}}>
+            <View style={classes.upcomingEventsCardContainer}>
           <Card
             key={index}
-            loading={loading}
+                loading={false}
             event={event}
             containerStyle={classes.upcomingEventsCard}
             style={{width: '100%'}}
           />
+            </View>
+          </Link>
         ))
         : <Card
-          loading={loading}
+          loading={true}
           containerStyle={classes.upcomingEventsCard}
           style={{width: '100%'}}
         />
@@ -152,7 +156,7 @@ const Home = ({navigation}) => {
         style={{width: '100%'}}
         data={todayEvents}
         renderItem={({item, index}) => (
-          <Link to={{screen: 'Event', params: {eventId: item.event_id}}}>
+          <Link key={index} to={{screen: 'Event', params: {eventId: item.event_id}}}>
             <Card
               event={item}
               key={index}

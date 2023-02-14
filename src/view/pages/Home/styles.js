@@ -1,4 +1,5 @@
 import {makeStyles} from '@rneui/themed'
+import {Dimensions} from 'react-native'
 
 export default makeStyles(theme => ({
   container: {
@@ -33,6 +34,10 @@ export default makeStyles(theme => ({
     marginHorizontal: 16,
     transform: 'rotate(1.2deg)',
     marginBottom: 16
+  },
+  upcomingEventsCardContainer: {
+    flex: 1,
+    width: Dimensions.get("window").width
   },
   upcomingEventsCard: {
     paddingHorizontal: 16,

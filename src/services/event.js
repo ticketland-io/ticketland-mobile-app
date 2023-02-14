@@ -4,6 +4,7 @@ import qs from 'qs'
 
 export const fetchUserEvents = async (firebase, params) => {
   const query = qs.stringify({
+    search: params.search === '' ? null : params.search,
     start_date_from: params.startDateFrom ? String(params.startDateFrom) : null,
     start_date_to: params.startDateTo ? String(params.startDateTo) : null,
     skip: params.skip ? params.skip : 0,

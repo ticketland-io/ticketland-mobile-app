@@ -1,7 +1,6 @@
 import React, {useContext} from 'react'
 import {SafeAreaView, View, ImageBackground} from 'react-native'
 import {Button, Image, Text, Divider} from '@rneui/themed'
-import {useNavigate} from 'react-router-native'
 import {Context} from '../../core/Store'
 import {capitalizeFirstLetter} from '../../../helpers/string'
 import Shadow from '../../components/Shadow'
@@ -10,10 +9,9 @@ import GoogleIcon from '../../../assets/googleIcon.png';
 import Circle from '../../../assets/circle.png';
 import useStyles from './styles'
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [state, _] = useContext(Context)
   const classes = useStyles()
-  const navigate = useNavigate()
 
   const providerImages = {
     google: GoogleIcon,
@@ -35,7 +33,7 @@ const Login = () => {
           break;
       }
 
-      navigate('/home')
+      navigation.replace('Home')
     }
     catch (error) {
       // ignore

@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import {Button, Image, Text} from '@rneui/themed'
 import {Input} from '@rneui/themed';
-import {useNavigate, Link} from 'react-router-native'
+import {Link} from '@react-navigation/native';
 import Carousel from 'react-native-reanimated-carousel';
 import {Context} from '../../core/Store'
 import {getEndOfDay, getStartOfDay, getStartOfTomorrow} from '../../../helpers/time';
@@ -22,7 +22,7 @@ import Card from './Card'
 import Pagination from './Pagination';
 import useStyles from './styles'
 
-const Home = () => {
+const Home = ({navigation}) => {
   const [state] = useContext(Context)
   const [currentPage, setCurrentPage] = useState(1)
   const [loading, setLoading] = useState(false)
@@ -31,7 +31,6 @@ const Home = () => {
   const [upcomingEvents, setUpcomingEvents] = useState([])
   const [searchFilter, setSearchFilter] = useState('')
   const classes = useStyles()
-  const navigate = useNavigate()
 
   const getEvents = async () => {
     try {
@@ -97,7 +96,7 @@ const Home = () => {
             <Button
               type='clear'
               buttonStyle={classes.userImage}
-              onPress={() => {navigate('/profile')}}
+              onPress={() => {navigation.push('Profile')}}
             >
               <Image source={{uri: state.user?.photoURL}} style={classes.userImage} />
             </Button>
@@ -144,12 +143,7 @@ const Home = () => {
         style={{width: '100%'}}
         data={todayEvents}
         renderItem={({item, index}) => (
-          <Link
-            underlayColor='white'
-            activeOpacity={1}
-            style={{flex: 1}}
-            to={`/events/${item.event_id}`}
-          >
+          <Link to={{screen: 'Event', params: {eventId: item.event_id}}}>
             <Card
               event={item}
               key={index}

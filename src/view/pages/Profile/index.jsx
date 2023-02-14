@@ -1,17 +1,14 @@
 import React, {useContext, useEffect} from 'react'
 import {SafeAreaView, View} from 'react-native'
 import AntIcon from "react-native-vector-icons/AntDesign";
-import {useNavigate, useLocation} from 'react-router-native'
 import {Button, Image, Text} from '@rneui/themed'
 import {Context} from '../../core/Store'
 import Shadow from '../../components/Shadow'
 import useStyles from './styles'
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   const [state] = useContext(Context)
   const classes = useStyles()
-  const navigate = useNavigate()
-  const location = useLocation()
 
   const signOut = async () => {
     try {
@@ -21,16 +18,9 @@ const Profile = () => {
     }
   }
 
-  const goBack = () => {
-    const urlSearchParams = new URLSearchParams(location.search)
-    const qs = Object.fromEntries(urlSearchParams.entries())
-
-    qs['redirect-to'] ? navigate(`/${qs['redirect-to']}`) : navigate('/')
-  }
-
   useEffect(() => {
     if (!state.user) {
-      navigate('/')
+      navigation.reset({index: 1, routes: [{name: 'Login'}]})
     }
   }, [state.user])
 
@@ -41,7 +31,7 @@ const Profile = () => {
           <View style={{flex: 2}}>
             <Button
               type={'outline'}
-              onPress={goBack}
+              onPress={navigation.goBack}
               buttonStyle={classes.backButton}
             >
               <AntIcon

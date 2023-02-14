@@ -1,16 +1,14 @@
-import React, {useContext, useEffect} from 'react'
-import {useNavigate} from 'react-router-native'
+import {useContext, useEffect} from 'react'
 import {Context} from '../../core/Store'
 
-const Splash = () => {
+const Splash = ({navigation}) => {
   const [state, _] = useContext(Context)
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (!state.loading && state.user) {
-      navigate('/home')
+      navigation.replace('Home')
     } else if (!state.loading) {
-      navigate('/login')
+      navigation.replace('Login')
     }
   }, [state.loading, state.user])
 

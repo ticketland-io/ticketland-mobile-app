@@ -89,7 +89,8 @@ export default makeStyles(theme => ({
     width: 74,
     height: 34,
     backgroundColor: theme.palette.common.yellow500,
-    padding: 8
+    padding: 8,
+    borderRadius: 8
   },
   participantsImage: {
     width: 14,
@@ -133,5 +134,9 @@ export default makeStyles(theme => ({
   },
   refreshIndicatorColor: {
     color: theme.palette.common.yellow500
+  },
+  imageBackgroundContainer: {
+    paddingVertical: 28,
+    marginBottom: 20
   }
 }))

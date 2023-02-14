@@ -121,18 +121,27 @@ const Home = ({navigation}) => {
         innerStyle={{transform: 'rotate(-1.2deg)'}}
         title={'Upcoming'}
       />
-      {upcomingEvents.map((event, index) => (
-        <Card
-          key={index}
-          event={event}
+      {!loading
+        ? upcomingEvents.map((event, index) => (
+          <Card
+            key={index}
+            loading={loading}
+            event={event}
+            containerStyle={classes.upcomingEventsCard}
+            style={{width: '100%'}}
+          />
+        ))
+        : <Card
+          loading={loading}
           containerStyle={classes.upcomingEventsCard}
           style={{width: '100%'}}
         />
-      ))}
+      }
+
     </View>
   )
 
-  const renderCarousel = () => todayEvents.length !== 0
+  const renderCarousel = () => !loading
     ? (
       <Carousel
         snapEnabled={false}
@@ -154,7 +163,12 @@ const Home = ({navigation}) => {
         )}
       />
     )
-    : null //TODO: add skeleton
+    : (
+      <Card
+        loading={true}
+        containerStyle={{paddingHorizontal: 16}}
+      />
+    )
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -178,7 +192,7 @@ const Home = ({navigation}) => {
         <ImageBackground
           source={Dot}
           resizeMode="repeat"
-          style={{paddingVertical: 28}}
+          style={classes.imageBackgroundContainer}
         >
           <SectionTitle style={classes.todaySectionTitle} title={'Today'} />
           {renderCarousel()}

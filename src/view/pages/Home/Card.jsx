@@ -13,7 +13,8 @@ const Card = props => {
   const {
     event,
     style = '',
-    containerStyle = ''
+    containerStyle = '',
+    loading
   } = props
   const [totalScanned, setTotalScanned] = useState(0)
   const [state] = useContext(Context)
@@ -41,39 +42,51 @@ const Card = props => {
         styleInner={{borderRadius: 0}}
       >
         <View justifyContent='center'>
-          <Image
-            source={{uri: get_event_cover_image_path(event?.event_id, event?.file_type)}}
-            style={classes.imageCard}
-          />
+          {!loading
+            ? <Image
+              source={{uri: get_event_cover_image_path(event?.event_id, event?.file_type)}}
+              style={classes.imageCard}
+            />
+            : <Skeleton width={'100%'} style={{borderRadius: 16, height: 212}} />
+          }
         </View>
-        <Text eventName style={classes.eventName}>
-          {event.name}
-        </Text>
+        {!loading
+          ? (
+            <Text eventName style={classes.eventName}>
+              {event.name}
+            </Text>
+          )
+          : (
+            <View style={classes.eventName}>
+              <Skeleton width={150} style={{borderRadius: 8}} />
+            </View>
+          )
+        }
         <View style={classes.infoCardContainer}>
           <View style={classes.dateItem}>
             <Image
               source={CalendarIcon}
               style={classes.calendarImage}
             />
-            {event
+            {!loading
               ? (
                 <Text h7 style={{fontWeight: 600}}>
                   {format(event?.start_date || 0, 'dd.MM.yy')}
                 </Text>
               )
-              : <Skeleton width={120} height={15}
-              />}
+              : <Skeleton width={100} height={15} circle />}
           </View>
           <View style={classes.participantsItem}>
-            <Button
-              buttonStyle={classes.participantsButton}
-            >
-              <Image
-                source={UserIcon}
-                style={classes.participantsImage}
-              />
-              <Text h6>{totalScanned}</Text>
-            </Button>
+            {!loading
+              ? <Button buttonStyle={classes.participantsButton}>
+                <Image
+                  source={UserIcon}
+                  style={classes.participantsImage}
+                />
+                <Text h6>{totalScanned}</Text>
+              </Button>
+              : <Skeleton width={74} height={34} style={{borderRadius: 8}} />
+            }
           </View>
         </View>
       </Shadow>

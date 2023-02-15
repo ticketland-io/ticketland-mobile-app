@@ -42,7 +42,8 @@ export default makeStyles(theme => ({
   },
   upcomingEventsCard: {
     paddingHorizontal: 16,
-    marginBottom: 16
+    marginBottom: 16,
+    width: Dimensions.get("window").width
   },
   logoContainer: {
     flex: 1,

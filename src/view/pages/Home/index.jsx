@@ -183,7 +183,7 @@ const Home = ({navigation}) => {
         refreshControl={
           <RefreshControl
             tintColor={classes.refreshIndicatorColor.color}
-            colors={'red'}
+            colors={[classes.refreshIndicatorColor.color]}
             refreshing={refreshing}
             onRefresh={onRefresh}
           />

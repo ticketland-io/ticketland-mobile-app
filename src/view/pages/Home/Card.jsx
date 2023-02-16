@@ -70,7 +70,7 @@ const Card = props => {
             />
             {!loading
               ? (
-                <Text h7 style={{fontWeight: 600}}>
+                <Text h7 style={classes.dateText}>
                   {format(event?.start_date || 0, 'dd.MM.yy')}
                 </Text>
               )
@@ -83,7 +83,7 @@ const Card = props => {
                   source={UserIcon}
                   style={classes.participantsImage}
                 />
-                <Text h6>{totalScanned}</Text>
+                <Text h6Bold>{totalScanned}</Text>
               </Button>
               : <Skeleton width={74} height={34} style={{borderRadius: 8}} />
             }

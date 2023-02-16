@@ -1,5 +1,5 @@
 import {makeStyles} from '@rneui/themed'
-import {Dimensions} from 'react-native'
+import {Dimensions, Platform} from 'react-native'
 
 export default makeStyles(theme => ({
   container: {
@@ -146,5 +146,8 @@ export default makeStyles(theme => ({
   imageBackgroundContainer: {
     paddingVertical: 28,
     marginBottom: 20
+  },
+  dateText: {
+    fontWeight: Platform.OS === 'android' ? 'bold' : 600
   }
 }))

@@ -47,9 +47,11 @@ const Profile = ({navigation}) => {
           <View style={{flex: 2}} />
         </View>
         <View style={classes.secondInnerContainer}>
-          <Shadow alignSelf='center' style={{marginBottom: 24}}>
-            <Image source={{uri: state.user?.photoURL}} style={classes.userImage} />
-          </Shadow>
+          <View style={{marginBottom: 24}}>
+            <Shadow alignSelf='center' >
+              <Image source={{uri: state.user?.photoURL}} style={classes.userImage} />
+            </Shadow>
+          </View>
           <Text h4 style={{textAlign: 'center'}}>
             {state.user?.displayName}
           </Text>

@@ -1,4 +1,5 @@
 import {createTheme} from '@rneui/themed'
+import {Platform} from 'react-native'
 
 const colors = {
   black: '#000000',
@@ -96,7 +97,7 @@ export const getTheme = () => createTheme({
         (prop.h6Bold &&
         {
           color: colors.gray800,
-          fontWeight: 700,
+          fontWeight: Platform.OS === 'android' ? 'bold' : 600,
           fontSize: 16,
           lineHeight: 20
         }) ||
@@ -117,7 +118,13 @@ export const getTheme = () => createTheme({
         (prop.title &&
         {
           color: colors.gray800,
-          fontWeight: 600,
+          fontWeight: Platform.OS === 'android' ? 'bold' : 600,
+          fontSize: 24
+        }) ||
+        (prop.subTitle &&
+        {
+          color: colors.gray800,
+          fontWeight: 500,
           fontSize: 24
         }) ||
         (prop.eventName &&
@@ -139,8 +146,7 @@ export const getTheme = () => createTheme({
     Button: {
       buttonStyle: {
         borderColor: colors.gray500,
-        borderRadius: 8,
-        borderWidth: 1
+        borderRadius: 8
       }
     },
     Input: {

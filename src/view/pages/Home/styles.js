@@ -97,7 +97,8 @@ export default makeStyles(theme => ({
     height: 34,
     backgroundColor: theme.palette.common.yellow500,
     padding: 8,
-    borderRadius: 8
+    borderRadius: 8,
+    borderWidth: 0
   },
   participantsImage: {
     width: 14,

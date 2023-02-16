@@ -15,9 +15,8 @@ export default makeStyles(theme => ({
     marginBottom: 48
   },
   shadow: {
-    width: '80%',
-    height: '30%',
-    padding: 24,
+    width: '100%',
+    padding: 32
   },
   providerImage: {
     width: 40,

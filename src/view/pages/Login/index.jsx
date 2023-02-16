@@ -67,23 +67,25 @@ const Login = ({navigation}) => {
         <Text h6 alignSelf='center' style={classes.secondaryText}>
           Ticketland is a ticketing and invitation cards platform and infrastructure powered by blockchain and NFT technologies.
         </Text>
-        <Shadow alignSelf='center' style={classes.shadow}>
-          <View justifyContent='center'>
-            <View style={{marginBottom: 24}}>
-              <Text alignSelf='center' style={{marginBottom: 24}}>
-                <Text h6>
-                  {`Sign in with `}
+        <View style={classes.shadow}>
+          <Shadow style={{padding: 24}}>
+            <View justifyContent='center'>
+              <View style={{marginBottom: 24}}>
+                <Text alignSelf='center' style={{marginBottom: 24}}>
+                  <Text h6>
+                    {`Sign in with `}
+                  </Text>
+                  <Text h6Bold>
+                    social media
+                  </Text>
                 </Text>
-                <Text h6Bold>
-                  social media
-                </Text>
-              </Text>
-              <Divider />
+                <Divider />
+              </View>
+              {renderProviderButtons('facebook')}
+              {renderProviderButtons('google')}
             </View>
-            {renderProviderButtons('facebook')}
-            {renderProviderButtons('google')}
-          </View>
-        </Shadow>
+          </Shadow>
+        </View>
       </SafeAreaView >
     </ImageBackground>
   )

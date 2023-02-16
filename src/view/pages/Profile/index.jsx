@@ -52,7 +52,7 @@ const Profile = ({navigation}) => {
               <Image source={{uri: state.user?.photoURL}} style={classes.userImage} />
             </Shadow>
           </View>
-          <Text h4 style={{textAlign: 'center'}}>
+          <Text h4 style={classes.displayName}>
             {state.user?.displayName}
           </Text>
           <Text email style={{textAlign: 'center'}}>

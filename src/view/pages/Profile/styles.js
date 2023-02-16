@@ -19,7 +19,8 @@ export default makeStyles(theme => ({
   },
   backButton: {
     width: 36,
-    height: 36
+    height: 36,
+    borderWidth: 1
   },
   leftButtonIcon: {
     width: 15,
@@ -37,11 +38,17 @@ export default makeStyles(theme => ({
   logoutButton: {
     width: '80%',
     height: 45,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: theme.palette.common.gray200
   },
   logoutIcon: {
     width: 16,
     height: 16,
     marginRight: 8
+  },
+  displayName: {
+    textAlign: 'center',
+    fontWeight: 600
   }
 }))

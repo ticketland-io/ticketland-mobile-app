@@ -30,7 +30,7 @@ const colors = {
   red: '#E24A30',
   red100: '#b5432f',
   green100: '#60b563',
-  shadow:'#303030'
+  shadow: '#303030'
 }
 
 export const getTheme = () => createTheme({
@@ -126,7 +126,7 @@ export const getTheme = () => createTheme({
           fontWeight: 500,
           fontSize: 16,
           lineHeight: 18
-        })||
+        }) ||
         (prop.pagination &&
         {
           color: colors.gray800,
@@ -139,7 +139,8 @@ export const getTheme = () => createTheme({
     Button: {
       buttonStyle: {
         borderColor: colors.gray500,
-        borderRadius: 8
+        borderRadius: 8,
+        borderWidth: 1
       }
     },
     Input: {

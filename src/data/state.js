@@ -1,3 +1,4 @@
+import {Platform} from 'react-native'
 import EutopicCore from '@ticketland-io/eutopic-core'
 import EutopicSolanaWallet from '@ticketland-io/eutopic-solana-wallet-rn'
 import FirebaseAuth from '@ticketland-io/eutopic-firebase-auth-rn';
@@ -21,6 +22,7 @@ export const initState = {
   firebase,
   loading: true,
   user: null,
+  platform: Platform.OS
 }
 
 export const reducer = (state, action) => {

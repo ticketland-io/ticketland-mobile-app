@@ -10,6 +10,7 @@ import {Button, Image, Text} from '@rneui/themed'
 import {Input} from '@rneui/themed';
 import {Link} from '@react-navigation/native';
 import Carousel from 'react-native-reanimated-carousel';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Context} from '../../core/Store'
 import {getEndOfDay, getStartOfDay, getStartOfTomorrow} from '../../../helpers/time';
 import {fetchUserEvents} from '../../../services/event'
@@ -179,6 +180,8 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      {/* GestureHandlerRootView added for android use */}
+      <GestureHandlerRootView onHandlerStateChange={() => {console.log('first')}}>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -208,6 +211,7 @@ const Home = ({navigation}) => {
           onPageChange={page => setCurrentPage(page)}
         />
       </ScrollView>
+      </GestureHandlerRootView>
     </SafeAreaView >
   )
 }

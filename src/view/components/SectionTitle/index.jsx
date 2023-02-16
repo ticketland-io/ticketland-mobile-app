@@ -17,7 +17,7 @@ const SectionTitle = props => {
     <View style={[classes.root, style]}>
       <View style={[classes.innerRoot, innerStyle]}>
         <Text title>{capitalizeFirstLetter(title)} </Text>
-        <Text title style={classes.eventsText}>{secondaryTitle}</Text>
+        <Text subTitle >{secondaryTitle}</Text>
       </View>
     </View>
   );

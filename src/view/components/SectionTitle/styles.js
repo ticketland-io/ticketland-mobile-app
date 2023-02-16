@@ -12,8 +12,5 @@ export default makeStyles(theme => ({
   innerRoot: {
     flexDirection:'row',
     transform: 'rotate(1.2deg)'
-  },
-  eventsText: {
-    fontWeight: 'normal',
   }
 }))

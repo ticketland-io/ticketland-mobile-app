@@ -141,7 +141,6 @@ const Home = ({navigation}) => {
           style={{width: '100%'}}
         />
       }
-
     </View>
   )
 

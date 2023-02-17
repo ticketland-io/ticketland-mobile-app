@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {SafeAreaView, View, ImageBackground} from 'react-native'
+import {SafeAreaView, View, ImageBackground, TouchableOpacity} from 'react-native'
 import {Button, Image, Text, Divider} from '@rneui/themed'
 import {Context} from '../../core/Store'
 import {capitalizeFirstLetter} from '../../../helpers/string'
@@ -44,6 +44,7 @@ const Login = ({navigation}) => {
     <Button
       onPress={logIn(provider)}
       type='clear'
+      TouchableComponent={TouchableOpacity}
     >
       <View style={{flex: 3}} >
         <Image

@@ -1,5 +1,6 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react'
 import {
+  Dimensions,
   ImageBackground,
   RefreshControl,
   SafeAreaView,
@@ -130,7 +131,8 @@ const Home = ({navigation}) => {
                 loading={false}
             event={event}
             containerStyle={classes.upcomingEventsCard}
-            style={{width: '100%'}}
+                // this has to be like that cause of android issue of shadow package with percentages
+                style={{width: Dimensions.get("window").width - 32}}
           />
             </View>
           </Link>

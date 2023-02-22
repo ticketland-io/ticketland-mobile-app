@@ -1,5 +1,5 @@
 import fetch, {createBearerHeader} from './api'
-import {TICKETLAND_API} from "@env"
+import Config from 'react-native-config';
 import qs from 'qs'
 
 export const fetchUserEvents = async (firebase, params) => {
@@ -12,7 +12,7 @@ export const fetchUserEvents = async (firebase, params) => {
   }, {skipNulls: true, encode: false})
 
   return await fetch(
-    `${process.env.TICKETLAND_API}/events/current-user?${query}`,
+    `${Config.TICKETLAND_API}/events/current-user?${query}`,
     'GET',
     {
       headers: createBearerHeader(await firebase.accessToken())
@@ -22,7 +22,7 @@ export const fetchUserEvents = async (firebase, params) => {
 
 export const fetchEvent = async (firebase, eventId) => {
   return await fetch(
-    `${TICKETLAND_API}/events/${eventId}`,
+    `${Config.TICKETLAND_API}/events/${eventId}`,
     'GET',
     {
       headers: createBearerHeader(await firebase.accessToken())
@@ -32,7 +32,7 @@ export const fetchEvent = async (firebase, eventId) => {
 
 export const fetchAttendedCount = async (firebase, eventId) => {
   return await fetch(
-    `${TICKETLAND_API}/events/${eventId}/attended-count`,
+    `${Config.TICKETLAND_API}/events/${eventId}/attended-count`,
     'GET',
     {
       headers: createBearerHeader(await firebase.accessToken())

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react'
 import {ThemeProvider} from '@rneui/themed'
-import {CLUSTER_ENDPOINT} from "@env"
+import Config from 'react-native-config';
 import {Context} from './Store'
 import Router from './Router'
 import Auth from '../components/Auth'
@@ -14,7 +14,7 @@ const theme = getTheme()
 const App = () => {
   const [, dispatch] = useContext(Context)
   const web3 = useWeb3()
-  const connection = useConnection(CLUSTER_ENDPOINT)
+  const connection = useConnection(Config.CLUSTER_ENDPOINT)
 
   useEffect(() => {
     dispatch(setWeb3(web3))

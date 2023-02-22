@@ -2,15 +2,15 @@ import {Platform} from 'react-native'
 import EutopicCore from '@ticketland-io/eutopic-core'
 import EutopicSolanaWallet from '@ticketland-io/eutopic-solana-wallet-rn'
 import FirebaseAuth from '@ticketland-io/eutopic-firebase-auth-rn';
-import {VAULT, EUTOPIC_API} from "@env"
+import Config from 'react-native-config';
 
 const Wallet = () => EutopicSolanaWallet()
 const eutopicCore = EutopicCore({Wallet})
 const firebase = FirebaseAuth()
 
 eutopicCore.init(
-  VAULT,
-  EUTOPIC_API,
+  Config.VAULT,
+  Config.EUTOPIC_API,
   firebase
 )
 

@@ -143,6 +143,15 @@ export const getTheme = () => createTheme({
           fontFamily: 'Montserrat-Regular'
         })
     }),
+    // Button: (prop) => ({
+    //   buttonStyle: (
+    //     prop.type === 'outline' &&
+    //     {
+    //       borderColor: colors.gray500,
+    //       borderRadius: 8
+    //       // backgroundColor:'red'
+    //     })
+    // }),
     Button: {
       buttonStyle: {
         borderColor: colors.gray500,

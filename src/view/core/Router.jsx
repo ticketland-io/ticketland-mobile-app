@@ -8,7 +8,8 @@ import Profile from '../pages/Profile'
 import Splash from '../pages/Splash'
 import Scanner from '../pages/Scanner'
 import Event from '../pages/Event'
-
+import Mode from '../pages/Mode'
+import Ticket from '../pages/Ticket'
 import useStyles from './styles'
 
 const Router = props => {
@@ -33,6 +34,8 @@ const Router = props => {
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="Scanner" component={Scanner} />
           <Stack.Screen name="Event" component={Event} />
+          <Stack.Screen name="Mode" component={Mode} />
+          <Stack.Screen name="Ticket" component={Ticket} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

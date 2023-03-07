@@ -3,20 +3,19 @@ import RNBootSplash from "react-native-bootsplash";
 import {Context} from '../../core/Store'
 
 const Splash = ({navigation}) => {
-  const [state, _] = useContext(Context)
+  const [state] = useContext(Context)
 
   useEffect(() => {
+    RNBootSplash.hide({fade: true, duration: 500})
+
     if (!state.loading && state.user) {
-      RNBootSplash.hide({fade: true, duration: 500})
-      navigation.replace('Home')
+      navigation.replace('Mode')
     } else if (!state.loading) {
-      RNBootSplash.hide({fade: true, duration: 500})
       navigation.replace('Login')
     }
   }, [state.loading, state.user])
 
-  // TODO: add design
-  return (null)
+  return null
 }
 
 export default Splash

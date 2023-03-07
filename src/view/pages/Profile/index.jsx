@@ -3,11 +3,12 @@ import {SafeAreaView, View} from 'react-native'
 import AntIcon from "react-native-vector-icons/AntDesign";
 import {Button, Image, Text} from '@rneui/themed'
 import {Context} from '../../core/Store'
+import {setMode} from '../../../data/actions';
 import Shadow from '../../components/Shadow'
 import useStyles from './styles'
 
 const Profile = ({navigation}) => {
-  const [state] = useContext(Context)
+  const [state, dispatch] = useContext(Context)
   const classes = useStyles()
 
   const signOut = async () => {
@@ -20,9 +21,15 @@ const Profile = ({navigation}) => {
 
   useEffect(() => {
     if (!state.user) {
+      dispatch(setMode(null))
       navigation.reset({index: 1, routes: [{name: 'Login'}]})
     }
   }, [state.user])
+
+  const goToMode = () => {
+    dispatch(setMode(null))
+    navigation.reset({index: 1, routes: [{name: 'Mode'}]})
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -62,16 +69,26 @@ const Profile = ({navigation}) => {
         <View style={classes.thirdInnerContainer}>
           <Button
             type={'outline'}
-            buttonStyle={classes.logoutButton}
+            containerStyle={{marginBottom: 12}}
+            buttonStyle={classes.modeButton}
+            onPress={goToMode}
+          >
+            <Text h7>
+              Mode: {state.mode}
+            </Text>
+          </Button>
+          <Button
+            type={'outline'}
+            buttonStyle={[classes.logoutButton]}
             onPress={signOut}
           >
             <AntIcon
               name="logout"
               size={16}
-              style={classes.logoutIcon}
+              style={[classes.logoutIcon, {color: 'white'}]}
             />
-            <Text h7>
-              logout
+            <Text h7 style={{color: 'white'}}>
+              Logout
             </Text>
           </Button>
         </View>

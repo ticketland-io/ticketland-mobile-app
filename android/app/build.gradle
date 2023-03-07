@@ -101,14 +101,15 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.usermobileapp"
+    namespace "com.ticketlandmobileapp"
     defaultConfig {
         applicationId "com.usermobileapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        resValue "string", "build_config_package", "com.organizermobileapp"
+        missingDimensionStrategy 'react-native-camera', 'general'
+        resValue "string", "build_config_package", "com.ticketlandmobileapp"
     }
 
     splits {
@@ -162,6 +163,7 @@ dependencies {
     implementation("com.facebook.react:react-android")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

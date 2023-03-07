@@ -14,7 +14,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Context} from '../../core/Store'
 import {getEndOfDay, getStartOfDay, getStartOfTomorrow} from '../../../helpers/time';
-import {fetchUserEvents} from '../../../services/event'
+import {fetchOrganizerEvents, fetchUserEvents} from '../../../services/event'
 import SectionTitle from '../../components/SectionTitle'
 import Shadow from '../../components/Shadow'
 import Logo from '../../../assets/logo.png'
@@ -38,28 +38,58 @@ const Home = ({navigation}) => {
     try {
       setLoading(true)
 
-      setTodayEvents((
-        await fetchUserEvents(
-          state.firebase,
-          {
-            skip: currentPage - 1,
-            search: searchFilter,
-            startDateFrom: getStartOfDay(),
-            startDateTo: getEndOfDay()
-          }
-        )
-      ).result)
+      switch (state.mode) {
+        case 'organizer':
+          setTodayEvents((
+            await fetchOrganizerEvents(
+              state.firebase,
+              {
+                skip: currentPage - 1,
+                search: searchFilter,
+                // startDateFrom: getStartOfDay(),
+                // startDateTo: getEndOfDay()
+              }
+            )
+          ).result)
 
-      setUpcomingEvents((
-        await fetchUserEvents(
-          state.firebase,
-          {
-            skip: currentPage - 1,
-            search: searchFilter,
-            startDateFrom: getStartOfTomorrow()
-          }
-        )
-      ).result)
+          setUpcomingEvents((
+            await fetchOrganizerEvents(
+              state.firebase,
+              {
+                skip: currentPage - 1,
+                search: searchFilter,
+                // startDateFrom: getStartOfTomorrow()
+              }
+            )
+          ).result)
+          break;
+        case 'user':
+          setTodayEvents((
+            await fetchUserEvents(
+              state.firebase,
+              {
+                skip: currentPage - 1,
+                search: searchFilter,
+                // startDateFrom: getStartOfDay(),
+                // startDateTo: getEndOfDay()
+              }
+            )
+          ).result)
+
+          setUpcomingEvents((
+            await fetchUserEvents(
+              state.firebase,
+              {
+                skip: currentPage - 1,
+                search: searchFilter,
+                // startDateFrom: getStartOfTomorrow()
+              }
+            )
+          ).result)
+          break;
+        default:
+          break;
+      }
     } catch (error) {
       // ignore
     }
@@ -88,6 +118,9 @@ const Home = ({navigation}) => {
           <View style={{justifyContent: 'center'}}>
             <Text>Ticketland</Text>
           </View>
+        </View>
+        <View style={{justifyContent: 'center'}}>
+          <Text>mode:{state.mode}</Text>
         </View>
         <View style={classes.profileIconContainer}>
           <Shadow
@@ -127,13 +160,13 @@ const Home = ({navigation}) => {
         ? upcomingEvents.map((event, index) => (
           <Link key={index} to={{screen: 'Event', params: {eventId: event.event_id}}}>
             <View style={classes.upcomingEventsCardContainer}>
-          <Card
+              <Card
                 loading={false}
-            event={event}
-            containerStyle={classes.upcomingEventsCard}
+                event={event}
+                containerStyle={classes.upcomingEventsCard}
                 // this has to be like that cause of android issue of shadow package with percentages
                 style={{width: Dimensions.get("window").width - 32}}
-          />
+              />
             </View>
           </Link>
         ))
@@ -157,7 +190,7 @@ const Home = ({navigation}) => {
         style={{width: '100%'}}
         data={todayEvents}
         renderItem={({item, index}) => (
-          <Link key={index} to={{screen: 'Event', params: {eventId: item.event_id}}}>
+          <Link key={index} to={{screen: state.mode === 'user' ? 'Ticket' : 'Event', params: {eventId: item.event_id}}}>
             <Card
               event={item}
               key={index}
@@ -183,35 +216,35 @@ const Home = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       {/* GestureHandlerRootView added for android use */}
       <GestureHandlerRootView onHandlerStateChange={() => {console.log('first')}}>
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            tintColor={classes.refreshIndicatorColor.color}
-            colors={[classes.refreshIndicatorColor.color]}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-      >
-        <View style={classes.container}>
-          {renderHeader()}
-        </View>
-        <ImageBackground
-          source={Dot}
-          resizeMode="repeat"
-          style={classes.imageBackgroundContainer}
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              tintColor={classes.refreshIndicatorColor.color}
+              colors={[classes.refreshIndicatorColor.color]}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
         >
-          <SectionTitle style={classes.todaySectionTitle} title={'Today'} />
-          {renderCarousel()}
-        </ImageBackground>
-        {renderUpcomingEvents()}
-        <Pagination
-          currentPage={currentPage}
-          totalCount={upcomingEvents.length}
-          pageSize={5}
-          onPageChange={page => setCurrentPage(page)}
-        />
-      </ScrollView>
+          <View style={classes.container}>
+            {renderHeader()}
+          </View>
+          <ImageBackground
+            source={Dot}
+            resizeMode="repeat"
+            style={classes.imageBackgroundContainer}
+          >
+            <SectionTitle style={classes.todaySectionTitle} title={'Today'} />
+            {renderCarousel()}
+          </ImageBackground>
+          {renderUpcomingEvents()}
+          <Pagination
+            currentPage={currentPage}
+            totalCount={upcomingEvents.length}
+            pageSize={5}
+            onPageChange={page => setCurrentPage(page)}
+          />
+        </ScrollView>
       </GestureHandlerRootView>
     </SafeAreaView >
   )

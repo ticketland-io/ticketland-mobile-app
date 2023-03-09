@@ -4,7 +4,8 @@ import {
   View,
   ImageBackground,
   TouchableOpacity,
-  Modal
+  Modal,
+  Platform
 } from 'react-native'
 import {Button, Image, Text, Divider} from '@rneui/themed'
 import AntIcon from "react-native-vector-icons/AntDesign";
@@ -14,6 +15,7 @@ import Shadow from '../../components/Shadow'
 import FacebookIcon from '../../../assets/facebookIcon.png';
 import GoogleIcon from '../../../assets/googleIcon.png';
 import TwitterIcon from '../../../assets/twitterIcon.png';
+import AppleIcon from '../../../assets/appleIcon.png';
 import Circle from '../../../assets/circle.png';
 import useStyles from './styles'
 
@@ -26,7 +28,8 @@ const Login = ({navigation}) => {
   const providerImages = {
     google: GoogleIcon,
     facebook: FacebookIcon,
-    twitter: TwitterIcon
+    twitter: TwitterIcon,
+    apple: AppleIcon
   }
 
   const logIn = provider => async () => {
@@ -44,6 +47,10 @@ const Login = ({navigation}) => {
           await state.firebase.signInWithTwitter()
           break;
         }
+        case 'apple': {
+          await state.firebase.signInWithAppleId()
+          break;
+        }
         default:
           break;
       }
@@ -51,8 +58,8 @@ const Login = ({navigation}) => {
       navigation.replace('Mode')
     }
     catch (error) {
-      if (error.error.message === 'User already singed up with another provider') {
-        setRegisteredProvider(error.provider)
+      if (error.message === 'User already singed up with a different provider') {
+        setRegisteredProvider(error.data.provider)
         setModalVisible(true)
       }
     }
@@ -138,6 +145,7 @@ const Login = ({navigation}) => {
               {renderProviderButtons('facebook')}
               {renderProviderButtons('google')}
               {renderProviderButtons('twitter')}
+              {Platform.OS === 'ios' && renderProviderButtons('apple')}
             </View>
           </Shadow>
         </View>

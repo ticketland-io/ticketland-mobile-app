@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>ticketlandMobileApp</string>
+	<string>Ticketland</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,8 +27,8 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.1041096392429-3b25pom5gopqd7qcvnc5be9j737ul47l</string>
-				<string>fb644115910700066</string>
+				<string>com.googleusercontent.apps.1041096392429-579qdfeqr1udp68jipg9fplbh7cg63df</string>
+				<string>fb724558422710042</string>
 				<string>twitterkit-dk0aQKfsCfc9eH2l8A2NPEdio</string>
 			</array>
 		</dict>
@@ -36,9 +36,9 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
-	<string>644115910700066</string>
+	<string>724558422710042</string>
 	<key>FacebookClientToken</key>
-	<string>2333ac2758db8575fcfebf289e98cb00</string>
+	<string>44a3f7316b109ed8218fde5e647c7d55</string>
 	<key>FacebookDisplayName</key>
 	<string>test</string>
 	<key>LSApplicationQueriesSchemes</key>

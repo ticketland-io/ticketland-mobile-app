@@ -5,6 +5,7 @@ import {
   RefreshControl,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   View
 } from 'react-native'
 import {Button, Image, Text} from '@rneui/themed'
@@ -214,6 +215,10 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <StatusBar
+        animated={true}
+        barStyle='dark-content'
+      />
       {/* GestureHandlerRootView added for android use */}
       <GestureHandlerRootView onHandlerStateChange={() => {console.log('first')}}>
         <ScrollView

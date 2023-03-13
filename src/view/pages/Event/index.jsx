@@ -78,26 +78,6 @@ const Event = ({route, navigation}) => {
     fullScannedTypes.length && run()
   }, [fullScannedTypes])
 
-  // useEffect(() => {
-  //   const run = async () => {
-  //     // const result = await verify(
-  //     //   normalizeEventId(qrCodeData.eventId),
-  //     //   codeChallenge,
-  //     //   qrCodeData.ticketMetadata,
-  //     //   qrCodeData.ticketNft,
-  //     //   qrCodeData.ticketOwnerPubkey,
-  //     //   qrCodeData.sig
-  //     // )
-
-  //     // console.log(result)
-  //     console.log(normalizeEventId(qrCodeData.eventId))
-  //     console.log(codeChallenge)
-  //     console.log(qrCodeData)
-  //   }
-
-  //   qrCodeData && run()
-  // }, [qrCodeData])
-
   const renderHeader = () => (
     <View style={classes.firstInnerContainer}>
       <View style={{flex: 2}}>

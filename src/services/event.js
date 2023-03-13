@@ -58,13 +58,33 @@ export const fetchAttendedCount = async (firebase, eventId) => {
   )
 }
 
-export const get_event_cover_image_path = (eventId, fileType) => {
-  return `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-cover_image.${fileType}`
+export const get_event_cover_image_path = eventId => `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-cover_image`
+
+// export const get_event_ticket_image_path = (eventId, fileType) => {
+//   return `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-ticket_image.${fileType}`
+// }
+
+export const get_event_ticket_image_path = (
+  eventId,
+  startDate,
+  endDate,
+  ticketImages = [],
+) => {
+  const now = Date.now()
+  let ticketImageType = 0
+  const sortedImages = ticketImages
+    .map(ticketImage => ticketImage.ticket_image_type)
+    .sort((a, b) => a - b)
+
+  if (now >= startDate && now < endDate) {
+    ticketImageType = sortedImages.find(type => type === 1) || 0
+  } else if (now >= endDate) {
+    ticketImageType = sortedImages.find(type => type === 2) || sortedImages.find(type => type === 1) || 0
+  }
+
+  return `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-ticket_image_${ticketImageType}`
 }
 
-export const get_event_ticket_image_path = (eventId, fileType) => {
-  return `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-ticket_image.${fileType}`
-}
 
 export const get_event_metadata_path = (eventId) => {
   return `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-event_metadata.json`

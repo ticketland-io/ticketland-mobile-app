@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android --variant=debug",
-    "ios": "NODE_ENV=development react-native run-ios --scheme \"ticketlandMobileAppDev\"",
+    "ios": "NODE_ENV=development react-native run-ios --scheme \"ticketlandMobileAppProd\"",
     "lint": "eslint .",
     "start": "NODE_ENV=development react-native start",
     "test": "jest"

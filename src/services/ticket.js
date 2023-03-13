@@ -32,7 +32,7 @@ export const fetchTicket = async (firebase, ticketNft) => {
 
 export const fetchTickets = async (firebase, eventId) => {
   return await fetch(
-    `${Config.TICKETLAND_API}/tickets?event_id=${eventId}`,
+    `${Config.TICKETLAND_API}/tickets/current-user?event_id=${eventId}`,
     'GET',
     {
       headers: createBearerHeader(await firebase.accessToken()),

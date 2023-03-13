@@ -85,14 +85,14 @@ const Scanner = props => {
     setLoading(true)
 
     try {
-      // const result = await verifyTicket(
-      //   normalizeEventId(eventId),
-      //   '',
-      //   qrCodeData.ticketMetadata,
-      //   qrCodeData.ticketNft,
-      //   qrCodeData.ticketOwnerPubkey,
-      //   qrCodeData.sig
-      // )
+      const result = await verifyTicket(
+        normalizeEventId(eventId),
+        '',
+        qrCodeData.ticketMetadata,
+        qrCodeData.ticketNft,
+        qrCodeData.ticketOwnerPubkey,
+        qrCodeData.sig
+      )
 
       // console.log(result)
   

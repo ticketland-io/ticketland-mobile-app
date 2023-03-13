@@ -85,7 +85,6 @@ export default makeStyles(theme => ({
     marginRight: 3,
   },
   ticketButton: {
-    backgroundColor: theme.palette.common.yellow500,
     borderRadius: 12,
     marginTop:75
   }

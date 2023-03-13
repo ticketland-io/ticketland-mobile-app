@@ -78,13 +78,17 @@ const Card = props => {
           </View>
           <View style={classes.participantsItem}>
             {!loading
-              ? <Button buttonStyle={classes.participantsButton}>
-                <Image
-                  source={UserIcon}
-                  style={classes.participantsImage}
-                />
-                <Text h6Bold>{totalScanned}</Text>
-              </Button>
+              ? (
+                <Button buttonStyle={classes.participantsButton}>
+                  <View style={{flexDirection: 'row', alignItems: "center"}}>
+                    <Image
+                      source={UserIcon}
+                      style={classes.participantsImage}
+                    />
+                    <Text h6Bold>{totalScanned}</Text>
+                  </View>
+                </Button>
+              )
               : <Skeleton width={74} height={34} style={{borderRadius: 8}} />
             }
           </View>

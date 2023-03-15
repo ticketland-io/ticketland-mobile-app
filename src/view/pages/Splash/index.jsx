@@ -6,11 +6,11 @@ const Splash = ({navigation}) => {
   const [state] = useContext(Context)
 
   useEffect(() => {
-    RNBootSplash.hide({fade: true, duration: 500})
-
     if (!state.loading && state.user) {
+      RNBootSplash.hide({fade: true, duration: 500})
       navigation.replace('Mode')
     } else if (!state.loading) {
+      RNBootSplash.hide({fade: true, duration: 500})
       navigation.replace('Login')
     }
   }, [state.loading, state.user])

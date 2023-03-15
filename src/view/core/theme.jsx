@@ -133,14 +133,6 @@ export const getTheme = () => createTheme({
           fontWeight: 500,
           fontSize: 16,
           lineHeight: 18
-        }) ||
-        (prop.pagination &&
-        {
-          color: colors.gray800,
-          fontWeight: 500,
-          fontSize: 16,
-          lineHeight: 24,
-          fontFamily: 'Montserrat-Regular'
         })
     }),
     Button: {

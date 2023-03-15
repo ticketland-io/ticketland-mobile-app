@@ -44,6 +44,7 @@ const Home = ({navigation}) => {
               state.firebase,
               {
                 skip: currentPage - 1,
+                limit: 20,
                 search: searchFilter,
                 startDateFrom: getStartOfDay(),
                 startDateTo: getEndOfDay()
@@ -94,6 +95,7 @@ const Home = ({navigation}) => {
     }
 
     setLoading(false)
+    setRefreshing(false)
   }
 
   useEffect(() => {
@@ -103,7 +105,6 @@ const Home = ({navigation}) => {
   useEffect(() => {
     const run = async () => {
       getEvents()
-      setRefreshing(false)
     }
 
     refreshing && run()

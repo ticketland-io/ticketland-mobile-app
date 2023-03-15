@@ -125,8 +125,7 @@ const Home = ({navigation}) => {
       />
       {!loading
         ? upcomingEvents.map((event, index) => (
-          <Link key={index} to={{screen: 'Event', params: {eventId: event.event_id}}}>
-            <View style={classes.upcomingEventsCardContainer}>
+          <View key={event.event_id} style={classes.upcomingEventsCardContainer}>
           <Card
                 loading={false}
             event={event}
@@ -135,7 +134,6 @@ const Home = ({navigation}) => {
                 style={{width: Dimensions.get("window").width - 32}}
           />
             </View>
-          </Link>
         ))
         : <Card
           loading={true}
@@ -157,14 +155,12 @@ const Home = ({navigation}) => {
         style={{width: '100%'}}
         data={todayEvents}
         renderItem={({item, index}) => (
-          <Link key={index} to={{screen: 'Event', params: {eventId: item.event_id}}}>
             <Card
+            key={item.event_id}
               event={item}
-              key={index}
               index={index}
               containerStyle={{paddingHorizontal: 16}}
             />
-          </Link>
         )}
       />
     )

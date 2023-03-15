@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {View} from 'react-native'
+import {Link} from '@react-navigation/native'
 import {format} from 'date-fns'
 import {Button, Image, Skeleton, Text} from '@rneui/themed'
 import {Context} from '../../core/Store'
@@ -37,6 +38,7 @@ const Card = props => {
 
   return (
     <View style={[{flex: 1}, containerStyle]}>
+      <Link to={{screen: state.mode === 'user' ? 'Ticket' : 'Event', params: {eventId: event?.event_id}}}>
       <Shadow
         style={[classes.cardShadow, style]}
         styleInner={{borderRadius: 0}}
@@ -94,6 +96,7 @@ const Card = props => {
           </View>
         </View>
       </Shadow>
+      </Link>
     </View>
   )
 }

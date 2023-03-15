@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react'
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react'
 import {
   Dimensions,
   ImageBackground,
@@ -32,6 +32,7 @@ const Home = ({navigation}) => {
   const [upcomingEvents, setUpcomingEvents] = useState([])
   const [searchFilter, setSearchFilter] = useState('')
   const classes = useStyles()
+  const carouselRef = useRef(null);
 
   const getEvents = async () => {
     try {
@@ -179,8 +180,9 @@ const Home = ({navigation}) => {
   const renderCarousel = () => !loading
     ? (
       <Carousel
-        snapEnabled={false}
-        pagingEnabled={false}
+        ref={carouselRef}
+        // snapEnabled={false}
+        // pagingEnabled={false}
         width={340}
         height={330}
         loop={false}

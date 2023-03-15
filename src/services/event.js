@@ -2,7 +2,7 @@ import fetch, {createBearerHeader} from './api'
 import Config from 'react-native-config';
 import qs from 'qs'
 
-export const fetchOrganizerEvents = async (firebase, params) => {
+export const fetchEvents = async (firebase, params, mode) => {
   const query = qs.stringify({
     search: params.search === '' ? null : params.search,
     start_date_from: params.startDateFrom ? String(params.startDateFrom) : null,
@@ -11,31 +11,25 @@ export const fetchOrganizerEvents = async (firebase, params) => {
     limit: params.limit ? params.limit : 5
   }, {skipNulls: true, encode: false})
 
-  return await fetch(
-    `${Config.TICKETLAND_API}/events/current-user?${query}`,
-    'GET',
-    {
-      headers: createBearerHeader(await firebase.accessToken())
-    }
-  )
-}
-
-export const fetchUserEvents = async (firebase, params) => {
-  const query = qs.stringify({
-    search: params.search === '' ? null : params.search,
-    start_date_from: params.startDateFrom ? String(params.startDateFrom) : null,
-    start_date_to: params.startDateTo ? String(params.startDateTo) : null,
-    skip: params.skip ? params.skip : 0,
-    limit: params.limit ? params.limit : 5
-  }, {skipNulls: true, encode: false})
-
-  return await fetch(
-    `${Config.TICKETLAND_API}/events/ticket-holder?${query}`,
-    'GET',
-    {
-      headers: createBearerHeader(await firebase.accessToken())
-    }
-  )
+  switch (mode) {
+    case 'organizer':
+      return await fetch(
+        `${Config.TICKETLAND_API}/events/current-user?${query}`,
+        'GET',
+        {
+          headers: createBearerHeader(await firebase.accessToken())
+        }
+      )
+    case 'user':
+    default:
+      return await fetch(
+        `${Config.TICKETLAND_API}/events/ticket-holder?${query}`,
+        'GET',
+        {
+          headers: createBearerHeader(await firebase.accessToken())
+        }
+      )
+  }
 }
 
 export const fetchEvent = async (firebase, eventId) => {

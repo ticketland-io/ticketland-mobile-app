@@ -14,7 +14,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Context} from '../../core/Store'
 import {getEndOfDay, getStartOfDay, getStartOfTomorrow} from '../../../helpers/time';
-import {fetchOrganizerEvents, fetchUserEvents} from '../../../services/event'
+import {fetchEvents} from '../../../services/event'
 import SectionTitle from '../../components/SectionTitle'
 import Shadow from '../../components/Shadow'
 import Logo from '../../../assets/logo.png'
@@ -40,7 +40,7 @@ const Home = ({navigation}) => {
       switch (state.mode) {
         case 'organizer':
           setTodayEvents((
-            await fetchOrganizerEvents(
+            await fetchEvents(
               state.firebase,
               {
                 skip: currentPage - 1,
@@ -48,42 +48,46 @@ const Home = ({navigation}) => {
                 search: searchFilter,
                 startDateFrom: getStartOfDay(),
                 startDateTo: getEndOfDay()
-              }
+              },
+              state.mode
             )
           ).result)
 
           setUpcomingEvents((
-            await fetchOrganizerEvents(
+            await fetchEvents(
               state.firebase,
               {
                 skip: currentPage - 1,
                 search: searchFilter,
                 startDateFrom: getStartOfTomorrow()
-              }
+              },
+              state.mode
             )
           ).result)
           break;
         case 'user':
           setTodayEvents((
-            await fetchUserEvents(
+            await fetchEvents(
               state.firebase,
               {
                 skip: currentPage - 1,
                 search: searchFilter,
                 startDateFrom: getStartOfDay(),
                 startDateTo: getEndOfDay()
-              }
+              },
+              state.mode
             )
           ).result)
 
           setUpcomingEvents((
-            await fetchUserEvents(
+            await fetchEvents(
               state.firebase,
               {
                 skip: currentPage - 1,
                 search: searchFilter,
                 startDateFrom: getStartOfTomorrow()
-              }
+              },
+              state.mode
             )
           ).result)
           break;
@@ -203,26 +207,28 @@ const Home = ({navigation}) => {
     switch (state.mode) {
       case 'organizer':
         setUpcomingEvents([...upcomingEvents, ...(
-          await fetchOrganizerEvents(
+          await fetchEvents(
             state.firebase,
             {
               skip: currentPage,
               search: searchFilter,
               startDateFrom: getStartOfTomorrow()
-            }
+            },
+            state.mode
           )
         ).result])
         break;
       case 'user':
       default:
         setUpcomingEvents([...upcomingEvents, ...(
-          await fetchUserEvents(
+          await fetchEvents(
             state.firebase,
             {
               skip: currentPage,
               search: searchFilter,
               startDateFrom: getStartOfTomorrow()
-            }
+            },
+            state.mode
           )
         ).result])
         break;

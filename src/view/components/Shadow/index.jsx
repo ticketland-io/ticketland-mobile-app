@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {View} from 'react-native'
+import {View, Platform} from 'react-native'
 import {Shadow as ShadowComp} from 'react-native-shadow-2'
 import {Context} from '../../core/Store'
 import useStyles from './styles'
@@ -14,7 +14,7 @@ const Shadow = props => {
   const [state] = useContext(Context)
   const classes = useStyles()
 
-  const isDisabled = () => state.platform !== 'android' || style.shadowOpacity === 0
+  const isDisabled = () => Platform.OS !== 'android' || style.shadowOpacity === 0
 
   return isDisabled()
     ? (

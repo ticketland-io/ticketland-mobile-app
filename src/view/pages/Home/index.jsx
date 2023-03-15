@@ -188,6 +188,37 @@ const Home = ({navigation}) => {
         loop={false}
         style={{width: '100%'}}
         data={todayEvents}
+        key={todayEvents.length}
+        onScrollEnd={async (index) => {
+          console.log(carouselRef.current.getCurrentIndex())
+          if (carouselRef.current.getCurrentIndex() === todayEvents.length - 1) {
+            setTodayEvents([...todayEvents, ...(
+              await fetchOrganizerEvents(
+                state.firebase,
+                {
+                  skip: currentPage,
+                  limit: 1,
+                  search: searchFilter,
+                  // startDateFrom: getStartOfDay(),
+                  // startDateTo: getEndOfDay()
+                }
+              )
+            ).result])
+            console.log([...todayEvents, ...(
+              await fetchOrganizerEvents(
+                state.firebase,
+                {
+                  skip: currentPage,
+                  limit: 1,
+                  search: searchFilter,
+                  // startDateFrom: getStartOfDay(),
+                  // startDateTo: getEndOfDay()
+                }
+              )
+            ).result])
+            carouselRef.current.scrollTo({count: todayEvents.length - 1, animated: false})
+          }
+        }}
         renderItem={({item, index}) => (
           <Card
             key={item.event_id}

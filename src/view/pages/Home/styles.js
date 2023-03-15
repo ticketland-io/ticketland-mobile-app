@@ -98,7 +98,10 @@ export default makeStyles(theme => ({
     backgroundColor: theme.palette.common.yellow500,
     padding: 8,
     borderRadius: 8,
-    borderWidth: 0
+    borderWidth: 0,
+    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: 'center',
   },
   participantsImage: {
     width: 14,

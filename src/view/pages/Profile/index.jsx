@@ -69,16 +69,26 @@ const Profile = ({navigation}) => {
         <View style={classes.thirdInnerContainer}>
           <Button
             type={'outline'}
-            buttonStyle={classes.logoutButton}
+            containerStyle={{marginBottom: 12}}
+            buttonStyle={classes.modeButton}
+            onPress={goToMode}
+          >
+            <Text h7>
+              Mode: {state.mode}
+            </Text>
+          </Button>
+          <Button
+            type={'outline'}
+            buttonStyle={[classes.logoutButton]}
             onPress={signOut}
           >
             <AntIcon
               name="logout"
               size={16}
-              style={classes.logoutIcon}
+              style={[classes.logoutIcon, {color: 'white'}]}
             />
-            <Text h7>
-              logout
+            <Text h7 style={{color: 'white'}}>
+              Logout
             </Text>
           </Button>
         </View>

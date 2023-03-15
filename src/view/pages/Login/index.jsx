@@ -1,6 +1,13 @@
-import React, {useContext} from 'react'
-import {SafeAreaView, View, ImageBackground, TouchableOpacity} from 'react-native'
+import React, {useContext, useState} from 'react'
+import {
+  SafeAreaView,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Modal,
   Platform,
+  ActivityIndicator
+} from 'react-native'
 import {Button, Image, Text, Divider} from '@rneui/themed'
 import AntIcon from "react-native-vector-icons/AntDesign";
 import {Context} from '../../core/Store'
@@ -15,6 +22,9 @@ import useStyles from './styles'
 
 const Login = ({navigation}) => {
   const [state, _] = useContext(Context)
+  const [modalVisible, setModalVisible] = useState(false)
+  const [registeredProvider, setRegisteredProvider] = useState('')
+  const [loading, setLoading] = useState(false)
   const classes = useStyles()
 
   const providerImages = {
@@ -51,8 +61,13 @@ const Login = ({navigation}) => {
       navigation.replace('Mode')
     }
     catch (error) {
-      // ignore
+      if (error.message === 'User already singed up with a different provider') {
+        setRegisteredProvider(error.data.provider)
+        setModalVisible(true)
     }
+  }
+
+    setLoading(false)
   }
 
   const renderProviderButtons = provider => (
@@ -73,9 +88,44 @@ const Login = ({navigation}) => {
     </Button>
   )
 
+  const renderModal = () => (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        Alert.alert('Modal has been closed.');
+        setModalVisible(!modalVisible);
+      }}>
+      <View style={classes.modalViewContainer}>
+        <View style={classes.modalViewItem}>
+          <View style={{alignSelf: 'flex-end'}}>
+            <Button type='clear' onPress={() => {setModalVisible(false)}}>
+              <AntIcon
+                name="close"
+                size={20}
+              />
+            </Button>
+          </View>
+          <View style={classes.modalTextContainer}>
+            <AntIcon
+              name="warning"
+              color={'#E24A30'}
+              style={classes.warningIcon}
+              size={50}
+            />
+            <Text style={classes.modalText} h6>User already registered with different provider</Text>
+            <Text style={classes.modalText} h6>({registeredProvider})</Text>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  )
+
   return (
     <ImageBackground source={Circle} resizeMode="cover" style={classes.background}>
       <SafeAreaView style={classes.safeAreaView}>
+        {renderModal()}
         <Text alignSelf='center' style={{marginBottom: 16}}>
           <Text h1Bold>WELCOME </Text>
           <Text h1>BACK!</Text>

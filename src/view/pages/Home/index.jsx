@@ -138,13 +138,6 @@ const Home = ({navigation}) => {
           </Shadow>
         </View>
       </View>
-      <View style={{flex: 1}}>
-        <Input
-          placeholder='Find event'
-          leftIcon={<Image source={SearchIcon} style={classes.searchIcon} />}
-          onChangeText={value => {setSearchFilter(value)}}
-        />
-      </View>
     </View>
 
   )
@@ -191,7 +184,6 @@ const Home = ({navigation}) => {
           <Card
             key={item.event_id}
             event={item}
-            index={index}
             containerStyle={{paddingHorizontal: 16}}
           />
         )}
@@ -242,7 +234,7 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <StatusBar animated={true} barStyle='dark-content'/>
+      <StatusBar animated={true} barStyle='dark-content' />
       {/* GestureHandlerRootView added for android use */}
       <GestureHandlerRootView>
         <ScrollView
@@ -255,9 +247,17 @@ const Home = ({navigation}) => {
             />
           }
           onMomentumScrollEnd={scrollRefresh}
+          stickyHeaderIndices={[0]}
         >
           <View style={classes.container}>
             {renderHeader()}
+          </View>
+          <View style={classes.searchBarContainer}>
+            <Input
+              placeholder='Find event'
+              leftIcon={<Image source={SearchIcon} style={classes.searchIcon} />}
+              onChangeText={value => {setSearchFilter(value)}}
+            />
           </View>
           <ImageBackground
             source={Dot}

@@ -153,7 +153,8 @@ const Home = ({navigation}) => {
         title={'Upcoming'}
       />
       {!loading
-        ? upcomingEvents.map((event, index) => (
+        ? upcomingEvents.length > 0
+          ? upcomingEvents.map((event) => (
           <View key={event.event_id} style={classes.upcomingEventsCardContainer}>
             <Card
               loading={false}
@@ -163,7 +164,13 @@ const Home = ({navigation}) => {
               style={{width: Dimensions.get("window").width - 32}}
             />
           </View>
-        ))
+
+          )
+          ) : (
+            <Text h5 style={{textAlign: 'center'}}>
+              No events found
+            </Text>
+          )
         : <Card
           loading={true}
           containerStyle={classes.upcomingEventsCard}
@@ -173,9 +180,18 @@ const Home = ({navigation}) => {
     </View>
   )
 
+  const carouselItem = ({item}) => (
+    <Card
+      key={item.event_id}
+      event={item}
+      containerStyle={{paddingHorizontal: 16}}
+    />
+  )
+
   const renderCarousel = () => !loading
     ? (
-      <Carousel
+      todayEvents.length > 0
+        ? <Carousel
         snapEnabled={false}
         pagingEnabled={false}
         width={340}
@@ -183,14 +199,13 @@ const Home = ({navigation}) => {
         loop={false}
         style={{width: '100%'}}
         data={todayEvents}
-        renderItem={({item, index}) => (
-          <Card
-            key={item.event_id}
-            event={item}
-            containerStyle={{paddingHorizontal: 16}}
+          renderItem={carouselItem}
           />
-        )}
-      />
+        : (
+          <Text h5 style={{textAlign: 'center'}}>
+            No events found
+          </Text>
+        )
     )
     : (
       <Card

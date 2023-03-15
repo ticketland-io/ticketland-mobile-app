@@ -22,7 +22,8 @@ export const initState = {
   firebase,
   loading: true,
   user: null,
-  platform: Platform.OS
+  platform: Platform.OS,
+  mode: null
 }
 
 export const reducer = (state, action) => {
@@ -37,6 +38,8 @@ export const reducer = (state, action) => {
       return {...state, web3: action.value}
     case 'connection':
       return {...state, connection: action.value}
+    case 'mode':
+      return {...state, mode: action.value}
     default:
       return state
   }

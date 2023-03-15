@@ -4,12 +4,13 @@ import {Dimensions, Platform} from 'react-native'
 export default makeStyles(theme => ({
   container: {
     flex: 1,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
+    backgroundColor: theme.palette.common.white
   },
   headerContainer: {
     flex: 1,
     flexDirection: 'row',
-    marginBottom: 36
+    marginBottom: 18
   },
   userImage: {
     width: 30,
@@ -117,5 +118,9 @@ export default makeStyles(theme => ({
   },
   dateText: {
     fontWeight: Platform.OS === 'android' ? 'bold' : 600
+  },
+  searchBarContainer: {
+    paddingHorizontal: 16,
+    marginTop: 18
   }
 }))

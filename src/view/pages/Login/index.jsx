@@ -111,7 +111,7 @@ const Login = ({navigation}) => {
               style={classes.warningIcon}
               size={50}
             />
-            <Text style={classes.modalText} h6>User already registered with different provider</Text>
+            <Text style={classes.modalText} h6>Email already registered with different provider</Text>
             <Text style={classes.modalText} h6>({registeredProvider})</Text>
           </View>
         </View>

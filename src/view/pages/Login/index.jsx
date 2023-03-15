@@ -64,8 +64,8 @@ const Login = ({navigation}) => {
       if (error.message === 'User already singed up with a different provider') {
         setRegisteredProvider(error.data.provider)
         setModalVisible(true)
+      }
     }
-  }
 
     setLoading(false)
   }
@@ -134,8 +134,8 @@ const Login = ({navigation}) => {
           Ticketland is a ticketing and invitation cards platform and infrastructure powered by blockchain and NFT technologies.
         </Text>
         <View style={classes.shadow}>
-          <Shadow style={{padding: 24}}>
-            <View justifyContent='center'>
+          <Shadow style={{padding: 24, opacity: loading ? 0.8 : 1}}>
+            <View justifyContent='center' >
               <View style={{marginBottom: 24}}>
                 <Text alignSelf='center' style={{marginBottom: 24}}>
                   <Text h6>
@@ -147,6 +147,9 @@ const Login = ({navigation}) => {
                 </Text>
                 <Divider />
               </View>
+              {loading && <View style={{position: 'absolute', zIndex: 1, alignSelf: 'center'}}>
+                <ActivityIndicator size="large" />
+              </View>}
               {renderProviderButtons('facebook')}
               {renderProviderButtons('google')}
               {renderProviderButtons('twitter')}

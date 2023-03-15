@@ -1,11 +1,15 @@
 import React, {useContext} from 'react'
 import {SafeAreaView, View, ImageBackground, TouchableOpacity} from 'react-native'
+  Platform,
 import {Button, Image, Text, Divider} from '@rneui/themed'
+import AntIcon from "react-native-vector-icons/AntDesign";
 import {Context} from '../../core/Store'
 import {capitalizeFirstLetter} from '../../../helpers/string'
 import Shadow from '../../components/Shadow'
 import FacebookIcon from '../../../assets/facebookIcon.png';
 import GoogleIcon from '../../../assets/googleIcon.png';
+import TwitterIcon from '../../../assets/twitterIcon.png';
+import AppleIcon from '../../../assets/appleIcon.png';
 import Circle from '../../../assets/circle.png';
 import useStyles from './styles'
 
@@ -15,10 +19,14 @@ const Login = ({navigation}) => {
 
   const providerImages = {
     google: GoogleIcon,
-    facebook: FacebookIcon
+    facebook: FacebookIcon,
+    twitter: TwitterIcon,
+    apple: AppleIcon
   }
 
   const logIn = provider => async () => {
+    setLoading(true)
+
     try {
       switch (provider) {
         case 'google': {
@@ -29,11 +37,18 @@ const Login = ({navigation}) => {
           await state.firebase.signInWithFacebook()
           break;
         }
+        case 'twitter': {
+          await state.firebase.signInWithTwitter()
+          break;
+        }
+        case 'apple': {
+          await state.firebase.signInWithAppleId()
+          break;
+        }
         default:
           break;
       }
-
-      navigation.replace('Home')
+      navigation.replace('Mode')
     }
     catch (error) {
       // ignore
@@ -84,6 +99,8 @@ const Login = ({navigation}) => {
               </View>
               {renderProviderButtons('facebook')}
               {renderProviderButtons('google')}
+              {renderProviderButtons('twitter')}
+              {Platform.OS === 'ios' && renderProviderButtons('apple')}
             </View>
           </Shadow>
         </View>

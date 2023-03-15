@@ -14,7 +14,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Context} from '../../core/Store'
 import {getEndOfDay, getStartOfDay, getStartOfTomorrow} from '../../../helpers/time';
-import {fetchUserEvents} from '../../../services/event'
+import {fetchOrganizerEvents, fetchUserEvents} from '../../../services/event'
 import SectionTitle from '../../components/SectionTitle'
 import Shadow from '../../components/Shadow'
 import Logo from '../../../assets/logo.png'
@@ -68,7 +68,7 @@ const Home = ({navigation}) => {
 
   useEffect(() => {
     getEvents()
-  }, [searchFilter, currentPage])
+  }, [searchFilter])
 
   useEffect(() => {
     const run = async () => {
@@ -174,6 +174,38 @@ const Home = ({navigation}) => {
     setRefreshing(true);
   }, []);
 
+  const scrollRefresh = async () => {
+    switch (state.mode) {
+      case 'organizer':
+        setUpcomingEvents([...upcomingEvents, ...(
+          await fetchOrganizerEvents(
+            state.firebase,
+            {
+              skip: currentPage,
+              search: searchFilter,
+              startDateFrom: getStartOfTomorrow()
+            }
+          )
+        ).result])
+        break;
+      case 'user':
+      default:
+        setUpcomingEvents([...upcomingEvents, ...(
+          await fetchUserEvents(
+            state.firebase,
+            {
+              skip: currentPage,
+              search: searchFilter,
+              startDateFrom: getStartOfTomorrow()
+            }
+          )
+        ).result])
+        break;
+    }
+
+    setCurrentPage(currentPage + 1)
+  }
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar
@@ -181,7 +213,7 @@ const Home = ({navigation}) => {
         barStyle='dark-content'
       />
       {/* GestureHandlerRootView added for android use */}
-      <GestureHandlerRootView onHandlerStateChange={() => {console.log('first')}}>
+      <GestureHandlerRootView>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -191,6 +223,7 @@ const Home = ({navigation}) => {
             onRefresh={onRefresh}
           />
         }
+          onMomentumScrollEnd={scrollRefresh}
       >
         <View style={classes.container}>
           {renderHeader()}

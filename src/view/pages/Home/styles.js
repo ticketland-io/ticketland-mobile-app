@@ -108,41 +108,6 @@ export default makeStyles(theme => ({
     height: 14,
     marginRight: 6
   },
-  paginationContainer: {
-    flexDirection: 'row',
-    marginHorizontal: 16
-  },
-  paginationLeftArrow: {
-    flex: 1,
-    alignItems: 'flex-start'
-  },
-  paginationRightArrow: {
-    flex: 1,
-    alignItems: 'flex-end'
-  },
-  paginationButton: {
-    width: 40,
-    height: 40,
-    selected: {
-      backgroundColor: theme.palette.common.gray800
-    },
-    unSelected: {
-      backgroundColor: theme.palette.common.white
-    }
-  },
-  paginationRangeContainer: {
-    flex: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly'
-  },
-  paginationButtonText: {
-    selected: {
-      color: theme.palette.common.yellow500
-    },
-    unSelected: {
-      color: theme.palette.common.gray800
-    }
-  },
   refreshIndicatorColor: {
     color: theme.palette.common.yellow500
   },

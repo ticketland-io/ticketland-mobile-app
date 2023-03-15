@@ -37,28 +37,58 @@ const Home = ({navigation}) => {
     try {
       setLoading(true)
 
-      setTodayEvents((
-        await fetchUserEvents(
-          state.firebase,
-          {
-            skip: currentPage - 1,
-            search: searchFilter,
-            startDateFrom: getStartOfDay(),
-            startDateTo: getEndOfDay()
-          }
-        )
-      ).result)
+      switch (state.mode) {
+        case 'organizer':
+          setTodayEvents((
+            await fetchOrganizerEvents(
+              state.firebase,
+              {
+                skip: currentPage - 1,
+                search: searchFilter,
+                startDateFrom: getStartOfDay(),
+                startDateTo: getEndOfDay()
+              }
+            )
+          ).result)
 
-      setUpcomingEvents((
-        await fetchUserEvents(
-          state.firebase,
-          {
-            skip: currentPage - 1,
-            search: searchFilter,
-            startDateFrom: getStartOfTomorrow()
-          }
-        )
-      ).result)
+          setUpcomingEvents((
+            await fetchOrganizerEvents(
+              state.firebase,
+              {
+                skip: currentPage - 1,
+                search: searchFilter,
+                startDateFrom: getStartOfTomorrow()
+              }
+            )
+          ).result)
+          break;
+        case 'user':
+          setTodayEvents((
+            await fetchUserEvents(
+              state.firebase,
+              {
+                skip: currentPage - 1,
+                search: searchFilter,
+                startDateFrom: getStartOfDay(),
+                startDateTo: getEndOfDay()
+              }
+            )
+          ).result)
+
+          setUpcomingEvents((
+            await fetchUserEvents(
+              state.firebase,
+              {
+                skip: currentPage - 1,
+                search: searchFilter,
+                startDateFrom: getStartOfTomorrow()
+              }
+            )
+          ).result)
+          break;
+        default:
+          break;
+      }
     } catch (error) {
       // ignore
     }
@@ -87,6 +117,9 @@ const Home = ({navigation}) => {
           <View style={{justifyContent: 'center'}}>
             <Text>Ticketland</Text>
           </View>
+        </View>
+        <View style={{justifyContent: 'center'}}>
+          <Text>mode:{state.mode}</Text>
         </View>
         <View style={classes.profileIconContainer}>
           <Shadow
@@ -125,14 +158,14 @@ const Home = ({navigation}) => {
       {!loading
         ? upcomingEvents.map((event, index) => (
           <View key={event.event_id} style={classes.upcomingEventsCardContainer}>
-          <Card
-                loading={false}
-            event={event}
-            containerStyle={classes.upcomingEventsCard}
-                // this has to be like that cause of android issue of shadow package with percentages
-                style={{width: Dimensions.get("window").width - 32}}
-          />
-            </View>
+            <Card
+              loading={false}
+              event={event}
+              containerStyle={classes.upcomingEventsCard}
+              // this has to be like that cause of android issue of shadow package with percentages
+              style={{width: Dimensions.get("window").width - 32}}
+            />
+          </View>
         ))
         : <Card
           loading={true}
@@ -154,12 +187,12 @@ const Home = ({navigation}) => {
         style={{width: '100%'}}
         data={todayEvents}
         renderItem={({item, index}) => (
-            <Card
+          <Card
             key={item.event_id}
-              event={item}
-              index={index}
-              containerStyle={{paddingHorizontal: 16}}
-            />
+            event={item}
+            index={index}
+            containerStyle={{paddingHorizontal: 16}}
+          />
         )}
       />
     )
@@ -214,30 +247,30 @@ const Home = ({navigation}) => {
       />
       {/* GestureHandlerRootView added for android use */}
       <GestureHandlerRootView>
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            tintColor={classes.refreshIndicatorColor.color}
-            colors={[classes.refreshIndicatorColor.color]}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              tintColor={classes.refreshIndicatorColor.color}
+              colors={[classes.refreshIndicatorColor.color]}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
           onMomentumScrollEnd={scrollRefresh}
-      >
-        <View style={classes.container}>
-          {renderHeader()}
-        </View>
-        <ImageBackground
-          source={Dot}
-          resizeMode="repeat"
-          style={classes.imageBackgroundContainer}
         >
-          <SectionTitle style={classes.todaySectionTitle} title={'Today'} />
-          {renderCarousel()}
-        </ImageBackground>
-        {renderUpcomingEvents()}
-      </ScrollView>
+          <View style={classes.container}>
+            {renderHeader()}
+          </View>
+          <ImageBackground
+            source={Dot}
+            resizeMode="repeat"
+            style={classes.imageBackgroundContainer}
+          >
+            <SectionTitle style={classes.todaySectionTitle} title={'Today'} />
+            {renderCarousel()}
+          </ImageBackground>
+          {renderUpcomingEvents()}
+        </ScrollView>
       </GestureHandlerRootView>
     </SafeAreaView >
   )

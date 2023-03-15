@@ -93,7 +93,8 @@ const Login = ({navigation}) => {
       animationType="slide"
       transparent={true}
       visible={modalVisible}
-      onRequestClose={() => {setModalVisible(!modalVisible)}}>
+      onRequestClose={() => {setModalVisible(!modalVisible)}}
+    >
       <View style={classes.modalViewContainer}>
         <View style={classes.modalViewItem}>
           <View style={{alignSelf: 'flex-end'}}>

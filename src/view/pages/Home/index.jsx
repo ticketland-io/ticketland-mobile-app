@@ -10,7 +10,6 @@ import {
 } from 'react-native'
 import {Button, Image, Text} from '@rneui/themed'
 import {Input} from '@rneui/themed';
-import {Link} from '@react-navigation/native';
 import Carousel from 'react-native-reanimated-carousel';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Context} from '../../core/Store'
@@ -22,7 +21,6 @@ import Logo from '../../../assets/logo.png'
 import SearchIcon from '../../../assets/searchIcon.png'
 import Dot from '../../../assets/dot.png'
 import Card from './Card'
-import Pagination from './Pagination';
 import useStyles from './styles'
 
 const Home = ({navigation}) => {
@@ -206,12 +204,6 @@ const Home = ({navigation}) => {
           {renderCarousel()}
         </ImageBackground>
         {renderUpcomingEvents()}
-        <Pagination
-          currentPage={currentPage}
-          totalCount={upcomingEvents.length}
-          pageSize={5}
-          onPageChange={page => setCurrentPage(page)}
-        />
       </ScrollView>
       </GestureHandlerRootView>
     </SafeAreaView >

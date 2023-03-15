@@ -139,7 +139,7 @@ const Home = ({navigation}) => {
         : <Card
           loading={true}
           containerStyle={classes.upcomingEventsCard}
-          style={{width: '100%'}}
+          style={{width: Dimensions.get("window").width - 32}}
         />
       }
     </View>

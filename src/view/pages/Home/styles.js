@@ -67,7 +67,6 @@ export default makeStyles(theme => ({
   imageCard: {
     width: '100%',
     height: 212,
-    aspectRatio: 1,
     borderRadius: 14
   },
   eventName: {

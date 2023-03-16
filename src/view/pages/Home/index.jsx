@@ -23,6 +23,8 @@ import Dot from '../../../assets/dot.png'
 import Card from './Card'
 import useStyles from './styles'
 
+const DEFAULT_LIMIT = 5
+
 const Home = ({navigation}) => {
   const [state] = useContext(Context)
   const [currentPage, setCurrentPage] = useState(1)
@@ -31,69 +33,39 @@ const Home = ({navigation}) => {
   const [todayEvents, setTodayEvents] = useState([])
   const [upcomingEvents, setUpcomingEvents] = useState([])
   const [searchFilter, setSearchFilter] = useState('')
+  const [stopFetching, setStopFetching] = useState(false)
   const classes = useStyles()
 
   const getEvents = async () => {
     try {
       setLoading(true)
 
-      switch (state.mode) {
-        case 'organizer':
-          setTodayEvents((
-            await fetchEvents(
-              state.firebase,
-              {
-                skip: currentPage - 1,
-                limit: 20,
-                search: searchFilter,
-                startDateFrom: getStartOfDay(),
-                startDateTo: getEndOfDay()
-              },
-              state.mode
-            )
-          ).result)
+      setTodayEvents((
+        await fetchEvents(
+          state.firebase,
+          {
+            skip: currentPage - 1,
+            limit: 20,
+            search: searchFilter,
+            startDateFrom: getStartOfDay(),
+            startDateTo: getEndOfDay()
+          },
+          state.mode
+        )
+      ).result)
 
-          setUpcomingEvents((
-            await fetchEvents(
-              state.firebase,
-              {
-                skip: currentPage - 1,
-                search: searchFilter,
-                startDateFrom: getStartOfTomorrow()
-              },
-              state.mode
-            )
-          ).result)
-          break;
-        case 'user':
-          setTodayEvents((
-            await fetchEvents(
-              state.firebase,
-              {
-                skip: currentPage - 1,
-                search: searchFilter,
-                startDateFrom: getStartOfDay(),
-                startDateTo: getEndOfDay()
-              },
-              state.mode
-            )
-          ).result)
+      setUpcomingEvents((
+        await fetchEvents(
+          state.firebase,
+          {
+            skip: currentPage - 1,
+            search: searchFilter,
+            startDateFrom: getStartOfTomorrow()
+          },
+          state.mode
+        )
+      ).result)
 
-          setUpcomingEvents((
-            await fetchEvents(
-              state.firebase,
-              {
-                skip: currentPage - 1,
-                search: searchFilter,
-                startDateFrom: getStartOfTomorrow()
-              },
-              state.mode
-            )
-          ).result)
-          break;
-        default:
-          break;
-      }
     } catch (error) {
       // ignore
     }
@@ -155,15 +127,15 @@ const Home = ({navigation}) => {
       {!loading
         ? upcomingEvents.length > 0
           ? upcomingEvents.map((event) => (
-          <View key={event.event_id} style={classes.upcomingEventsCardContainer}>
-            <Card
-              loading={false}
-              event={event}
-              containerStyle={classes.upcomingEventsCard}
-              // this has to be like that cause of android issue of shadow package with percentages
-              style={{width: Dimensions.get("window").width - 32}}
-            />
-          </View>
+            <View key={event.event_id} style={classes.upcomingEventsCardContainer}>
+              <Card
+                loading={false}
+                event={event}
+                containerStyle={classes.upcomingEventsCard}
+                // this has to be like that cause of android issue of shadow package with percentages
+                style={{width: Dimensions.get("window").width - 32}}
+              />
+            </View>
 
           )
           ) : (
@@ -192,15 +164,15 @@ const Home = ({navigation}) => {
     ? (
       todayEvents.length > 0
         ? <Carousel
-        snapEnabled={false}
-        pagingEnabled={false}
-        width={340}
-        height={330}
-        loop={false}
-        style={{width: '100%'}}
-        data={todayEvents}
+          snapEnabled={false}
+          pagingEnabled={false}
+          width={340}
+          height={330}
+          loop={false}
+          style={{width: '100%'}}
+          data={todayEvents}
           renderItem={carouselItem}
-          />
+        />
         : (
           <Text h5 style={{textAlign: 'center'}}>
             No events found
@@ -219,37 +191,23 @@ const Home = ({navigation}) => {
   }, []);
 
   const scrollRefresh = async () => {
-    switch (state.mode) {
-      case 'organizer':
-        setUpcomingEvents([...upcomingEvents, ...(
-          await fetchEvents(
-            state.firebase,
-            {
-              skip: currentPage,
-              search: searchFilter,
-              startDateFrom: getStartOfTomorrow()
-            },
-            state.mode
-          )
-        ).result])
-        break;
-      case 'user':
-      default:
-        setUpcomingEvents([...upcomingEvents, ...(
-          await fetchEvents(
-            state.firebase,
-            {
-              skip: currentPage,
-              search: searchFilter,
-              startDateFrom: getStartOfTomorrow()
-            },
-            state.mode
-          )
-        ).result])
-        break;
-    }
+    if (!stopFetching) {
+      const {result} = await fetchEvents(
+        state.firebase,
+        {
+          skip: currentPage,
+          search: searchFilter,
+          startDateFrom: getStartOfTomorrow()
+        },
+        state.mode
+      )
 
-    setCurrentPage(currentPage + 1)
+      setUpcomingEvents([...upcomingEvents, ...result])
+      if (result.length < DEFAULT_LIMIT) {
+        setStopFetching(true)
+      }
+      setCurrentPage(currentPage + 1)
+    }
   }
 
   return (

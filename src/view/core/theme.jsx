@@ -1,5 +1,4 @@
 import {createTheme} from '@rneui/themed'
-import {Platform} from 'react-native'
 
 const colors = {
   black: '#000000',
@@ -97,7 +96,7 @@ export const getTheme = () => createTheme({
         (prop.h6Bold &&
         {
           color: colors.gray800,
-          fontWeight: Platform.OS === 'android' ? 'bold' : 600,
+          fontWeight: 'bold',
           fontSize: 16,
           lineHeight: 20
         }) ||
@@ -118,7 +117,7 @@ export const getTheme = () => createTheme({
         (prop.title &&
         {
           color: colors.gray800,
-          fontWeight: Platform.OS === 'android' ? 'bold' : 600,
+          fontWeight: 'bold',
           fontSize: 24
         }) ||
         (prop.subTitle &&

@@ -96,7 +96,7 @@ const Home = ({navigation}) => {
           </View>
         </View>
         <View style={{justifyContent: 'center'}}>
-          <Text>mode:{state.mode}</Text>
+          <Text>{state.mode} mode</Text>
         </View>
         <View style={classes.profileIconContainer}>
           <Shadow
@@ -117,15 +117,7 @@ const Home = ({navigation}) => {
     </View>
   )
 
-  const renderUpcomingEvents = () => (
-    <View style={{marginBottom: 28}}>
-      <SectionTitle
-        style={classes.upcomingSectionTitle}
-        innerStyle={{transform: 'rotate(-1.2deg)'}}
-        title={'Upcoming'}
-      />
-      {!loading
-        ? upcomingEvents.length > 0
+  const checkUpcomingEvents = () => upcomingEvents.length > 0
           ? upcomingEvents.map((event) => (
             <View key={event.event_id} style={classes.upcomingEventsCardContainer}>
               <Card
@@ -143,6 +135,16 @@ const Home = ({navigation}) => {
               No events found
             </Text>
           )
+
+  const renderUpcomingEvents = () => (
+    <View style={{marginBottom: 28}}>
+      <SectionTitle
+        style={classes.upcomingSectionTitle}
+        innerStyle={{transform: 'rotate(-1.2deg)'}}
+        title={'Upcoming'}
+      />
+      {!loading
+        ? checkUpcomingEvents()
         : <Card
           loading={true}
           containerStyle={classes.upcomingEventsCard}
@@ -152,18 +154,8 @@ const Home = ({navigation}) => {
     </View>
   )
 
-  const carouselItem = ({item}) => (
-    <Card
-      key={item.event_id}
-      event={item}
-      containerStyle={{paddingHorizontal: 16}}
-    />
-  )
-
-  const renderCarousel = () => !loading
-    ? (
-      todayEvents.length > 0
-        ? <Carousel
+  const checkTodayEvents = () => todayEvents.length > 0
+    ? <Carousel
           snapEnabled={false}
           pagingEnabled={false}
           width={340}
@@ -178,7 +170,17 @@ const Home = ({navigation}) => {
             No events found
           </Text>
         )
-    )
+
+  const carouselItem = ({item}) => (
+    <Card
+      key={item.event_id}
+      event={item}
+      containerStyle={{paddingHorizontal: 16}}
+    />
+  )
+
+  const renderCarousel = () => !loading
+    ? checkTodayEvents()
     : (
       <Card
         loading={true}

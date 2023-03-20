@@ -1,21 +1,21 @@
-import React, {useContext, useEffect} from 'react'
-import {useNavigate} from 'react-router-native'
+import {useContext, useEffect} from 'react'
+import RNBootSplash from "react-native-bootsplash";
 import {Context} from '../../core/Store'
 
-const Splash = () => {
-  const [state, _] = useContext(Context)
-  const navigate = useNavigate()
+const Splash = ({navigation}) => {
+  const [state] = useContext(Context)
 
   useEffect(() => {
     if (!state.loading && state.user) {
-      navigate('/home')
+      RNBootSplash.hide({fade: true, duration: 500})
+      navigation.replace('Mode')
     } else if (!state.loading) {
-      navigate('/login')
+      RNBootSplash.hide({fade: true, duration: 500})
+      navigation.replace('Login')
     }
   }, [state.loading, state.user])
 
-  // TODO: add design
-  return (null)
+  return null
 }
 
 export default Splash

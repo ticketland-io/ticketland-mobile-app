@@ -1,17 +1,15 @@
 import React, {useContext, useEffect} from 'react'
 import {SafeAreaView, View} from 'react-native'
 import AntIcon from "react-native-vector-icons/AntDesign";
-import {useNavigate, useLocation} from 'react-router-native'
 import {Button, Image, Text} from '@rneui/themed'
 import {Context} from '../../core/Store'
+import {setMode} from '../../../data/actions';
 import Shadow from '../../components/Shadow'
 import useStyles from './styles'
 
-const Profile = () => {
-  const [state] = useContext(Context)
+const Profile = ({navigation}) => {
+  const [state, dispatch] = useContext(Context)
   const classes = useStyles()
-  const navigate = useNavigate()
-  const location = useLocation()
 
   const signOut = async () => {
     try {
@@ -21,18 +19,17 @@ const Profile = () => {
     }
   }
 
-  const goBack = () => {
-    const urlSearchParams = new URLSearchParams(location.search)
-    const qs = Object.fromEntries(urlSearchParams.entries())
-
-    qs['redirect-to'] ? navigate(`/${qs['redirect-to']}`) : navigate('/')
-  }
-
   useEffect(() => {
     if (!state.user) {
-      navigate('/')
+      dispatch(setMode(null))
+      navigation.reset({index: 1, routes: [{name: 'Login'}]})
     }
   }, [state.user])
+
+  const goToMode = () => {
+    dispatch(setMode(null))
+    navigation.reset({index: 1, routes: [{name: 'Mode'}]})
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -41,7 +38,7 @@ const Profile = () => {
           <View style={{flex: 2}}>
             <Button
               type={'outline'}
-              onPress={goBack}
+              onPress={navigation.goBack}
               buttonStyle={classes.backButton}
             >
               <AntIcon
@@ -57,10 +54,12 @@ const Profile = () => {
           <View style={{flex: 2}} />
         </View>
         <View style={classes.secondInnerContainer}>
-          <Shadow alignSelf='center'>
-            <Image source={{uri: state.user?.photoURL}} style={classes.userImage} />
-          </Shadow>
-          <Text h4 style={{textAlign: 'center'}}>
+          <View style={{marginBottom: 24}}>
+            <Shadow alignSelf='center' >
+              <Image source={{uri: state.user?.photoURL}} style={classes.userImage} />
+            </Shadow>
+          </View>
+          <Text h4 style={classes.displayName}>
             {state.user?.displayName}
           </Text>
           <Text email style={{textAlign: 'center'}}>
@@ -70,16 +69,26 @@ const Profile = () => {
         <View style={classes.thirdInnerContainer}>
           <Button
             type={'outline'}
-            buttonStyle={classes.logoutButton}
+            containerStyle={{marginBottom: 12}}
+            buttonStyle={classes.modeButton}
+            onPress={goToMode}
+          >
+            <Text h7>
+              Mode: {state.mode}
+            </Text>
+          </Button>
+          <Button
+            type={'outline'}
+            buttonStyle={[classes.logoutButton]}
             onPress={signOut}
           >
             <AntIcon
               name="logout"
               size={16}
-              style={classes.logoutIcon}
+              style={[classes.logoutIcon, {color: 'white'}]}
             />
-            <Text h7>
-              logout
+            <Text h7 style={{color: 'white'}}>
+              Logout
             </Text>
           </Button>
         </View>

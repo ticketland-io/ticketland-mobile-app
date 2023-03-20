@@ -1,15 +1,15 @@
 import EutopicCore from '@ticketland-io/eutopic-core'
 import EutopicSolanaWallet from '@ticketland-io/eutopic-solana-wallet-rn'
 import FirebaseAuth from '@ticketland-io/eutopic-firebase-auth-rn';
-import {VAULT, EUTOPIC_API} from "@env"
+import Config from 'react-native-config';
 
 const Wallet = () => EutopicSolanaWallet()
 const eutopicCore = EutopicCore({Wallet})
 const firebase = FirebaseAuth()
 
 eutopicCore.init(
-  VAULT,
-  EUTOPIC_API,
+  Config.VAULT,
+  Config.EUTOPIC_API,
   firebase
 )
 
@@ -21,6 +21,7 @@ export const initState = {
   firebase,
   loading: true,
   user: null,
+  mode: null
 }
 
 export const reducer = (state, action) => {
@@ -35,6 +36,8 @@ export const reducer = (state, action) => {
       return {...state, web3: action.value}
     case 'connection':
       return {...state, connection: action.value}
+    case 'mode':
+      return {...state, mode: action.value}
     default:
       return state
   }

@@ -117,7 +117,7 @@ const Home = ({navigation}) => {
     </View>
   )
 
-  const checkUpcomingEvents = () => upcomingEvents.length > 0
+  const renderUpcomingEvents = () => upcomingEvents.length > 0
           ? upcomingEvents.map((event) => (
             <View key={event.event_id} style={classes.upcomingEventsCardContainer}>
               <Card
@@ -136,7 +136,7 @@ const Home = ({navigation}) => {
             </Text>
           )
 
-  const renderUpcomingEvents = () => (
+  const renderUpcomingSection = () => (
     <View style={{marginBottom: 28}}>
       <SectionTitle
         style={classes.upcomingSectionTitle}
@@ -154,7 +154,7 @@ const Home = ({navigation}) => {
     </View>
   )
 
-  const checkTodayEvents = () => todayEvents.length > 0
+  const renderTodayEvents = () => todayEvents.length > 0
     ? <Carousel
           snapEnabled={false}
           pagingEnabled={false}
@@ -180,7 +180,7 @@ const Home = ({navigation}) => {
   )
 
   const renderCarousel = () => !loading
-    ? checkTodayEvents()
+    ? renderTodayEvents()
     : (
       <Card
         loading={true}
@@ -247,7 +247,7 @@ const Home = ({navigation}) => {
             <SectionTitle style={classes.todaySectionTitle} title={'Today'} />
             {renderCarousel()}
           </ImageBackground>
-          {renderUpcomingEvents()}
+          {renderUpcomingSection()}
         </ScrollView>
       </GestureHandlerRootView>
     </SafeAreaView >

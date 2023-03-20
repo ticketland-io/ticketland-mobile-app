@@ -154,6 +154,14 @@ const Home = ({navigation}) => {
     </View>
   )
 
+  const renderCarouselItem = ({item}) => (
+    <Card
+      key={item.event_id}
+      event={item}
+      containerStyle={{paddingHorizontal: 16}}
+    />
+  )
+
   const renderTodayEvents = () => todayEvents.length > 0
     ? <Carousel
           snapEnabled={false}
@@ -163,21 +171,13 @@ const Home = ({navigation}) => {
           loop={false}
           style={{width: '100%'}}
           data={todayEvents}
-          renderItem={carouselItem}
+      renderItem={renderCarouselItem}
         />
         : (
           <Text h5 style={{textAlign: 'center'}}>
             No events found
           </Text>
         )
-
-  const carouselItem = ({item}) => (
-    <Card
-      key={item.event_id}
-      event={item}
-      containerStyle={{paddingHorizontal: 16}}
-    />
-  )
 
   const renderCarousel = () => !loading
     ? renderTodayEvents()

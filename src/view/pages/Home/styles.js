@@ -1,5 +1,5 @@
 import {makeStyles} from '@rneui/themed'
-import {Dimensions, Platform} from 'react-native'
+import {Dimensions} from 'react-native'
 
 export default makeStyles(theme => ({
   container: {
@@ -116,7 +116,7 @@ export default makeStyles(theme => ({
     marginBottom: 20
   },
   dateText: {
-    fontWeight: Platform.OS === 'android' ? 'bold' : 600
+    fontWeight: 'bold'
   },
   searchBarContainer: {
     paddingHorizontal: 16,

@@ -171,7 +171,7 @@ const Home = ({navigation}) => {
           loop={false}
           style={{width: '100%'}}
           data={todayEvents}
-      renderItem={renderCarouselItem}
+          renderItem={renderCarouselItem}
         />
         : (
           <Text h5 style={{textAlign: 'center'}}>

@@ -1,40 +1,40 @@
 {
   "project_info": {
-    "project_number": "1041096392429",
-    "project_id": "eutopic-staging-efa58",
-    "storage_bucket": "eutopic-staging-efa58.appspot.com"
+    "project_number": "711003129445",
+    "project_id": "ticketland-30727",
+    "storage_bucket": "ticketland-30727.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1041096392429:android:f08d310764af59a2bc96e4",
+        "mobilesdk_app_id": "1:711003129445:android:32359b3a2de2681ac2288c",
         "android_client_info": {
-          "package_name": "com.usermobileapp"
+          "package_name": "com.ticketlandmobileapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1041096392429-t92h90h7naekc8arct1oteuc183qqhv9.apps.googleusercontent.com",
+          "client_id": "711003129445-2js3agurj1cg8vleo0s4o4reppep444u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAsgi8KYr-ZeqhqtQWlfLogJTp5SvLAC5A"
+          "current_key": "AIzaSyCkdDdJlA1cgCpY40KTorNmFUudPW0v99I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1041096392429-t92h90h7naekc8arct1oteuc183qqhv9.apps.googleusercontent.com",
+              "client_id": "711003129445-2js3agurj1cg8vleo0s4o4reppep444u.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1041096392429-3b25pom5gopqd7qcvnc5be9j737ul47l.apps.googleusercontent.com",
+              "client_id": "711003129445-t9ueh7mkij8dqhtg2o8b50nku16se362.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "org.reactjs.native.example.userMobileApp"
+                "bundle_id": "io.ticketland.app"
               }
             }
           ]

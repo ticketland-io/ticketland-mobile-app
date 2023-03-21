@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1041096392429-3b25pom5gopqd7qcvnc5be9j737ul47l.apps.googleusercontent.com</string>
+	<string>711003129445-t9ueh7mkij8dqhtg2o8b50nku16se362.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1041096392429-3b25pom5gopqd7qcvnc5be9j737ul47l</string>
+	<string>com.googleusercontent.apps.711003129445-t9ueh7mkij8dqhtg2o8b50nku16se362</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAsAVCm7f8Gx_Y7kFKYAxPNvaqwS0eeKuk</string>
+	<string>AIzaSyDMFV8CKQpd0aV-B70g1X6pvIq0Vo9ns-o</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1041096392429</string>
+	<string>711003129445</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.userMobileApp</string>
+	<string>io.ticketland.app</string>
 	<key>PROJECT_ID</key>
-	<string>eutopic-staging-efa58</string>
+	<string>ticketland-30727</string>
 	<key>STORAGE_BUCKET</key>
-	<string>eutopic-staging-efa58.appspot.com</string>
+	<string>ticketland-30727.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1041096392429:ios:134f5cbcc74fb825bc96e4</string>
+	<string>1:711003129445:ios:0533dc051373fa0dc2288c</string>
 </dict>
 </plist>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">userMobileApp</string>
-    <string name="facebook_app_id">644115910700066</string>
-    <string name="facebook_client_token">2333ac2758db8575fcfebf289e98cb00</string>
+    <string name="app_name">Ticketland</string>
+    <string name="facebook_app_id">724558422710042</string>
+    <string name="facebook_client_token">44a3f7316b109ed8218fde5e647c7d55</string>
 </resources>

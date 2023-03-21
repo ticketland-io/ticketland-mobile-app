@@ -3,11 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "NODE_ENV=development react-native run-ios",
+    "android": "react-native run-android --variant=debug",
+    "ios": "NODE_ENV=development react-native run-ios --scheme \"ticketlandMobileAppDev\"",
     "lint": "eslint .",
     "start": "NODE_ENV=development react-native start",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@apocentre/solana-web3": "Apocentre/solana-web3",

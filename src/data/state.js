@@ -1,23 +1,31 @@
-import EutopicCore from '@ticketland-io/eutopic-core'
-import EutopicSolanaWallet from '@ticketland-io/eutopic-solana-wallet-rn'
-import FirebaseAuth from '@ticketland-io/eutopic-firebase-auth-rn';
+import {WalletCore, constants} from '@ticketland-io/wallet-core-rn'
+import SolanaWallet from '@ticketland-io/solana-wallet-rn'
+import FirebaseAuth from '@ticketland-io/firebase-auth-rn';
 import Config from 'react-native-config';
 
-const Wallet = () => EutopicSolanaWallet()
-const eutopicCore = EutopicCore({Wallet})
+const Wallet = () => SolanaWallet()
+const walletCore = WalletCore({Wallet})
 const firebase = FirebaseAuth()
 
-eutopicCore.init(
-  Config.VAULT,
+console.log(Config.EUTOPIC_API)
+
+const web3AuthConfig = {
+  clientId: Config.WEB3_AUTH_CLIENT_ID,
+  network: constants.OPENLOGIN_NETWORK.TESTNET,
+  verifier: Config.WEB3_AUTH_VERIFIER,
+}
+
+walletCore.init(
   Config.EUTOPIC_API,
-  firebase
+  firebase,
+  web3AuthConfig
 )
 
 export const initState = {
   web3: null,
   connection: null,
   walletType: 'custody', // custody or injected
-  eutopicCore,
+  walletCore,
   firebase,
   loading: true,
   user: null,

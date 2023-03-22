@@ -31,7 +31,7 @@ const Mode = ({navigation}) => {
           <Text h1>BACK!</Text>
         </Text>
         <Text h6 alignSelf='center' style={classes.secondaryText}>
-          Ticketland is a ticketing and invitation cards platform and infrastructure powered by blockchain and NFT technologies.
+          With our app, you can enjoy seamless access to your tickets in user mode, while organizer mode allows event hosts to quickly and easily verify tickets.
         </Text>
         <View style={classes.shadow}>
           <Shadow style={{padding: 24}}>
@@ -59,7 +59,6 @@ const Mode = ({navigation}) => {
         </View>
       </SafeAreaView >
     </ImageBackground>
-
   )
 }
 

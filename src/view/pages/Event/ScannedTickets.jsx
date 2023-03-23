@@ -27,17 +27,18 @@ const ScannedTickets = props => {
     ticketsCount.length && run()
   }, [JSON.stringify(ticketsCount)])//using stringify for deep comparison with prev state
 
-  const renderBars = () => ticketsCount.length > 0
+  const renderBars = () => !loading
     ? ticketsCount.map((ticketCount, index) => (
       <ProgressBar
         key={index}
+        loading={loading}
         totalTickets={ticketCount.total_count}
         scannedTickets={ticketCount.attended_count}
         ticketName={ticketCount.name}
       />
     ))
     : [...new Array(4)].map((_, index) => (
-      <ProgressBar key={index} />
+      <ProgressBar loading={loading} key={index} />
     ))
 
   const renderData = () => (

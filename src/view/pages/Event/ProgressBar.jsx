@@ -7,11 +7,16 @@ import useStyles from './styles'
 
 const ProgressBar = props => {
   const classes = useStyles()
-  const {totalTickets, scannedTickets, ticketName} = props
+  const {
+    totalTickets,
+    scannedTickets,
+    ticketName,
+    loading = false
+  } = props
 
   const calculateWidthPercentage = () => scannedTickets * 100 / totalTickets
 
-  return totalTickets
+  return !loading
     ? (
       <View style={classes.progressBarContainer}>
         <View style={[classes.yellowProgress, {width: `${calculateWidthPercentage()}%`}]} />
@@ -28,7 +33,7 @@ const ProgressBar = props => {
           </View>
           <View>
             {
-              scannedTickets == totalTickets
+              scannedTickets == totalTickets && totalTickets != 0
                 ? (
                   <View style={classes.successItem}>
                     <Image

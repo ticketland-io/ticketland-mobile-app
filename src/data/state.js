@@ -7,8 +7,6 @@ const Wallet = () => SolanaWallet()
 const walletCore = WalletCore({Wallet})
 const firebase = FirebaseAuth()
 
-console.log(Config.EUTOPIC_API)
-
 const web3AuthConfig = {
   clientId: Config.WEB3_AUTH_CLIENT_ID,
   network: constants.OPENLOGIN_NETWORK.TESTNET,

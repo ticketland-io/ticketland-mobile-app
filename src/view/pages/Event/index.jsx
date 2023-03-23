@@ -50,15 +50,21 @@ const Event = ({route, navigation}) => {
           return ticketCounts[sale.ticket_type_index]
         })
 
-        const imageColors = await getImageColors(get_event_cover_image_path(result.event_id, result.file_type))
+        const imageColors = await getImageColors(get_event_cover_image_path(result.event_id))
 
         setColorFont(invertColor(imageColors, true))
         setFullScannedTypes(fullScannedTmp)
         setEvent(result)
         setTicketsCount(ticketCounts)
-        setEventImage(get_event_cover_image_path(result.event_id, result.file_type))
-        setTicketImage(get_event_ticket_image_path(result.event_id, result.file_type))
-
+        setEventImage(get_event_cover_image_path(result.event_id))
+        setTicketImage(
+          get_event_ticket_image_path(
+            result.event_id,
+            result.start_date,
+            result.end_date,
+            result.ticket_images,
+          ),
+        )
       } catch (error) {
         console.log(error)
         //ignore

@@ -150,7 +150,8 @@ export default makeStyles(theme => ({
   eventBgImage: {
     height: 180,
     borderBottomRightRadius: 24,
-    borderBottomLeftRadius: 24
+    borderBottomLeftRadius: 24,
+    opacity:0.85
   },
   eventBgImageSkeleton: {
     position: 'absolute',

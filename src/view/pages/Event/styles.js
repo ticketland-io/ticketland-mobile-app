@@ -44,7 +44,7 @@ export default makeStyles(theme => ({
     flex: 10,
     fontWeight: 600,
     textAlign: 'center',
-    color:theme.palette.common.black
+    color: theme.palette.common.white
   },
   ticketImage: {
     borderRadius: 8,
@@ -145,13 +145,17 @@ export default makeStyles(theme => ({
   eventBgImageContainer: {
     position: 'absolute',
     top: 0,
-    width: '100%'
-  },
-  eventBgImage: {
-    height: 180,
     borderBottomRightRadius: 24,
     borderBottomLeftRadius: 24,
-    opacity:0.85
+    overflow: 'hidden',
+    width: '100%',
+    height: 180,
+
+  },
+  eventBgImage: {
+    height: '100%',
+    width: '100%',
+    zIndex: 2,
   },
   eventBgImageSkeleton: {
     position: 'absolute',
@@ -159,5 +163,14 @@ export default makeStyles(theme => ({
     borderBottomRightRadius: 24,
     borderBottomLeftRadius: 24,
     height: 180
+  },
+  bgViewOverlay: {
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    zIndex: 2,
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)'
   }
 }))

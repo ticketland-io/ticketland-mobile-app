@@ -152,10 +152,10 @@ const Event = ({route, navigation}) => {
   const renderBgImage = () => !loading
     ? (
       <View style={classes.eventBgImageContainer}>
+        <View style={classes.bgViewOverlay} />
         <Image
           source={{uri: eventImage}}
           style={classes.eventBgImage}
-          blurRadius={2}
         />
       </View>
     )
@@ -170,7 +170,7 @@ const Event = ({route, navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       {
         Platform.OS === 'ios' &&
-        <StatusBar animated={true} barStyle={'dark-content'}/>
+        <StatusBar animated={true} barStyle={'dark-content'} />
       }
       {renderBgImage()}
       <View style={classes.container}>

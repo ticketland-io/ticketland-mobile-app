@@ -58,7 +58,7 @@ export const getTheme = () => createTheme({
   components: {
     Text: (prop) => ({
       style: {
-        fontFamily: 'Poppins-Regular'
+        fontFamily: 'Comfortaa-Regular'
       },
       h1Style: {
         color: colors.gray800,

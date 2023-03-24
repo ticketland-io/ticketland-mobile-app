@@ -9,7 +9,6 @@ import {
   get_event_cover_image_path,
   get_event_ticket_image_path
 } from '../../../services/event'
-import {getImageColors, invertColor} from '../../../helpers/color'
 import {Context} from '../../core/Store'
 import CalendarIcon from '../../../assets/calendarIcon.png'
 import QrIcon from '../../../assets/qr-code-line.png'
@@ -27,7 +26,6 @@ const Event = ({route, navigation}) => {
   const [eventFullScanned, setEventFullScanned] = useState(false)
   const [ticketsCount, setTicketsCount] = useState([])
   const [loading, setLoading] = useState(false)
-  const [colorFont, setColorFont] = useState(false)
   const {eventId} = route.params
   const classes = useStyles()
 
@@ -50,9 +48,6 @@ const Event = ({route, navigation}) => {
           return ticketCounts[sale.ticket_type_index]
         })
 
-        const imageColors = await getImageColors(get_event_cover_image_path(result.event_id))
-
-        setColorFont(invertColor(imageColors, true))
         setFullScannedTypes(fullScannedTmp)
         setEvent(result)
         setTicketsCount(ticketCounts)

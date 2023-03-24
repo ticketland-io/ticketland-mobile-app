@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "711003129445-f68uaf1f7mv3mgfs6mrpq8p0g1smnp0p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ticketlandmobileapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "711003129445-2js3agurj1cg8vleo0s4o4reppep444u.apps.googleusercontent.com",
           "client_type": 3
         }

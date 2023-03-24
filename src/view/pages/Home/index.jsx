@@ -172,7 +172,7 @@ const Home = ({navigation}) => {
           loop={false}
           style={{width: '100%'}}
           data={todayEvents}
-      renderItem={renderCarouselItem(false)}
+          renderItem={renderCarouselItem(false)}
         />
         : (
           <Text h5 style={{textAlign: 'center'}}>
@@ -223,7 +223,7 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-       {
+      {
         Platform.OS === 'ios' &&
         <StatusBar animated={true} barStyle={'dark-content'} />
       }

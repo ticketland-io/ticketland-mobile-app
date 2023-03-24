@@ -152,11 +152,11 @@ const Event = ({route, navigation}) => {
   const renderBgImage = () => !loading
     ? (
       <View style={classes.eventBgImageContainer}>
-        <View style={classes.bgViewOverlay} />
         <Image
           source={{uri: eventImage}}
           style={classes.eventBgImage}
         />
+        <View style={classes.bgViewOverlay} />
       </View>
     )
     : (

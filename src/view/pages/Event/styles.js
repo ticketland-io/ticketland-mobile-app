@@ -167,9 +167,6 @@ export default makeStyles(theme => ({
   bgViewOverlay: {
     width: '100%',
     position: 'absolute',
-    top: 0,
-    bottom: 0,
-    zIndex: 2,
     height: '100%',
     backgroundColor: 'rgba(0,0,0,0.5)'
   }

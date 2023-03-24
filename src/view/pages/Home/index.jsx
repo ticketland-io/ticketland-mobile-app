@@ -214,7 +214,10 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <StatusBar animated={true} barStyle='dark-content' />
+       {
+        Platform.OS === 'ios' &&
+        <StatusBar animated={true} barStyle={'dark-content'} />
+      }
       {/* GestureHandlerRootView added for android use */}
       <GestureHandlerRootView>
         <ScrollView

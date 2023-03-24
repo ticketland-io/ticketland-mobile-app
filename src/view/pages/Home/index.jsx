@@ -27,7 +27,7 @@ const DEFAULT_LIMIT = 5
 
 const Home = ({navigation}) => {
   const [state] = useContext(Context)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(0)
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
   const [todayEvents, setTodayEvents] = useState([])
@@ -44,7 +44,7 @@ const Home = ({navigation}) => {
         await fetchEvents(
           state.firebase,
           {
-            skip: currentPage - 1,
+            skip: 0,
             limit: 20,
             search: searchFilter,
             startDateFrom: getStartOfDay(),
@@ -58,7 +58,7 @@ const Home = ({navigation}) => {
         await fetchEvents(
           state.firebase,
           {
-            skip: currentPage - 1,
+            skip: 0,
             search: searchFilter,
             startDateFrom: getStartOfTomorrow()
           },
@@ -154,11 +154,12 @@ const Home = ({navigation}) => {
     </View>
   )
 
-  const renderCarouselItem = ({item}) => (
+  const renderCarouselItem = loadingStatus => ({item}) => (
     <Card
-      key={item.event_id}
-      event={item}
+      key={!loadingStatus && item.event_id}
+      event={!loadingStatus && item}
       containerStyle={{paddingHorizontal: 16}}
+      loading={loadingStatus}
     />
   )
 
@@ -171,7 +172,7 @@ const Home = ({navigation}) => {
           loop={false}
           style={{width: '100%'}}
           data={todayEvents}
-          renderItem={renderCarouselItem}
+      renderItem={renderCarouselItem(false)}
         />
         : (
           <Text h5 style={{textAlign: 'center'}}>
@@ -182,9 +183,15 @@ const Home = ({navigation}) => {
   const renderCarousel = () => !loading
     ? renderTodayEvents()
     : (
-      <Card
-        loading={true}
-        containerStyle={{paddingHorizontal: 16}}
+      <Carousel
+        snapEnabled={false}
+        pagingEnabled={false}
+        width={340}
+        height={330}
+        loop={false}
+        style={{width: '100%'}}
+        data={[...new Array(2)]}
+        renderItem={renderCarouselItem(true)}
       />
     )
 
@@ -197,7 +204,7 @@ const Home = ({navigation}) => {
       const {result} = await fetchEvents(
         state.firebase,
         {
-          skip: currentPage,
+          skip: currentPage + 1,
           search: searchFilter,
           startDateFrom: getStartOfTomorrow()
         },
@@ -205,10 +212,12 @@ const Home = ({navigation}) => {
       )
 
       setUpcomingEvents([...upcomingEvents, ...result])
+
       if (result.length < DEFAULT_LIMIT) {
         setStopFetching(true)
-      }
+      } else {
       setCurrentPage(currentPage + 1)
+      }
     }
   }
 

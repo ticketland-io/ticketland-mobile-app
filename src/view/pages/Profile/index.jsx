@@ -3,7 +3,7 @@ import {SafeAreaView, View} from 'react-native'
 import AntIcon from "react-native-vector-icons/AntDesign";
 import {Button, Image, Text} from '@rneui/themed'
 import {Context} from '../../core/Store'
-import {setMode} from '../../../data/actions';
+import {setMode, setWeb3} from '../../../data/actions';
 import Shadow from '../../components/Shadow'
 import useStyles from './styles'
 
@@ -14,6 +14,7 @@ const Profile = ({navigation}) => {
   const signOut = async () => {
     try {
       await state.firebase.signOutUser()
+      dispatch(setWeb3(null))
     } catch (error) {
       //ignore
     }

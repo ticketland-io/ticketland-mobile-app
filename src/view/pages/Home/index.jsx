@@ -144,7 +144,7 @@ const Home = ({navigation}) => {
         title={'Upcoming'}
       />
       {!loading
-        ? checkUpcomingEvents()
+        ? renderUpcomingEvents()
         : <Card
           loading={true}
           containerStyle={classes.upcomingEventsCard}

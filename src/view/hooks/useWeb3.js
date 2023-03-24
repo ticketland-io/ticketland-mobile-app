@@ -8,11 +8,11 @@ export default () => {
 
   useEffect(() => {
     const initWeb3 = async () => {
-      if (state.connection && state.user && !state.web3) {
+      if (state.connection && state.user?.uid && !state.web3) {
         const _web3 = Web3()
 
         if (state.walletType === 'custody') {
-          const custodyWallet = await state.eutopicCore.bootstrap(state.user)
+          const custodyWallet = await state.walletCore.bootstrap(state.user)
           await _web3.init(state.connection, custodyWallet)
         }
 
@@ -21,7 +21,7 @@ export default () => {
     }
 
     initWeb3().catch(error => console.error('Failed to initialize web3: ', error))
-  }, [state.connection, state.user])
+  }, [state.connection, state.user?.uid])
 
   return web3
 }

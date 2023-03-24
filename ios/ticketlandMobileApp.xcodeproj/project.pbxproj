@@ -13,7 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		186F870D299D43EC00B96A9A /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186F870C299D43EC00B96A9A /* BootSplash.storyboard */; };
 		187456A72975CD62005C11A4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 187456A62975CD62005C11A4 /* GoogleService-Info.plist */; };
-		5066476C1BD14EEEB4EF12B1 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E4C63355DDF487CA97CF163 /* Poppins-Regular.ttf */; };
+		2586F7BD5E1542BC8B207775 /* Comfortaa-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 931726FD70AE4148917048BD /* Comfortaa-Regular.ttf */; };
 		813FB6434537D1EB4D9339BE /* Pods_ticketlandMobileApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A2E5C99FB5E19CF7BBF03C /* Pods_ticketlandMobileApp.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		89FB3E766A6428D0C068AE9A /* Pods_ticketlandMobileApp_ticketlandMobileAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93EFE586A5E18FAA8D8302A7 /* Pods_ticketlandMobileApp_ticketlandMobileAppTests.framework */; };
@@ -48,8 +48,8 @@
 		47259C789453F918814CC841 /* Pods-ticketlandMobileApp-ticketlandMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ticketlandMobileApp-ticketlandMobileAppTests.release.xcconfig"; path = "Target Support Files/Pods-ticketlandMobileApp-ticketlandMobileAppTests/Pods-ticketlandMobileApp-ticketlandMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		48A2E5C99FB5E19CF7BBF03C /* Pods_ticketlandMobileApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ticketlandMobileApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D7FB9273863405D821AA42E /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
-		4E4C63355DDF487CA97CF163 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../src/assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ticketlandMobileApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		931726FD70AE4148917048BD /* Comfortaa-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Comfortaa-Regular.ttf"; path = "../src/assets/fonts/Comfortaa-Regular.ttf"; sourceTree = "<group>"; };
 		93EFE586A5E18FAA8D8302A7 /* Pods_ticketlandMobileApp_ticketlandMobileAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ticketlandMobileApp_ticketlandMobileAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97E1CF711F119591409534EB /* Pods-ticketlandMobileApp-ticketlandMobileAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ticketlandMobileApp-ticketlandMobileAppTests.debug.xcconfig"; path = "Target Support Files/Pods-ticketlandMobileApp-ticketlandMobileAppTests/Pods-ticketlandMobileApp-ticketlandMobileAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -121,8 +121,8 @@
 		5B751A58CA3A430AB71C7987 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				4E4C63355DDF487CA97CF163 /* Poppins-Regular.ttf */,
 				4D7FB9273863405D821AA42E /* Montserrat-Regular.ttf */,
+				931726FD70AE4148917048BD /* Comfortaa-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -269,8 +269,8 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				187456A72975CD62005C11A4 /* GoogleService-Info.plist in Resources */,
 				186F870D299D43EC00B96A9A /* BootSplash.storyboard in Resources */,
-				5066476C1BD14EEEB4EF12B1 /* Poppins-Regular.ttf in Resources */,
 				C9F45E17332B416BA31F5846 /* Montserrat-Regular.ttf in Resources */,
+				2586F7BD5E1542BC8B207775 /* Comfortaa-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

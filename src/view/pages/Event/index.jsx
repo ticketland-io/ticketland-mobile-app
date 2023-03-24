@@ -90,6 +90,7 @@ const Event = ({route, navigation}) => {
     <View style={classes.firstInnerContainer}>
       <View style={{flex: 2}}>
         <Button
+          type="outline"
           onPress={navigation.goBack}
           buttonStyle={classes.backButton}
         >
@@ -100,7 +101,7 @@ const Event = ({route, navigation}) => {
           />
         </Button>
       </View>
-      <Text h4 style={[classes.eventName, {color: colorFont}]} >
+      <Text h4 style={classes.eventName}>
         {event.name}
       </Text>
       <View style={{flex: 2}} />
@@ -159,6 +160,7 @@ const Event = ({route, navigation}) => {
         <Image
           source={{uri: eventImage}}
           style={classes.eventBgImage}
+          blurRadius={2}
         />
       </View>
     )
@@ -173,10 +175,7 @@ const Event = ({route, navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       {
         Platform.OS === 'ios' &&
-        <StatusBar
-          animated={true}
-          barStyle={colorFont === '#FFFFFF' ? 'light-content' : 'dark-content'}
-        />
+        <StatusBar animated={true} barStyle={'dark-content'}/>
       }
       {renderBgImage()}
       <View style={classes.container}>

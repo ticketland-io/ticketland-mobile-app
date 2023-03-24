@@ -34,7 +34,7 @@ export default makeStyles(theme => ({
   backButton: {
     width: 36,
     height: 36,
-    backgroundColor: theme.palette.common.white
+    backgroundColor: theme.palette.common.white,
   },
   leftButtonIcon: {
     width: 15,
@@ -44,6 +44,7 @@ export default makeStyles(theme => ({
     flex: 10,
     fontWeight: 600,
     textAlign: 'center',
+    color:theme.palette.common.black
   },
   ticketImage: {
     borderRadius: 8,

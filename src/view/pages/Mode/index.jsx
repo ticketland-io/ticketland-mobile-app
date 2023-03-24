@@ -52,7 +52,7 @@ const Mode = ({navigation}) => {
                 buttonStyle={classes.buttonStyle}
                 onPress={setAppMode('organizer')}
               >
-                Organizer mode
+                Organizer
               </Button>
             </View>
           </Shadow>

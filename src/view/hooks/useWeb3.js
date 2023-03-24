@@ -9,7 +9,7 @@ export default () => {
   useEffect(() => {
     const initWeb3 = async () => {
       if (state.connection && state.user?.uid && !state.web3) {
-          const _web3 = Web3()
+        const _web3 = Web3()
 
         if (state.walletType === 'custody') {
           const custodyWallet = await state.walletCore.bootstrap(state.user)

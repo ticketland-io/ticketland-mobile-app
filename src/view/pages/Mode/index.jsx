@@ -45,14 +45,14 @@ const Mode = ({navigation}) => {
                 buttonStyle={classes.buttonStyle}
                 onPress={setAppMode('user')}
               >
-                User mode
+                User
               </Button>
               <Button
                 containerStyle={classes.organizerButtonContainer}
                 buttonStyle={classes.buttonStyle}
                 onPress={setAppMode('organizer')}
               >
-                Organizer mode
+                Organizer
               </Button>
             </View>
           </Shadow>

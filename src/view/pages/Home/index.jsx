@@ -154,12 +154,11 @@ const Home = ({navigation}) => {
     </View>
   )
 
-  const renderCarouselItem = loadingStatus => ({item, index}) => (
+  const renderCarouselItem = ({item}) => (
     <Card
-      key={loadingStatus ? index : item.event_id}
+      key={item.event_id}
       event={item}
       containerStyle={{paddingHorizontal: 16}}
-      loading={loadingStatus}
     />
   )
 
@@ -172,7 +171,7 @@ const Home = ({navigation}) => {
           loop={false}
           style={{width: '100%'}}
           data={todayEvents}
-          renderItem={renderCarouselItem(false)}
+      renderItem={renderCarouselItem}
         />
         : (
           <Text h5 style={{textAlign: 'center'}}>
@@ -183,16 +182,16 @@ const Home = ({navigation}) => {
   const renderCarousel = () => !loading
     ? renderTodayEvents()
     : (
-      <Carousel
-        snapEnabled={false}
-        pagingEnabled={false}
-        width={340}
-        height={330}
-        loop={false}
-        style={{width: '100%'}}
-        data={[...new Array(2)]}
-        renderItem={renderCarouselItem(true)}
-      />
+      <View style={{flexDirection: 'row'}}>
+        <Card
+          containerStyle={classes.skeletonCard}
+          loading={true}
+        />
+        <Card
+          containerStyle={{paddingHorizontal: 16}}
+          loading={true}
+        />
+      </View>
     )
 
   const onRefresh = useCallback(() => {

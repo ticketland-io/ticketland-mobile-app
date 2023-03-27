@@ -1,7 +1,14 @@
 import Config from 'react-native-config';
 import fetch, {createBearerHeader} from "./api"
 
-export const verifyTicket = async (ticketMetadata, ticketNft, eventId, codeChallenge, ticketOwnerPubkey, sig) => {
+export const verifyTicket = async (
+  ticketMetadata,
+  ticketNft,
+  eventId,
+  codeChallenge,
+  ticketOwnerPubkey,
+  sig
+) => {
   return await fetch(
     `${Config.TICKETLAND_API}/tickets/${ticketNft}/verifications`,
     'POST',

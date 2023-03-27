@@ -64,7 +64,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Required for qr-code scanning</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -82,8 +82,8 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Octicons.ttf</string>
 		<string>Zocial.ttf</string>
-		<string>Poppins-Regular.ttf</string>
 		<string>Montserrat-Regular.ttf</string>
+		<string>Comfortaa-Regular.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash.storyboard</string>

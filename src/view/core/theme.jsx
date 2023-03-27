@@ -4,6 +4,7 @@ const colors = {
   black: '#000000',
   white: '#ffffff',
   darkGray: '#0B0C0E',
+  gray96: '#FCFCFC',
   gray97: '#F8F8F8',
   gray98: '#FAFAFA',
   gray100: '#F2F2F3',
@@ -57,7 +58,7 @@ export const getTheme = () => createTheme({
   components: {
     Text: (prop) => ({
       style: {
-        fontFamily: 'Poppins-Regular'
+        fontFamily: 'Comfortaa-Regular'
       },
       h1Style: {
         color: colors.gray800,

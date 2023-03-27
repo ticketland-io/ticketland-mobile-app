@@ -27,7 +27,7 @@ const DEFAULT_LIMIT = 5
 
 const Home = ({navigation}) => {
   const [state] = useContext(Context)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(0)
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
   const [todayEvents, setTodayEvents] = useState([])
@@ -44,7 +44,7 @@ const Home = ({navigation}) => {
         await fetchEvents(
           state.firebase,
           {
-            skip: currentPage - 1,
+            skip: 0,
             limit: 20,
             search: searchFilter,
             startDateFrom: getStartOfDay(),
@@ -58,7 +58,7 @@ const Home = ({navigation}) => {
         await fetchEvents(
           state.firebase,
           {
-            skip: currentPage - 1,
+            skip: 0,
             search: searchFilter,
             startDateFrom: getStartOfTomorrow()
           },
@@ -171,7 +171,7 @@ const Home = ({navigation}) => {
           loop={false}
           style={{width: '100%'}}
           data={todayEvents}
-          renderItem={renderCarouselItem}
+      renderItem={renderCarouselItem}
         />
         : (
           <Text h5 style={{textAlign: 'center'}}>
@@ -182,10 +182,16 @@ const Home = ({navigation}) => {
   const renderCarousel = () => !loading
     ? renderTodayEvents()
     : (
-      <Card
-        loading={true}
-        containerStyle={{paddingHorizontal: 16}}
-      />
+      <View style={{flexDirection: 'row'}}>
+        <Card
+          containerStyle={classes.skeletonCard}
+          loading={true}
+        />
+        <Card
+          containerStyle={{paddingHorizontal: 16}}
+          loading={true}
+        />
+      </View>
     )
 
   const onRefresh = useCallback(() => {
@@ -197,7 +203,7 @@ const Home = ({navigation}) => {
       const {result} = await fetchEvents(
         state.firebase,
         {
-          skip: currentPage,
+          skip: currentPage + 1,
           search: searchFilter,
           startDateFrom: getStartOfTomorrow()
         },
@@ -205,16 +211,21 @@ const Home = ({navigation}) => {
       )
 
       setUpcomingEvents([...upcomingEvents, ...result])
+
       if (result.length < DEFAULT_LIMIT) {
         setStopFetching(true)
-      }
+      } else {
       setCurrentPage(currentPage + 1)
+      }
     }
   }
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <StatusBar animated={true} barStyle='dark-content' />
+      {
+        Platform.OS === 'ios' &&
+        <StatusBar animated={true} barStyle={'dark-content'} />
+      }
       {/* GestureHandlerRootView added for android use */}
       <GestureHandlerRootView>
         <ScrollView

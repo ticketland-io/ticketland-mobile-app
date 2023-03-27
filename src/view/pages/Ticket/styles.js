@@ -17,7 +17,7 @@ export default makeStyles(theme => ({
     borderWidth: 1,
     borderRadius: 8,
     borderColor: theme.palette.common.gray100,
-    backgroundColor: '#FCFCFC',
+    backgroundColor: theme.palette.common.gray96,
     paddingHorizontal: 16,
     paddingVertical: 8,
     alignItems: 'center'

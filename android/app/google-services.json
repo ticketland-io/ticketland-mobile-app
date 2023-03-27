@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "711003129445-f827t7e7abdbm56ml5teb1gu3g7trdq6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ticketlandmobileapp",
+            "certificate_hash": "81e65f8a53ecede3260a8c990b23357deb6cf8c1"
+          }
+        },
+        {
           "client_id": "711003129445-2js3agurj1cg8vleo0s4o4reppep444u.apps.googleusercontent.com",
           "client_type": 3
         }

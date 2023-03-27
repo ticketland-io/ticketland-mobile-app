@@ -12,19 +12,16 @@ const ScannedTickets = props => {
   const [totalScannedTickets, setTotalScannedTickets] = useState(0)
 
   useEffect(() => {
-    const run = () => {
-      const result = ticketsCount.reduce((acc, cur) => {
-        acc.totalTickets += cur.total_count
-        acc.totalScanned += cur.attended_count
+    const result = ticketsCount.reduce((acc, cur) => {
+      acc.totalTickets += cur.total_count
+      acc.totalScanned += cur.attended_count
 
-        return acc
-      }, {totalTickets: 0, totalScanned: 0})
+      return acc
+    }, {totalTickets: 0, totalScanned: 0})
 
-      setTotalTickets(result.totalTickets)
-      setTotalScannedTickets(result.totalScanned)
-    }
+    setTotalTickets(result.totalTickets)
+    setTotalScannedTickets(result.totalScanned)
 
-    ticketsCount.length > 0 && run()
   }, [JSON.stringify(ticketsCount)])//using stringify for deep comparison with prev state
 
   const renderBars = () => !loading

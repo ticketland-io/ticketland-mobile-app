@@ -86,5 +86,49 @@ export default makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     height: 34
+  },
+  eventBgImageContainer: {
+    position: 'absolute',
+    top: 0,
+    borderBottomRightRadius: 24,
+    borderBottomLeftRadius: 24,
+    overflow: 'hidden',
+    width: '100%',
+    height: 180,
+  },
+  eventBgImage: {
+    height: '100%',
+    width: '100%',
+    zIndex: 2,
+  },
+  eventBgImageSkeleton: {
+    position: 'absolute',
+    top: 0,
+    borderBottomRightRadius: 24,
+    borderBottomLeftRadius: 24,
+    height: 180
+  },
+  bgViewOverlay: {
+    width: '100%',
+    position: 'absolute',
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)'
+  },
+  carousel: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  carouselItem: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center'
+  },
+  carouselContainer: {
+    position: 'absolute',
+    top: 80,
+    width: 450,
+    height: 350
   }
 }))

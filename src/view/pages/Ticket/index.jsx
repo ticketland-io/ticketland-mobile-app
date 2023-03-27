@@ -28,7 +28,6 @@ const Ticket = ({route, navigation}) => {
   const [loading, setLoading] = useState(false)
   const [timer, setTimer] = useState(60)
   const [timerId, setTimerId] = useState(0)
-  const [colorFont, setColorFont] = useState(false)
 
   const getFilteredTickets = async () => {
     const {result} = await fetchTickets(state.firebase, eventId)
@@ -57,7 +56,6 @@ const Ticket = ({route, navigation}) => {
         get_event_cover_image_path(result.event_id),
       )
 
-      setColorFont(invertColor(imageColors, true))
       setTickets(tickets)
       setEvent(result)
       setEventImage(
@@ -136,7 +134,7 @@ const Ticket = ({route, navigation}) => {
           <AntIcon name="left" size={15} style={classes.leftButtonIcon} />
         </Button>
       </View>
-      <Text h4 style={[classes.eventName, {color: colorFont}]}>
+      <Text h4 style={classes.eventName}>
         {event.name}
       </Text>
       <View style={{flex: 2}} />
@@ -188,41 +186,42 @@ const Ticket = ({route, navigation}) => {
     </View>
   )
 
+  const renderCarouselItem = ({item, index}) => (
+    <View
+      style={classes.carouselItem}
+      key={index}
+    >
+      {qrCodeData.length > 0 ? (
+        <QRCode
+          value={qrCodeData[index]}
+          logo={Logo}
+          logoSize={70}
+          logoBackgroundColor="white"
+          size={250}
+        />
+      ) : null}
+      <View
+        style={[
+          classes.ticketButton,
+          {backgroundColor: item.attended ? '#60b563' : '#FFED00'},
+        ]}
+      >
+        <Image source={TicketIcon} style={classes.ticketIcon} />
+        <Text h7>
+          {item.name} #{item.seat_index}
+        </Text>
+      </View>
+    </View>
+  )
+
   const renderCarousel = () =>
     !loading ? (
       <Carousel
-        width={280}
+        width={270}
         loop={false}
-        style={{flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center'}}
+        style={classes.carousel}
         data={tickets}
-        renderItem={({item, index}) => (
-          <View
-            style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}
-            key={index}
-          >
-            {qrCodeData.length > 0 ? (
-              <QRCode
-                value={qrCodeData[index]}
-                logo={Logo}
-                logoSize={70}
-                logoBackgroundColor="white"
-                size={250}
-              />
-            ) : null}
-            <View
-              style={[
-                classes.ticketButton,
-                {backgroundColor: item.attended ? '#60b563' : '#FFED00'},
-              ]}
-            >
-              <Image source={TicketIcon} style={classes.ticketIcon} />
-              <Text h7>
-                {item.name} #{item.seat_index}
-              </Text>
-            </View>
-          </View>
-        )
-        }
+        renderItem={renderCarouselItem}
       />
     ) : (
       <View
@@ -235,45 +234,36 @@ const Ticket = ({route, navigation}) => {
         }}
       >
         <View style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}>
-          <Skeleton width={250} height={250} />
+          <Skeleton width={270} height={270} />
         </View>
-        <View style={{flex: 1, alignSelf: 'center', justifyContent: 'center', marginTop: 65}}>
-          <Skeleton width={250} height={35} />
+        <View style={{flex: 1, alignSelf: 'center', justifyContent: 'center', marginTop: 85}}>
+          <Skeleton width={270} height={35} />
         </View>
       </View>
     )
 
-  const renderBgImage = () =>
-    !loading ? (
-      <View style={{position: 'absolute', top: 0, width: '100%'}}>
+  const renderBgImage = () => !loading
+    ? (
+      <View style={classes.eventBgImageContainer}>
         <Image
           source={{uri: eventImage}}
-          style={{
-            height: 180,
-            borderBottomRightRadius: 24,
-            borderBottomLeftRadius: 24,
-          }}
+          style={classes.eventBgImage}
         />
+        <View style={classes.bgViewOverlay} />
       </View>
-    ) : (
+    )
+    : (
       <Skeleton
         height={180}
-        style={{
-          position: 'absolute',
-          top: 0,
-          borderBottomRightRadius: 24,
-          borderBottomLeftRadius: 24,
-        }}
+        style={classes.eventBgImageSkeleton}
       />
     )
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      {Platform.OS === 'ios' &&
-        <StatusBar
-          animated={true}
-          barStyle={colorFont === '#FFFFFF' ? 'light-content' : 'dark-content'}
-        />
+      {
+        Platform.OS === 'ios' &&
+        <StatusBar animated={true} barStyle={'dark-content'} />
       }
       {renderBgImage()}
       <GestureHandlerRootView style={{flex: 1}}>
@@ -283,7 +273,9 @@ const Ticket = ({route, navigation}) => {
           <View style={classes.qrCodeContainer}>
             <Text h4>Scan the ticket QR Code</Text>
             <Text>Refresh in: {timer}</Text>
-            {renderCarousel()}
+            <View style={classes.carouselContainer}>
+              {renderCarousel()}
+            </View>
           </View>
         </View>
       </GestureHandlerRootView>

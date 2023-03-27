@@ -150,7 +150,6 @@ export default makeStyles(theme => ({
     overflow: 'hidden',
     width: '100%',
     height: 180,
-
   },
   eventBgImage: {
     height: '100%',

@@ -23,3 +23,29 @@ export const getStartOfTomorrow = () => {
 
   return Math.floor(Date.parse(startOfDayUTC) / 1000)
 }
+
+export const MS_IN_SECOND = 1000
+
+export const duration = {
+  milliseconds(val) {
+    return val
+  },
+  seconds(val) {
+    return val * this.milliseconds(MS_IN_SECOND)
+  },
+  minutes(val) {
+    return val * this.seconds(60)
+  },
+  hours(val) {
+    return val * this.minutes(60)
+  },
+  days(val) {
+    return val * this.hours(24)
+  },
+  weeks(val) {
+    return val * this.days(7)
+  },
+  years(val) {
+    return val * this.days(365)
+  },
+}

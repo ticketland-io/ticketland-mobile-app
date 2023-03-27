@@ -81,7 +81,7 @@ const Ticket = ({route, navigation}) => {
       setTimerId(
         setTimeout(() => {
           setTimer(timer - 1)
-        }, 1000),
+        }, duration.seconds(1)),
       )
     } else {
       clearTimeout(timerId)
@@ -108,7 +108,7 @@ const Ticket = ({route, navigation}) => {
                 ticket.ticket_metadata,
               ),
               eventId: eventId,
-              expTimestamp: Date.now() + 60000,
+              expTimestamp: Date.now() + duration.minutes(1),
             })
           } catch (error) {
             //ignore

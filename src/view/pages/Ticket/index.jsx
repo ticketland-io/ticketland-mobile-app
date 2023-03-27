@@ -240,10 +240,7 @@ const Ticket = ({route, navigation}) => {
       </View>
     )
     : (
-      <Skeleton
-        height={180}
-        style={classes.eventBgImageSkeleton}
-      />
+      <Skeleton height={180} style={classes.eventBgImageSkeleton} />
     )
 
   return (

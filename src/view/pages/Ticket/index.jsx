@@ -17,6 +17,7 @@ import {
   get_event_cover_image_path,
   get_event_ticket_image_path
 } from '../../../services/event'
+import {duration} from '../../../helpers/time'
 import useStyles from './styles'
 
 const Ticket = ({route, navigation}) => {

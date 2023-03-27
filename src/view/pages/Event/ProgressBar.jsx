@@ -44,7 +44,6 @@ const ProgressBar = props => {
                       {scannedTickets}
                     </Text>
                   </View>
-
                 )
                 : (
                   <Text>

@@ -12,7 +12,11 @@ import TicketIcon from '../../../assets/ticket.png'
 import CalendarIcon from '../../../assets/calendarIcon.png'
 import {fetchTickets, normalizeEventId} from '../../../services/ticket'
 import {getSignedMessage} from '../../../services/message'
-import {fetchEvent, get_event_cover_image_path, get_event_ticket_image_path} from '../../../services/event'
+import {
+  fetchEvent,
+  get_event_cover_image_path,
+  get_event_ticket_image_path
+} from '../../../services/event'
 import useStyles from './styles'
 
 const Ticket = ({route, navigation}) => {

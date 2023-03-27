@@ -157,7 +157,7 @@ const Home = ({navigation}) => {
   const renderCarouselItem = loadingStatus => ({item, index}) => (
     <Card
       key={loadingStatus ? index : item.event_id}
-      event={!loadingStatus && item}
+      event={item}
       containerStyle={{paddingHorizontal: 16}}
       loading={loadingStatus}
     />

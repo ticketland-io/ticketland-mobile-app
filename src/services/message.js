@@ -2,7 +2,6 @@ import * as borsh from 'borsh'
 import * as bs58 from 'bs58'
 import {Platform} from 'react-native'
 
-// TODO: move all this logic to the online ticket verification app
 class VerifyTicketMsg {
   constructor(eventId, codeChallenge, ticketMetadata) {
     this.eventId = eventId

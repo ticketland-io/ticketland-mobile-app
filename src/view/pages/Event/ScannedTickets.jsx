@@ -24,7 +24,7 @@ const ScannedTickets = props => {
       setTotalScannedTickets(result.totalScanned)
     }
 
-    ticketsCount.length && run()
+    ticketsCount.length > 0 && run()
   }, [JSON.stringify(ticketsCount)])//using stringify for deep comparison with prev state
 
   const renderBars = () => !loading

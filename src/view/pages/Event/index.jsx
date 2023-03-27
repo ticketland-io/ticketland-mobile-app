@@ -78,7 +78,7 @@ const Event = ({route, navigation}) => {
       }
     }
 
-    fullScannedTypes.length && run()
+    fullScannedTypes.length > 0 && run()
   }, [fullScannedTypes])
 
   const renderHeader = () => (

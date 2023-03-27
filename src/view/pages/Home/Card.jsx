@@ -15,7 +15,7 @@ const Card = props => {
     event,
     style = '',
     containerStyle = '',
-    loading
+    loading = false
   } = props
   const [totalScanned, setTotalScanned] = useState(0)
   const [state] = useContext(Context)

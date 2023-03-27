@@ -154,9 +154,9 @@ const Home = ({navigation}) => {
     </View>
   )
 
-  const renderCarouselItem = loadingStatus => ({item}) => (
+  const renderCarouselItem = loadingStatus => ({item, index}) => (
     <Card
-      key={!loadingStatus && item.event_id}
+      key={loadingStatus ? index : item.event_id}
       event={!loadingStatus && item}
       containerStyle={{paddingHorizontal: 16}}
       loading={loadingStatus}

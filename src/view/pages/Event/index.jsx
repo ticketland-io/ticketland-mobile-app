@@ -22,7 +22,6 @@ const Event = ({route, navigation}) => {
   const [eventImage, setEventImage] = useState()
   const [ticketImage, setTicketImage] = useState()
   const [cameraModalVisible, setCameraModalVisible] = useState(false)
-  const [fullScannedTypes, setFullScannedTypes] = useState([])
   const [eventFullScanned, setEventFullScanned] = useState(false)
   const [ticketsCount, setTicketsCount] = useState([])
   const [loading, setLoading] = useState(false)
@@ -36,19 +35,16 @@ const Event = ({route, navigation}) => {
       try {
         const [result] = (await fetchEvent(state.firebase, eventId)).result
         let ticketCounts = (await fetchAttendedCount(state.firebase, eventId)).result
-        const fullScannedTmp = []
 
         ticketCounts = result.sales.map((sale) => {
           ticketCounts[sale.ticket_type_index].name = sale.ticket_type_name
 
-          if (ticketCounts[sale.ticket_type_index].attended_count === ticketCounts[sale.ticket_type_index].total_count) {
-            fullScannedTmp.push(sale.ticket_type_name)
-          }
-
           return ticketCounts[sale.ticket_type_index]
         })
 
-        setFullScannedTypes(fullScannedTmp)
+        const allTicketsScanned = ticketCounts.every(t => t.attended_count === t.total_count)
+
+        setEventFullScanned(allTicketsScanned)
         setEvent(result)
         setTicketsCount(ticketCounts)
         setEventImage(get_event_cover_image_path(result.event_id))
@@ -70,16 +66,6 @@ const Event = ({route, navigation}) => {
 
     run()
   }, [eventId])
-
-  useEffect(() => {
-    const run = () => {
-      if (fullScannedTypes.length === ticketsCount.length) {
-        setEventFullScanned(true)
-      }
-    }
-
-    fullScannedTypes.length > 0 && run()
-  }, [fullScannedTypes])
 
   const renderHeader = () => (
     <View style={classes.firstInnerContainer}>

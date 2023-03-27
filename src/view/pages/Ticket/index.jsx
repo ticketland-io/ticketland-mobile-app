@@ -13,7 +13,6 @@ import CalendarIcon from '../../../assets/calendarIcon.png'
 import {fetchTickets, normalizeEventId} from '../../../services/ticket'
 import {getSignedMessage} from '../../../services/message'
 import {fetchEvent, get_event_cover_image_path, get_event_ticket_image_path} from '../../../services/event'
-import {getImageColors, invertColor} from '../../../helpers/color'
 import useStyles from './styles'
 
 const Ticket = ({route, navigation}) => {
@@ -51,10 +50,6 @@ const Ticket = ({route, navigation}) => {
 
         return ticket
       })
-
-      const imageColors = await getImageColors(
-        get_event_cover_image_path(result.event_id),
-      )
 
       setTickets(tickets)
       setEvent(result)
@@ -233,11 +228,11 @@ const Ticket = ({route, navigation}) => {
           marginTop: 85,
         }}
       >
-        <View style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}>
-          <Skeleton width={270} height={270} />
+        <View style={classes.skeletonContainer}>
+          <Skeleton width={260} height={260} />
         </View>
-        <View style={{flex: 1, alignSelf: 'center', justifyContent: 'center', marginTop: 85}}>
-          <Skeleton width={270} height={35} />
+        <View style={classes.skeletonButtonContainer}>
+          <Skeleton width={260} height={35} style={{borderRadius: 12}} />
         </View>
       </View>
     )

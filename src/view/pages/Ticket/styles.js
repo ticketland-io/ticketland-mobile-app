@@ -81,7 +81,7 @@ export default makeStyles(theme => ({
   },
   ticketButton: {
     borderRadius: 12,
-    marginTop: 50,
+    marginTop: 35,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -123,12 +123,22 @@ export default makeStyles(theme => ({
   carouselItem: {
     flex: 1,
     alignSelf: 'center',
-    justifyContent: 'center'
   },
   carouselContainer: {
     position: 'absolute',
     top: 80,
     width: 450,
     height: 350
+  },
+  skeletonContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center'
+  },
+  skeletonButtonContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: 85
   }
 }))

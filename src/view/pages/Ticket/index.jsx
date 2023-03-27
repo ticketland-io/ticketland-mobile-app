@@ -92,6 +92,8 @@ const Ticket = ({route, navigation}) => {
 
   useEffect(() => {
     const run = async () => {
+      const {pubkey} = await state.walletCore.fetchAccount()
+
       const qrCodesArray = await Promise.all(
         tickets.map(async ticket => {
           try {
@@ -99,7 +101,7 @@ const Ticket = ({route, navigation}) => {
               ticketMetadata: ticket.ticket_metadata,
               ticketNft: ticket.ticket_nft,
               codeChallenge: '',
-              ticketOwnerPubkey: (await state.walletCore.fetchAccount()).pubkey,
+              ticketOwnerPubkey: pubkey,
               sig: await getSignedMessage(
                 state.web3,
                 normalizeEventId(eventId),

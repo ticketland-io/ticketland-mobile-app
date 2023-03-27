@@ -219,15 +219,7 @@ const Ticket = ({route, navigation}) => {
         renderItem={renderCarouselItem}
       />
     ) : (
-      <View
-        style={{
-          flex: 1,
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 85,
-        }}
-      >
+      <View style={classes.outerSkeletonContainer}>
         <View style={classes.skeletonContainer}>
           <Skeleton width={260} height={260} />
         </View>

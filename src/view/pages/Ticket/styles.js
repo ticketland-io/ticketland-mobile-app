@@ -140,5 +140,12 @@ export default makeStyles(theme => ({
     alignSelf: 'center',
     justifyContent: 'center',
     marginTop: 85
+  },
+  outerSkeletonContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 85,
   }
 }))

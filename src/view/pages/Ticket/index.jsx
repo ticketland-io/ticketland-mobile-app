@@ -35,12 +35,7 @@ const Ticket = ({route, navigation}) => {
   const getFilteredTickets = async () => {
     const {result} = await fetchTickets(state.firebase, eventId)
 
-    const unAttendedTickets = result.reduce(
-      (acc, cur) => (!cur.sell_listing ? [...acc, cur] : acc),
-      [],
-    )
-
-    return unAttendedTickets
+    return result.filter((ticket) => !ticket.sell_listing)
   }
 
   const getEventData = async () => {

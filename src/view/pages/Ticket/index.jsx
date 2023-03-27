@@ -70,6 +70,10 @@ const Ticket = ({route, navigation}) => {
 
   useEffect(() => {
     getEventData()
+
+    return () => {
+      clearTimeout(timerId)
+    };
   }, [eventId])
 
   useEffect(() => {

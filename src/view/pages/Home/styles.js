@@ -121,5 +121,9 @@ export default makeStyles(theme => ({
   searchBarContainer: {
     paddingHorizontal: 16,
     marginTop: 18
+  },
+  skeletonCard: {
+    paddingHorizontal: 16,
+    marginRight: 300
   }
 }))

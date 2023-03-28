@@ -156,7 +156,7 @@ const Event = ({route, navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       {
         Platform.OS === 'ios' &&
-        <StatusBar animated={true} barStyle={'dark-content'} />
+        <StatusBar animated={true} barStyle={'light-content'} />
       }
       {renderBgImage()}
       <View style={classes.container}>

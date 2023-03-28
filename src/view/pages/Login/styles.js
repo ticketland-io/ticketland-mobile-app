@@ -14,7 +14,7 @@ export default makeStyles(theme => ({
     textAlign: 'center',
     marginBottom: 48
   },
-  shadow: {
+  shadowContainer: {
     width: '100%',
     padding: 32
   },
@@ -51,5 +51,9 @@ export default makeStyles(theme => ({
   warningIcon: {
     textAlign: 'center',
     marginBottom: 10
-  }
+  },
+  shadow: loading => ({
+    padding: 24,
+    opacity: loading ? 0.8 : 1
+  })
 }))

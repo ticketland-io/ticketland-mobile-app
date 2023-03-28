@@ -12,29 +12,19 @@ export default makeStyles(theme => ({
   secondInnerContainer: {
     marginBottom: 24
   },
-  scannedTicketsContainer: {
+  qrCodeContainer: {
+    flex: 1,
     borderWidth: 1,
     borderRadius: 8,
     borderColor: theme.palette.common.gray100,
     backgroundColor: theme.palette.common.gray96,
     paddingHorizontal: 16,
-    paddingVertical: 8
-  },
-  scannedTicketsInnerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    marginTop: 16
-  },
-  fourthInnerContainer: {
-    flex: 1,
-    justifyContent: 'flex-end'
+    paddingVertical: 8,
+    alignItems: 'center'
   },
   backButton: {
     width: 36,
-    height: 36,
-    backgroundColor: theme.palette.common.white,
+    height: 36
   },
   leftButtonIcon: {
     width: 15,
@@ -89,61 +79,17 @@ export default makeStyles(theme => ({
     height: 14,
     marginRight: 3,
   },
-  scanButton: {
-    backgroundColor: theme.palette.common.gray800,
-  },
-  scanText: {
-    color: theme.palette.common.white,
-    paddingVertical: 2
-  },
-  totalVisitorsItem: {
+  ticketButton: attended => ({
+    borderRadius: 12,
+    marginTop: 35,
     flexDirection: 'row',
-    alignItems: 'center'
-  },
-  progressBarContainer: {
-    flexDirection: 'row',
-    borderRadius: 8,
-    overflow: 'hidden',
-    position: 'relative',
-    marginTop: 8
-  },
-  progressBarSkeletonContainer: {
-    borderRadius: 8,
-    marginTop: 8,
-    width: '100%',
-    height: 40
-  },
-  yellowProgress: percentage => ({
-    backgroundColor: theme.palette.common.yellow500,
-    height: 40,
-    width: `${percentage}%`
-  }),
-  grayProgress: percentage => ({
-    backgroundColor: theme.palette.common.gray100,
-    height: 40,
-    width: `${100 - percentage}%`
-  }),
-  progressBarInfoContainer: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 16
-  },
-  progressBarTicketInfoItem: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  successItem: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  eventDateSkeleton: {
-    width: 100,
-    marginVertical: 4
-  },
+    height: 34,
+    backgroundColor: attended
+      ? theme.palette.common.green100
+      : theme.palette.common.yellow500
+  }),
   eventBgImageContainer: {
     position: 'absolute',
     top: 0,
@@ -170,5 +116,39 @@ export default makeStyles(theme => ({
     position: 'absolute',
     height: '100%',
     backgroundColor: 'rgba(0,0,0,0.5)'
+  },
+  carousel: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  carouselItem: {
+    flex: 1,
+    alignSelf: 'center',
+  },
+  carouselContainer: {
+    position: 'absolute',
+    top: 80,
+    width: 450,
+    height: 350
+  },
+  skeletonContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center'
+  },
+  skeletonButtonContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: 85
+  },
+  outerSkeletonContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 85,
   }
 }))

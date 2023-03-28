@@ -202,10 +202,7 @@ const Ticket = ({route, navigation}) => {
         />
       ) : null}
       <View
-        style={[
-          classes.ticketButton,
-          classes.ticketButton.background(item.attended)
-        ]}
+        style={classes.ticketButton(item.attended)}
       >
         <Image source={TicketIcon} style={classes.ticketIcon} />
         <Text h7>

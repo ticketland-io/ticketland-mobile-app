@@ -79,17 +79,17 @@ export default makeStyles(theme => ({
     height: 14,
     marginRight: 3,
   },
-  ticketButton: {
+  ticketButton: attended => ({
     borderRadius: 12,
     marginTop: 35,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     height: 34,
-    background: attended => attended
-      ? {backgroundColor: theme.palette.common.green100}
-      : {backgroundColor: theme.palette.common.yellow500}
-  },
+    backgroundColor: attended
+      ? theme.palette.common.green100
+      : theme.palette.common.yellow500
+  }),
   eventBgImageContainer: {
     position: 'absolute',
     top: 0,

@@ -113,14 +113,16 @@ export default makeStyles(theme => ({
     width: '100%',
     height: 40
   },
-  yellowProgress: {
+  yellowProgress: percentage => ({
     backgroundColor: theme.palette.common.yellow500,
     height: 40,
-  },
-  grayProgress: {
+    width: `${percentage}%`
+  }),
+  grayProgress: percentage => ({
     backgroundColor: theme.palette.common.gray100,
     height: 40,
-  },
+    width: `${100 - percentage}%`
+  }),
   progressBarInfoContainer: {
     position: 'absolute',
     width: '100%',

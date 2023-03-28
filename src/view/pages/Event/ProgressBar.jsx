@@ -19,8 +19,8 @@ const ProgressBar = props => {
   return !loading
     ? (
       <View style={classes.progressBarContainer}>
-        <View style={[classes.yellowProgress, {width: `${calculateWidthPercentage()}%`}]} />
-        <View style={[classes.grayProgress, {width: `${100 - calculateWidthPercentage()}%`}]} />
+        <View style={classes.yellowProgress(calculateWidthPercentage())} />
+        <View style={classes.grayProgress(calculateWidthPercentage())} />
         <View style={classes.progressBarInfoContainer}>
           <View style={classes.progressBarTicketInfoItem}>
             <Image

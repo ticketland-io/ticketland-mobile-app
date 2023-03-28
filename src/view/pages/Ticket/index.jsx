@@ -45,11 +45,10 @@ const Ticket = ({route, navigation}) => {
       const [result] = (await fetchEvent(state.firebase, eventId)).result
       let tickets = await getFilteredTickets()
 
-      tickets = tickets.map(ticket => {
-        ticket.name = result.sales[ticket.ticket_type_index].ticket_type_name
-
-        return ticket
-      })
+      tickets = tickets.map(ticket => ({
+        ...ticket,
+        name: result.sales[ticket.ticket_type_index].ticket_type_name
+      }))
 
       setTickets(tickets)
       setEvent(result)

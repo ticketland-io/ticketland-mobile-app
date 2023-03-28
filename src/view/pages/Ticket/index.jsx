@@ -204,7 +204,7 @@ const Ticket = ({route, navigation}) => {
       <View
         style={[
           classes.ticketButton,
-          {backgroundColor: item.attended ? '#60b563' : '#FFED00'},
+          classes.ticketButton.background(item.attended)
         ]}
       >
         <Image source={TicketIcon} style={classes.ticketIcon} />

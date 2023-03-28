@@ -85,7 +85,10 @@ export default makeStyles(theme => ({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 34
+    height: 34,
+    background: attended => attended
+      ? {backgroundColor: theme.palette.common.green100}
+      : {backgroundColor: theme.palette.common.yellow500}
   },
   eventBgImageContainer: {
     position: 'absolute',

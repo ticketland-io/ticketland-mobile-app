@@ -53,7 +53,8 @@ export default makeStyles(theme => ({
   logoutIcon: {
     width: 16,
     height: 16,
-    marginRight: 8
+    marginRight: 8,
+    color:theme.palette.common.white
   },
   displayName: {
     textAlign: 'center',

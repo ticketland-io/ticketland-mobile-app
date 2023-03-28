@@ -86,7 +86,7 @@ const Profile = ({navigation}) => {
             <AntIcon
               name="logout"
               size={16}
-              style={[classes.logoutIcon, {color: 'white'}]}
+              style={classes.logoutIcon}
             />
             <Text h7 style={{color: 'white'}}>
               Logout

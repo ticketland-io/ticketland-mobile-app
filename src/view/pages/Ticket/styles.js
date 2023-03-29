@@ -1,6 +1,10 @@
 import {makeStyles} from '@rneui/themed'
 
 export default makeStyles(theme => ({
+  safeAreaContainer: {
+    flex: 1,
+    overflow: 'hidden'
+  },
   container: {
     flex: 1,
     padding: 16

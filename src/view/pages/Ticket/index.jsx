@@ -1,15 +1,11 @@
-import {Button, Image, Skeleton, Text} from '@rneui/themed'
 import React, {useContext, useEffect, useState} from 'react'
 import {SafeAreaView, StatusBar, View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
-import AntIcon from 'react-native-vector-icons/AntDesign'
 import {format} from 'date-fns'
 import QRCode from 'react-native-qrcode-svg'
 import Carousel from 'react-native-reanimated-carousel'
+import {Button, Icon, Image, Skeleton, Text} from '@rneui/themed'
 import {Context} from '../../core/Store'
-import Logo from '../../../assets/logo.png'
-import TicketIcon from '../../../assets/ticket.png'
-import CalendarIcon from '../../../assets/calendarIcon.png'
 import {fetchTickets, normalizeEventId} from '../../../services/ticket'
 import {getSignedMessage} from '../../../services/message'
 import {
@@ -18,6 +14,9 @@ import {
   get_event_ticket_image_path
 } from '../../../services/event'
 import {duration} from '../../../helpers/time'
+import Logo from '../../../assets/logo.png'
+import TicketIcon from '../../../assets/ticket.png'
+import CalendarIcon from '../../../assets/calendarIcon.png'
 import useStyles from './styles'
 
 const Ticket = ({route, navigation}) => {
@@ -149,7 +148,7 @@ const Ticket = ({route, navigation}) => {
           onPress={navigation.goBack}
           buttonStyle={classes.backButton}
         >
-          <AntIcon name="left" size={15} style={classes.leftButtonIcon} />
+          <Icon name="left" size={15} type="ant-design" style={classes.leftButtonIcon} />
         </Button>
       </View>
       <Text h4 style={classes.eventName}>

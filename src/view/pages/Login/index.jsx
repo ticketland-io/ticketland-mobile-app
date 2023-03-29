@@ -8,8 +8,7 @@ import {
   Platform,
   ActivityIndicator
 } from 'react-native'
-import {Button, Image, Text, Divider} from '@rneui/themed'
-import AntIcon from "react-native-vector-icons/AntDesign";
+import {Button, Image, Text, Divider, Icon} from '@rneui/themed'
 import {Context} from '../../core/Store'
 import {capitalizeFirstLetter} from '../../../helpers/string'
 import Shadow from '../../components/Shadow'
@@ -99,14 +98,16 @@ const Login = ({navigation}) => {
         <View style={classes.modalViewItem}>
           <View style={{alignSelf: 'flex-end'}}>
             <Button type='clear' onPress={() => {setModalVisible(false)}}>
-              <AntIcon
+              <Icon
+                type="ant-design"
                 name="close"
                 size={20}
               />
             </Button>
           </View>
           <View style={classes.modalTextContainer}>
-            <AntIcon
+            <Icon
+              type="ant-design"
               name="warning"
               color={'#E24A30'}
               style={classes.warningIcon}

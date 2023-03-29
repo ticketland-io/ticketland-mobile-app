@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Button, Image, Skeleton, Text} from '@rneui/themed'
+import {Button, Icon, Image, Skeleton, Text} from '@rneui/themed'
 import {SafeAreaView, StatusBar, View} from 'react-native'
-import AntIcon from "react-native-vector-icons/AntDesign";
 import {format} from 'date-fns'
 import {
   fetchAttendedCount,
@@ -75,7 +74,8 @@ const Event = ({route, navigation}) => {
           onPress={navigation.goBack}
           buttonStyle={classes.backButton}
         >
-          <AntIcon
+          <Icon
+            type="ant-design"
             name="left"
             size={15}
             style={classes.leftButtonIcon}

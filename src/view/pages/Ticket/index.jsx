@@ -226,9 +226,12 @@ const Ticket = ({route, navigation}) => {
         />
       )
       }
-      <View
-        style={classes.ticketButton(item.attended)}
-      >
+      {!item.attended &&
+        <Text style={classes.timerText}>
+          Refresh in: {timer}
+        </Text>
+      }
+      <View style={classes.ticketButton(item.attended)}>
         <Image source={TicketIcon} style={classes.ticketIcon} />
         <Text h7>
           {item.name} #{item.seat_index}
@@ -283,11 +286,6 @@ const Ticket = ({route, navigation}) => {
           {renderHeader()}
           {renderEvent()}
           <View style={classes.qrCodeContainer}>
-            {allTicketsScanned
-              ? <Text h4>All tickets scanned</Text>
-              : <Text h4>Scan the ticket QR Code</Text>
-            }
-            {!allTicketsScanned && <Text>Refresh in: {timer}</Text>}
             <View style={classes.carouselContainer}>
               {renderCarousel()}
             </View>

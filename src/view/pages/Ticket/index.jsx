@@ -32,6 +32,8 @@ const Ticket = ({route, navigation}) => {
   const [loading, setLoading] = useState(false)
   const [timer, setTimer] = useState(60)
   const [timerId, setTimerId] = useState(0)
+  const [signatures, setSignatures] = useState([])
+  let pubkey
 
   const getFilteredTickets = async () => {
     const {result} = await fetchTickets(state.firebase, eventId)
@@ -69,6 +71,29 @@ const Ticket = ({route, navigation}) => {
   }
 
   useEffect(() => {
+    const run = async () => {
+      pubkey = (await state.walletCore.fetchAccount()).pubkey
+      setSignatures(await Promise.all(
+        tickets.map(async ticket => {
+          try {
+            return await getSignedMessage(
+              state.web3,
+              normalizeEventId(eventId),
+              '',
+              ticket.ticket_metadata,
+            )
+          } catch (error) {
+            //ignore
+          }
+        })
+      ))
+    }
+
+    tickets.length > 0 && run()
+  }, [tickets])
+
+
+  useEffect(() => {
     getEventData()
 
     return () => {
@@ -91,37 +116,23 @@ const Ticket = ({route, navigation}) => {
 
   useEffect(() => {
     const run = async () => {
-      const {pubkey} = await state.walletCore.fetchAccount()
-
-      const qrCodesArray = await Promise.all(
-        tickets.map(async ticket => {
-          try {
-            return JSON.stringify({
-              ticketMetadata: ticket.ticket_metadata,
-              ticketNft: ticket.ticket_nft,
-              codeChallenge: '',
-              ticketOwnerPubkey: pubkey,
-              sig: await getSignedMessage(
-                state.web3,
-                normalizeEventId(eventId),
-                '',
-                ticket.ticket_metadata,
-              ),
-              eventId: eventId,
-              expTimestamp: Date.now() + duration.minutes(1),
-            })
-          } catch (error) {
-            //ignore
-          }
-        }),
+      const qrCodesArray = tickets.map((ticket, index) => JSON.stringify({
+        ticketMetadata: ticket.ticket_metadata,
+        ticketNft: ticket.ticket_nft,
+        codeChallenge: '',
+        ticketOwnerPubkey: pubkey,
+        sig: signatures[index],
+        eventId: eventId,
+        expTimestamp: Date.now() + duration.minutes(1),
+      })
       )
 
       setQrCodeData(qrCodesArray)
       setLoading(false)
     }
 
-    tickets.length > 0 && timer === 60 && run()
-  }, [tickets, state.web3, timer])
+    tickets.length > 0 && signatures.length > 0 && timer === 60 && run()
+  }, [signatures, timer])
 
   const renderHeader = () => (
     <View style={classes.firstInnerContainer}>

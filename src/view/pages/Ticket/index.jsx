@@ -283,7 +283,10 @@ const Ticket = ({route, navigation}) => {
           {renderHeader()}
           {renderEvent()}
           <View style={classes.qrCodeContainer}>
-            <Text h4>Scan the ticket QR Code</Text>
+            {allTicketsScanned
+              ? <Text h4>All tickets scanned</Text>
+              : <Text h4>Scan the ticket QR Code</Text>
+            }
             {!allTicketsScanned && <Text>Refresh in: {timer}</Text>}
             <View style={classes.carouselContainer}>
               {renderCarousel()}

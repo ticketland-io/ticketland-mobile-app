@@ -154,5 +154,10 @@ export default makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 85,
+  },
+  checkIcon: {
+    height: 250,
+    width: 250,
+    justifyContent: 'center'
   }
 }))

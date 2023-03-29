@@ -144,11 +144,11 @@ const Ticket = ({route, navigation}) => {
     <View style={classes.firstInnerContainer}>
       <View style={{flex: 2}}>
         <Button
-          color="white"
+          color='white'
           onPress={navigation.goBack}
           buttonStyle={classes.backButton}
         >
-          <Icon name="left" size={15} type="ant-design" style={classes.leftButtonIcon} />
+          <Icon name='left' size={15} type='ant-design' style={classes.leftButtonIcon} />
         </Button>
       </View>
       <Text h4 style={classes.eventName}>
@@ -208,15 +208,24 @@ const Ticket = ({route, navigation}) => {
       style={classes.carouselItem}
       key={index}
     >
-      {qrCodeData.length > 0 ? (
+      {qrCodeData.length > 0 && !item.attended ? (
         <QRCode
           value={qrCodeData[index]}
           logo={Logo}
           logoSize={70}
-          logoBackgroundColor="white"
+          logoBackgroundColor='white'
           size={250}
         />
-      ) : null}
+      ) : (
+        <Icon
+          name='checksquareo'
+          type='ant-design'
+          color='green'
+          size={100}
+          containerStyle={classes.checkIcon}
+        />
+      )
+      }
       <View
         style={classes.ticketButton(item.attended)}
       >

@@ -33,6 +33,7 @@ const Ticket = ({route, navigation}) => {
   const [timer, setTimer] = useState(60)
   const [timerId, setTimerId] = useState(0)
   const [signatures, setSignatures] = useState([])
+  const [allTicketsScanned, setAllTicketsScanned] = useState(true)
   let pubkey
 
   const getFilteredTickets = async () => {
@@ -47,10 +48,16 @@ const Ticket = ({route, navigation}) => {
       const [result] = (await fetchEvent(state.firebase, eventId)).result
       let tickets = await getFilteredTickets()
 
-      tickets = tickets.map(ticket => ({
-        ...ticket,
-        name: result.sales[ticket.ticket_type_index].ticket_type_name
-      }))
+      tickets = tickets.map(ticket => {
+        if (ticket.attended) {
+          setAllTicketsScanned(false)
+        }
+
+        return {
+          ...ticket,
+          name: result.sales[ticket.ticket_type_index].ticket_type_name
+        }
+      })
 
       setTickets(tickets)
       setEvent(result)
@@ -102,17 +109,17 @@ const Ticket = ({route, navigation}) => {
   }, [eventId])
 
   useEffect(() => {
-    if (timer > 0 && qrCodeData.length > 0) {
+    if (timer > 0 && qrCodeData.length > 0 && !allTicketsScanned) {
       setTimerId(
         setTimeout(() => {
           setTimer(timer - 1)
         }, duration.seconds(1)),
       )
-    } else {
+    } else if (!allTicketsScanned) {
       clearTimeout(timerId)
       setTimer(60)
     }
-  }, [timer, qrCodeData])
+  }, [timer, qrCodeData, allTicketsScanned])
 
   useEffect(() => {
     const run = async () => {
@@ -269,7 +276,7 @@ const Ticket = ({route, navigation}) => {
           {renderEvent()}
           <View style={classes.qrCodeContainer}>
             <Text h4>Scan the ticket QR Code</Text>
-            <Text>Refresh in: {timer}</Text>
+            {!allTicketsScanned && <Text>Refresh in: {timer}</Text>}
             <View style={classes.carouselContainer}>
               {renderCarousel()}
             </View>

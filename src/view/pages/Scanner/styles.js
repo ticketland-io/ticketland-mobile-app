@@ -13,7 +13,7 @@ export default makeStyles(theme => {
     switch (true) {
       case !scanned:
         return theme.palette.common.gray96
-      case error:
+      case error.length > 0:
         return theme.palette.common.error
       default:
         return theme.palette.common.yellow500

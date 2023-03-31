@@ -23,7 +23,7 @@ const Scanner = props => {
   const [ticketInfo, setTicketInfo] = useState({})
   const [dialogVisible, setDialogVisible] = useState(false)
   const [qrCodeData, setQrCodeData] = useState()
-  const [error, setError] = useState()
+  const [error, setError] = useState('')
   const [ref, setRef] = useState()
   const [loading, setLoading] = useState(false)
   const [verification, setVerification] = useState(false)
@@ -46,7 +46,7 @@ const Scanner = props => {
       setDialogVisible(true)
     }
 
-    !error && scanned && qrCodeData && run()
+    error.length === 0 && scanned && qrCodeData && run()
   }, [qrCodeData, scanned])
 
 
@@ -65,6 +65,7 @@ const Scanner = props => {
 
       let newVal = ticketsCount
       newVal[ticketInfo?.ticket_type_index].attended_count += 1
+
       setTicketsCount(newVal)
       setVerification(true)
     } catch (error) {
@@ -101,15 +102,15 @@ const Scanner = props => {
       checkQrData(data)
       setQrCodeData(data)
     } catch (error) {
-      setError('Wrong ticket format')
+      setError(error.message)
       setDialogVisible(true)
     }
   };
 
   const renderDialogButtonText = () => {
-    if (!error && qrCodeData && !verification) {
+    if (error.length === 0 && qrCodeData && !verification) {
       return 'Verify'
-    } else if (!error && qrCodeData && verification) {
+    } else if (error.length === 0 && qrCodeData && verification) {
       return 'Awesome!'
     } else {
       return 'Try again'
@@ -117,31 +118,31 @@ const Scanner = props => {
   }
 
   const dialogButtonAction = () => {
-    if (!error && qrCodeData && verification) {
+    if (error.length === 0 && qrCodeData && verification) {
       setVerification(false)
       setScanned(false)
       setDialogVisible(false)
       setModalVisible(false)
-    } else if (!error && qrCodeData && !verification) {
+    } else if (error.length === 0 && qrCodeData && !verification) {
       verify()
     } else {
       setScanned(false)
       setDialogVisible(false)
-      setError('Code not scanned')
+      setError('')
       ref.reactivate()
     }
   }
 
   const renderDialogIcon = () => (
     <View style={classes.errorIconItem}>
-      {error
+      {error.length > 0
         ? <Image source={ErrorIcon} style={{height: 28}} />
         : <Image source={SuccessIcon} style={{height: 26}} />
       }
     </View>
   )
 
-  const renderDialogMessage = () => error
+  const renderDialogMessage = () => error.length > 0
     ? (
       <View style={{flex: 10}}>
         <Dialog.Title titleProps={`h6`} title={'SCAN ERROR!'} />

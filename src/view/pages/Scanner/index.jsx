@@ -68,7 +68,7 @@ const Scanner = props => {
       setTicketsCount(newVal)
       setVerification(true)
     } catch (error) {
-      setError(error)
+      setError('Code not scanned')
     }
 
     setLoading(false)
@@ -101,8 +101,7 @@ const Scanner = props => {
       checkQrData(data)
       setQrCodeData(data)
     } catch (error) {
-      console.log(error)
-      setError(error)
+      setError('Code not scanned')
       setDialogVisible(true)
     }
   };
@@ -128,7 +127,7 @@ const Scanner = props => {
     } else {
       setScanned(false)
       setDialogVisible(false)
-      setError(false)
+      setError('Code not scanned')
       ref.reactivate()
     }
   }
@@ -147,7 +146,7 @@ const Scanner = props => {
       <View style={{flex: 10}}>
         <Dialog.Title titleProps={`h6`} title={'SCAN ERROR!'} />
         <View style={classes.dialogTextItem}>
-          <Text>{typeof (error) != typeof ('') ? 'Code not scanned' : error}</Text>
+          <Text>{error}</Text>
         </View>
       </View>
     )

@@ -200,7 +200,7 @@ const Event = ({route, navigation}) => {
             disabled={eventFullScanned}
             buttonStyle={classes.scanButton}
             onPress={() => setCameraModalVisible(true)}
-            loading={false}
+            loading={loading}
           >
             {!eventFullScanned && (
               <Image
@@ -208,7 +208,7 @@ const Event = ({route, navigation}) => {
                 style={classes.qrIcon}
               />
             )}
-            {ticketsCount.length > 0 && renderButtonText()}
+            {!loading && renderButtonText()}
           </Button>
         </View>
       </View>

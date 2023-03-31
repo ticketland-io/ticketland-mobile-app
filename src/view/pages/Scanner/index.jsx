@@ -101,7 +101,7 @@ const Scanner = props => {
       checkQrData(data)
       setQrCodeData(data)
     } catch (error) {
-      setError('Code not scanned')
+      setError('Wrong ticket format')
       setDialogVisible(true)
     }
   };

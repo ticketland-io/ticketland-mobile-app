@@ -152,6 +152,31 @@ const Event = ({route, navigation}) => {
       />
     )
 
+  const renderButtonText = () => {
+    const totalTickets = ticketsCount.reduce((acc, cur, index) => acc += cur.total_count, 0)
+
+    switch (true) {
+      case totalTickets === 0:
+        return (
+          <Text h7 style={!eventFullScanned && classes.scanText}>
+            No tickets
+          </Text>
+        )
+      case eventFullScanned:
+        return (
+          <Text h7 style={!eventFullScanned && classes.scanText}>
+            All tickets have been scanned
+          </Text>
+        )
+      default:
+        return (
+          <Text h7 style={!eventFullScanned && classes.scanText}>
+            Scan Tickets
+          </Text>
+        )
+    }
+  }
+
   return (
     <SafeAreaView style={{flex: 1}}>
       {
@@ -177,13 +202,13 @@ const Event = ({route, navigation}) => {
             onPress={() => setCameraModalVisible(true)}
             loading={false}
           >
-            {!eventFullScanned && <Image
-              source={QrIcon}
-              style={classes.qrIcon}
-            />}
-            <Text h7 style={!eventFullScanned && classes.scanText}>
-              {eventFullScanned ? 'All tickets have been scanned' : 'Scan Tickets'}
-            </Text>
+            {!eventFullScanned && (
+              <Image
+                source={QrIcon}
+                style={classes.qrIcon}
+              />
+            )}
+            {ticketsCount.length > 0 && renderButtonText()}
           </Button>
         </View>
       </View>

@@ -15,7 +15,7 @@ const Scanner = props => {
     modalVisible,
     setModalVisible,
     eventId,
-    setTicketsCount,
+    onTicketVerified,
     ticketsCount = []
   } = props
   const [state] = useContext(Context)
@@ -63,10 +63,7 @@ const Scanner = props => {
         qrCodeData.sig
       )
 
-      let newVal = ticketsCount
-      newVal[ticketInfo?.ticket_type_index].attended_count += 1
-
-      setTicketsCount(newVal)
+      onTicketVerified(ticketInfo)
       setVerification(true)
     } catch (error) {
       setError('Code not scanned')

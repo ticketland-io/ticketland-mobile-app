@@ -177,6 +177,15 @@ const Event = ({route, navigation}) => {
     }
   }
 
+  const onTicketVerified = ticketInfo => {
+    let newVal = ticketsCount
+    ticketsCount[ticketInfo?.ticket_type_index].attended_count += 1
+    const allTicketsScanned = ticketsCount.every(t => t.attended_count === t.total_count)
+   
+    setTicketsCount(newVal)
+    setEventFullScanned(allTicketsScanned)
+  }
+
   return (
     <SafeAreaView style={{flex: 1}}>
       {
@@ -193,8 +202,8 @@ const Event = ({route, navigation}) => {
             modalVisible={cameraModalVisible}
             setModalVisible={setCameraModalVisible}
             eventId={eventId}
-            setTicketsCount={setTicketsCount}
             ticketsCount={ticketsCount}
+            onTicketVerified={onTicketVerified}
           />
           <Button
             disabled={eventFullScanned}

@@ -12,11 +12,11 @@ export default makeStyles(theme => {
   const markerBorderColor = (scanned, error) => {
     switch (true) {
       case !scanned:
-        return '#D9D9D9'
+        return theme.palette.common.gray96
       case error:
-        return 'red'
+        return theme.palette.common.error
       default:
-        return 'yellow'
+        return theme.palette.common.yellow500
     }
   }
 

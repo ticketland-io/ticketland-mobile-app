@@ -11,6 +11,13 @@ import {qrCodeKeysCompare} from '../../../helpers/string';
 import useStyles from './styles'
 
 const Scanner = props => {
+  const {
+    modalVisible,
+    setModalVisible,
+    eventId,
+    setTicketsCount,
+    ticketsCount = []
+  } = props
   const [state] = useContext(Context)
   const [scanned, setScanned] = useState(false)
   const [ticketInfo, setTicketInfo] = useState({})
@@ -20,13 +27,6 @@ const Scanner = props => {
   const [ref, setRef] = useState()
   const [loading, setLoading] = useState(false)
   const [verification, setVerification] = useState(false)
-  const {
-    modalVisible,
-    setModalVisible,
-    eventId,
-    setTicketsCount,
-    ticketsCount = []
-  } = props
   const classes = useStyles()
 
   useEffect(() => {

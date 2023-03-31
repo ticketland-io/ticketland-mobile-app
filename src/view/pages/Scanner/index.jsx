@@ -26,7 +26,7 @@ const Scanner = props => {
   const [error, setError] = useState('')
   const [ref, setRef] = useState()
   const [loading, setLoading] = useState(false)
-  const [verification, setVerification] = useState(false)
+  const [verified, setVerified] = useState(false)
   const classes = useStyles()
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const Scanner = props => {
       )
 
       onTicketVerified(ticketInfo)
-      setVerification(true)
+      setVerified(true)
     } catch (error) {
       setError('Code not scanned')
     }
@@ -105,9 +105,9 @@ const Scanner = props => {
   };
 
   const renderDialogButtonText = () => {
-    if (error.length === 0 && qrCodeData && !verification) {
+    if (error.length === 0 && qrCodeData && !verified) {
       return 'Verify'
-    } else if (error.length === 0 && qrCodeData && verification) {
+    } else if (error.length === 0 && qrCodeData && verified) {
       return 'Awesome!'
     } else {
       return 'Try again'
@@ -115,12 +115,12 @@ const Scanner = props => {
   }
 
   const dialogButtonAction = () => {
-    if (error.length === 0 && qrCodeData && verification) {
-      setVerification(false)
+    if (error.length === 0 && qrCodeData && verified) {
+      setVerified(false)
       setScanned(false)
       setDialogVisible(false)
       setModalVisible(false)
-    } else if (error.length === 0 && qrCodeData && !verification) {
+    } else if (error.length === 0 && qrCodeData && !verified) {
       verify()
     } else {
       setScanned(false)

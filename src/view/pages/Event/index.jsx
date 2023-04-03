@@ -152,28 +152,16 @@ const Event = ({route, navigation}) => {
       />
     )
 
-  const renderButtonText = () => {
+  const getButtonText = () => {
     const totalTickets = ticketsCount.reduce((acc, cur, index) => acc += cur.total_count, 0)
 
     switch (true) {
       case totalTickets === 0:
-        return (
-          <Text h7 style={!eventFullScanned && classes.scanText}>
-            No tickets
-          </Text>
-        )
+        return 'No tickets'
       case eventFullScanned:
-        return (
-          <Text h7 style={!eventFullScanned && classes.scanText}>
-            All tickets have been scanned
-          </Text>
-        )
+        return 'All tickets have been scanned'
       default:
-        return (
-          <Text h7 style={!eventFullScanned && classes.scanText}>
-            Scan Tickets
-          </Text>
-        )
+        return 'Scan Tickets'
     }
   }
 
@@ -181,7 +169,7 @@ const Event = ({route, navigation}) => {
     let newVal = ticketsCount
     ticketsCount[ticketInfo?.ticket_type_index].attended_count += 1
     const allTicketsScanned = ticketsCount.every(t => t.attended_count === t.total_count)
-   
+
     setTicketsCount(newVal)
     setEventFullScanned(allTicketsScanned)
   }
@@ -217,7 +205,11 @@ const Event = ({route, navigation}) => {
                 style={classes.qrIcon}
               />
             )}
-            {!loading && renderButtonText()}
+            {!loading && (
+              <Text h7 style={!eventFullScanned && classes.scanText}>
+                {getButtonText()}
+              </Text>
+            )}
           </Button>
         </View>
       </View>

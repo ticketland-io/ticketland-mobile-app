@@ -246,7 +246,7 @@ const Ticket = ({route, navigation}) => {
     )
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={classes.safeAreaContainer}>
       {
         Platform.OS === 'ios' &&
         <StatusBar animated={true} barStyle={'light-content'} />

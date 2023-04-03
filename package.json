@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android --variant=debug",
-    "ios": "NODE_ENV=development react-native run-ios --scheme \"ticketlandMobileAppDev\"",
+    "android:log":"npx react-native log-android",
+    "android:build":"cd android && ./gradlew clean && ENVFILE=.env.production ./gradlew bundleRelease",
+    "ios": "react-native run-ios --scheme \"ticketlandMobileAppDev\"",
+    "ios:log":"npx react-native log-ios",
     "lint": "eslint .",
-    "start": "NODE_ENV=development react-native start",
+    "start": "react-native start",
     "test": "jest",
     "postinstall": "patch-package"
   },

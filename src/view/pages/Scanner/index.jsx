@@ -46,7 +46,7 @@ const Scanner = props => {
       setDialogVisible(true)
     }
 
-    error.length === 0 && scanned && qrCodeData && run()
+    !error && scanned && qrCodeData && run()
   }, [qrCodeData, scanned])
 
 
@@ -105,9 +105,9 @@ const Scanner = props => {
   };
 
   const renderDialogButtonText = () => {
-    if (error.length === 0 && qrCodeData && !verified) {
+    if (!error && qrCodeData && !verified) {
       return 'Verify'
-    } else if (error.length === 0 && qrCodeData && verified) {
+    } else if (!error && qrCodeData && verified) {
       return 'Awesome!'
     } else {
       return 'Try again'
@@ -115,12 +115,12 @@ const Scanner = props => {
   }
 
   const dialogButtonAction = () => {
-    if (error.length === 0 && qrCodeData && verified) {
+    if (!error && qrCodeData && verified) {
       setVerified(false)
       setScanned(false)
       setDialogVisible(false)
       setModalVisible(false)
-    } else if (error.length === 0 && qrCodeData && !verified) {
+    } else if (!error && qrCodeData && !verified) {
       verify()
     } else {
       setScanned(false)
@@ -132,14 +132,14 @@ const Scanner = props => {
 
   const renderDialogIcon = () => (
     <View style={classes.errorIconItem}>
-      {error.length > 0
+      {error
         ? <Image source={ErrorIcon} style={{height: 28}} />
         : <Image source={SuccessIcon} style={{height: 26}} />
       }
     </View>
   )
 
-  const renderDialogMessage = () => error.length > 0
+  const renderDialogMessage = () => error
     ? (
       <View style={{flex: 10}}>
         <Dialog.Title titleProps={`h6`} title={'SCAN ERROR!'} />

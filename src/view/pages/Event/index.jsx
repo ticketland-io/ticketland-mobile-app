@@ -152,6 +152,28 @@ const Event = ({route, navigation}) => {
       />
     )
 
+  const getButtonText = () => {
+    const totalTickets = ticketsCount.reduce((acc, cur, index) => acc += cur.total_count, 0)
+
+    switch (true) {
+      case totalTickets === 0:
+        return 'No tickets'
+      case eventFullScanned:
+        return 'All tickets have been scanned'
+      default:
+        return 'Scan Tickets'
+    }
+  }
+
+  const onTicketVerified = ticketInfo => {
+    let newVal = ticketsCount
+    ticketsCount[ticketInfo?.ticket_type_index].attended_count += 1
+    const allTicketsScanned = ticketsCount.every(t => t.attended_count === t.total_count)
+
+    setTicketsCount(newVal)
+    setEventFullScanned(allTicketsScanned)
+  }
+
   return (
     <SafeAreaView style={{flex: 1}}>
       {
@@ -168,22 +190,26 @@ const Event = ({route, navigation}) => {
             modalVisible={cameraModalVisible}
             setModalVisible={setCameraModalVisible}
             eventId={eventId}
-            setTicketsCount={setTicketsCount}
             ticketsCount={ticketsCount}
+            onTicketVerified={onTicketVerified}
           />
           <Button
             disabled={eventFullScanned}
             buttonStyle={classes.scanButton}
             onPress={() => setCameraModalVisible(true)}
-            loading={false}
+            loading={loading}
           >
-            {!eventFullScanned && <Image
-              source={QrIcon}
-              style={classes.qrIcon}
-            />}
-            <Text h7 style={!eventFullScanned && classes.scanText}>
-              {eventFullScanned ? 'All tickets have been scanned' : 'Scan Tickets'}
-            </Text>
+            {!eventFullScanned && (
+              <Image
+                source={QrIcon}
+                style={classes.qrIcon}
+              />
+            )}
+            {!loading && (
+              <Text h7 style={!eventFullScanned && classes.scanText}>
+                {getButtonText()}
+              </Text>
+            )}
           </Button>
         </View>
       </View>

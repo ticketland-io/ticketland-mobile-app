@@ -11,22 +11,22 @@ import {qrCodeKeysCompare} from '../../../helpers/string';
 import useStyles from './styles'
 
 const Scanner = props => {
+  const {
+    modalVisible,
+    setModalVisible,
+    eventId,
+    onTicketVerified,
+    ticketsCount = []
+  } = props
   const [state] = useContext(Context)
   const [scanned, setScanned] = useState(false)
   const [ticketInfo, setTicketInfo] = useState({})
   const [dialogVisible, setDialogVisible] = useState(false)
   const [qrCodeData, setQrCodeData] = useState()
-  const [error, setError] = useState()
+  const [error, setError] = useState('')
   const [ref, setRef] = useState()
   const [loading, setLoading] = useState(false)
-  const [verification, setVerification] = useState(false)
-  const {
-    modalVisible,
-    setModalVisible,
-    eventId,
-    setTicketsCount,
-    ticketsCount = []
-  } = props
+  const [verified, setVerified] = useState(false)
   const classes = useStyles()
 
   useEffect(() => {
@@ -63,12 +63,10 @@ const Scanner = props => {
         qrCodeData.sig
       )
 
-      let newVal = ticketsCount
-      newVal[ticketInfo?.ticket_type_index].attended_count += 1
-      setTicketsCount(newVal)
-      setVerification(true)
+      onTicketVerified(ticketInfo)
+      setVerified(true)
     } catch (error) {
-      setError(error)
+      setError('Code not scanned')
     }
 
     setLoading(false)
@@ -82,7 +80,7 @@ const Scanner = props => {
 
   const checkEventId = data => {
     if (eventId !== data.eventId) {
-      throw new Error('Wrong eventId')
+      throw new Error('Ticket is not from selected event')
     }
   }
 
@@ -101,16 +99,15 @@ const Scanner = props => {
       checkQrData(data)
       setQrCodeData(data)
     } catch (error) {
-      console.log(error)
-      setError(error)
+      setError(error.message)
       setDialogVisible(true)
     }
   };
 
   const renderDialogButtonText = () => {
-    if (!error && qrCodeData && !verification) {
+    if (!error && qrCodeData && !verified) {
       return 'Verify'
-    } else if (!error && qrCodeData && verification) {
+    } else if (!error && qrCodeData && verified) {
       return 'Awesome!'
     } else {
       return 'Try again'
@@ -118,17 +115,17 @@ const Scanner = props => {
   }
 
   const dialogButtonAction = () => {
-    if (!error && qrCodeData && verification) {
-      setVerification(false)
+    if (!error && qrCodeData && verified) {
+      setVerified(false)
       setScanned(false)
       setDialogVisible(false)
       setModalVisible(false)
-    } else if (!error && qrCodeData && !verification) {
+    } else if (!error && qrCodeData && !verified) {
       verify()
     } else {
       setScanned(false)
       setDialogVisible(false)
-      setError(false)
+      setError('')
       ref.reactivate()
     }
   }
@@ -147,7 +144,7 @@ const Scanner = props => {
       <View style={{flex: 10}}>
         <Dialog.Title titleProps={`h6`} title={'SCAN ERROR!'} />
         <View style={classes.dialogTextItem}>
-          <Text>{typeof (error) != typeof ('') ? 'Code not scanned' : error}</Text>
+          <Text>{error}</Text>
         </View>
       </View>
     )

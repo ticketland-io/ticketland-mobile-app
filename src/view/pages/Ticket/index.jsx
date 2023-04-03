@@ -48,7 +48,7 @@ const Ticket = ({route, navigation}) => {
       let tickets = await getFilteredTickets()
 
       tickets = tickets.map(ticket => {
-        if (ticket.attended) {
+        if (!ticket.attended) {
           setAllTicketsScanned(false)
         }
 

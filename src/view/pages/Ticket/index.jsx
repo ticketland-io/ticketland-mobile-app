@@ -42,20 +42,20 @@ const Ticket = ({route, navigation}) => {
   }
 
   const getTickets = async event => {
-      let tickets = await getFilteredTickets()
+    let tickets = await getFilteredTickets()
 
-      tickets = tickets.map(ticket => {
-        if (!ticket.attended) {
-          setAllTicketsScanned(false)
-        }
+    tickets = tickets.map(ticket => {
+      if (!ticket.attended) {
+        setAllTicketsScanned(false)
+      }
 
-        return {
-          ...ticket,
+      return {
+        ...ticket,
         name: event.sales[ticket.ticket_type_index].ticket_type_name
-        }
-      })
+      }
+    })
 
-      setTickets(tickets)
+    setTickets(tickets)
   }
 
   const getEventData = async () => {
@@ -107,7 +107,7 @@ const Ticket = ({route, navigation}) => {
     }
 
     tickets.length > 0 && pubkey && run()
-  }, [tickets, pubkey])
+  }, [JSON.stringify(tickets), pubkey])// Using stringify for deep comparison with prev state
 
 
   useEffect(() => {
@@ -119,6 +119,10 @@ const Ticket = ({route, navigation}) => {
   }, [eventId])
 
   useEffect(() => {
+    if (timer % 20 === 0) {// Fetch tickets every 20 seconds
+      getTickets(event)
+    }
+
     if (timer > 0 && qrCodeData.length > 0 && !allTicketsScanned) {
       setTimerId(
         setTimeout(() => {

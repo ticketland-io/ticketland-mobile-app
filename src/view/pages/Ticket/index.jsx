@@ -44,17 +44,12 @@ const Ticket = ({route, navigation}) => {
   const getTickets = async event => {
     let tickets = await getFilteredTickets()
 
-    tickets = tickets.map(ticket => {
-      if (!ticket.attended) {
-        setAllTicketsScanned(false)
-      }
-
-      return {
-        ...ticket,
-        name: event.sales[ticket.ticket_type_index].ticket_type_name
-      }
+    tickets = tickets.map(ticket => ({
+      ...ticket,
+      name: event.sales[ticket.ticket_type_index].ticket_type_name
     })
-
+    
+    setAllTicketsScanned(tickets.every(ticket => ticket.attended))
     setTickets(tickets)
   }
 

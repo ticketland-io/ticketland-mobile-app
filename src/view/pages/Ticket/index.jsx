@@ -48,7 +48,7 @@ const Ticket = ({route, navigation}) => {
       ...ticket,
       name: event.sales[ticket.ticket_type_index].ticket_type_name
     }))
-    
+
     setAllTicketsScanned(tickets.every(ticket => ticket.attended))
     setTickets(tickets)
   }
@@ -127,7 +127,7 @@ const Ticket = ({route, navigation}) => {
       clearTimeout(timerId)
       setTimer(60)
     }
-  }, [timer, qrCodeData, allTicketsScanned])
+  }, [timer, qrCodeData, allTicketsScanned, event])
 
   useEffect(() => {
     const run = async () => {

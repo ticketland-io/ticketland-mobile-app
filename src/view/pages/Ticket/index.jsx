@@ -47,7 +47,7 @@ const Ticket = ({route, navigation}) => {
     tickets = tickets.map(ticket => ({
       ...ticket,
       name: event.sales[ticket.ticket_type_index].ticket_type_name
-    })
+    }))
     
     setAllTicketsScanned(tickets.every(ticket => ticket.attended))
     setTickets(tickets)
@@ -58,7 +58,6 @@ const Ticket = ({route, navigation}) => {
 
     try {
       const [result] = (await fetchEvent(state.firebase, eventId)).result
-      await getTickets(result)
 
       setEvent(result)
       setEventImage(

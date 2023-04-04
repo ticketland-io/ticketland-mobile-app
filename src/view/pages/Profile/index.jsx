@@ -1,7 +1,6 @@
 import React, {useContext, useEffect} from 'react'
 import {SafeAreaView, View} from 'react-native'
-import AntIcon from "react-native-vector-icons/AntDesign";
-import {Button, Image, Text} from '@rneui/themed'
+import {Button, Icon, Image, Text} from '@rneui/themed'
 import {Context} from '../../core/Store'
 import {setMode, setWeb3} from '../../../data/actions';
 import Shadow from '../../components/Shadow'
@@ -42,7 +41,8 @@ const Profile = ({navigation}) => {
               onPress={navigation.goBack}
               buttonStyle={classes.backButton}
             >
-              <AntIcon
+              <Icon
+                type="ant-design"
                 name="left"
                 size={15}
                 style={classes.leftButtonIcon}
@@ -83,9 +83,11 @@ const Profile = ({navigation}) => {
             buttonStyle={[classes.logoutButton]}
             onPress={signOut}
           >
-            <AntIcon
+            <Icon
+              type="ant-design"
               name="logout"
               size={16}
+              color='white'
               style={classes.logoutIcon}
             />
             <Text h7 style={{color: 'white'}}>

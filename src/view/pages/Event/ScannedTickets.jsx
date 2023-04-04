@@ -21,7 +21,7 @@ const ScannedTickets = props => {
 
     setTotalTickets(result.totalTickets)
     setTotalScannedTickets(result.totalScanned)
-  }, [JSON.stringify(ticketsCount)])//using stringify for deep comparison with prev state
+  }, [JSON.stringify(ticketsCount)])// Using stringify for deep comparison with prev state
 
   const renderBars = () => !loading
     ? ticketsCount.map((ticketCount, index) => (

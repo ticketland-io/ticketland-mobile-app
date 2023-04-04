@@ -1,15 +1,11 @@
-import {Button, Image, Skeleton, Text} from '@rneui/themed'
 import React, {useContext, useEffect, useState} from 'react'
 import {SafeAreaView, StatusBar, View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
-import AntIcon from 'react-native-vector-icons/AntDesign'
 import {format} from 'date-fns'
 import QRCode from 'react-native-qrcode-svg'
 import Carousel from 'react-native-reanimated-carousel'
+import {Button, Icon, Image, Skeleton, Text} from '@rneui/themed'
 import {Context} from '../../core/Store'
-import Logo from '../../../assets/logo.png'
-import TicketIcon from '../../../assets/ticket.png'
-import CalendarIcon from '../../../assets/calendarIcon.png'
 import {fetchTickets, normalizeEventId} from '../../../services/ticket'
 import {getSignedMessage} from '../../../services/message'
 import {
@@ -18,6 +14,9 @@ import {
   get_event_ticket_image_path
 } from '../../../services/event'
 import {duration} from '../../../helpers/time'
+import Logo from '../../../assets/logo.png'
+import TicketIcon from '../../../assets/ticket.png'
+import CalendarIcon from '../../../assets/calendarIcon.png'
 import useStyles from './styles'
 
 const Ticket = ({route, navigation}) => {
@@ -32,6 +31,9 @@ const Ticket = ({route, navigation}) => {
   const [loading, setLoading] = useState(false)
   const [timer, setTimer] = useState(60)
   const [timerId, setTimerId] = useState(0)
+  const [signatures, setSignatures] = useState([])
+  const [allTicketsScanned, setAllTicketsScanned] = useState(true)
+  const [pubkey, setPubkey] = useState()
 
   const getFilteredTickets = async () => {
     const {result} = await fetchTickets(state.firebase, eventId)
@@ -39,18 +41,24 @@ const Ticket = ({route, navigation}) => {
     return result.filter((ticket) => !ticket.sell_listing)
   }
 
+  const getTickets = async event => {
+    let tickets = await getFilteredTickets()
+
+    tickets = tickets.map(ticket => ({
+      ...ticket,
+      name: event.sales[ticket.ticket_type_index].ticket_type_name
+    }))
+
+    setAllTicketsScanned(tickets.every(ticket => ticket.attended))
+    setTickets(tickets)
+  }
+
   const getEventData = async () => {
     setLoading(true)
+
     try {
       const [result] = (await fetchEvent(state.firebase, eventId)).result
-      let tickets = await getFilteredTickets()
 
-      tickets = tickets.map(ticket => ({
-        ...ticket,
-        name: result.sales[ticket.ticket_type_index].ticket_type_name
-      }))
-
-      setTickets(tickets)
       setEvent(result)
       setEventImage(
         get_event_cover_image_path(result.event_id),
@@ -69,6 +77,34 @@ const Ticket = ({route, navigation}) => {
   }
 
   useEffect(() => {
+    const run = async () => setPubkey((await state.walletCore.fetchAccount()).pubkey)
+
+    run()
+  }, [])
+
+  useEffect(() => {
+    const run = async () => {
+      setSignatures(await Promise.all(
+        tickets.map(async ticket => {
+          try {
+            return await getSignedMessage(
+              state.web3,
+              normalizeEventId(eventId),
+              '',
+              ticket.ticket_metadata,
+            )
+          } catch (error) {
+            //ignore
+          }
+        })
+      ))
+    }
+
+    tickets.length > 0 && pubkey && run()
+  }, [JSON.stringify(tickets), pubkey])// Using stringify for deep comparison with prev state
+
+
+  useEffect(() => {
     getEventData()
 
     return () => {
@@ -77,61 +113,52 @@ const Ticket = ({route, navigation}) => {
   }, [eventId])
 
   useEffect(() => {
-    if (timer > 0 && qrCodeData.length > 0) {
+    clearTimeout(timerId)
+
+    if (timer % 10 === 0 && event.sales) {// Fetch tickets every 10 seconds
+      getTickets(event)
+    }
+
+    if (timer > 0 && qrCodeData.length > 0 && !allTicketsScanned) {
       setTimerId(
         setTimeout(() => {
           setTimer(timer - 1)
         }, duration.seconds(1)),
       )
     } else {
-      clearTimeout(timerId)
       setTimer(60)
     }
-  }, [timer, qrCodeData])
+  }, [timer, qrCodeData, allTicketsScanned, event])
 
   useEffect(() => {
     const run = async () => {
-      const {pubkey} = await state.walletCore.fetchAccount()
-
-      const qrCodesArray = await Promise.all(
-        tickets.map(async ticket => {
-          try {
-            return JSON.stringify({
-              ticketMetadata: ticket.ticket_metadata,
-              ticketNft: ticket.ticket_nft,
-              codeChallenge: '',
-              ticketOwnerPubkey: pubkey,
-              sig: await getSignedMessage(
-                state.web3,
-                normalizeEventId(eventId),
-                '',
-                ticket.ticket_metadata,
-              ),
-              eventId: eventId,
-              expTimestamp: Date.now() + duration.minutes(1),
-            })
-          } catch (error) {
-            //ignore
-          }
-        }),
+      const qrCodesArray = tickets.map((ticket, index) => JSON.stringify({
+        ticketMetadata: ticket.ticket_metadata,
+        ticketNft: ticket.ticket_nft,
+        codeChallenge: '',
+        ticketOwnerPubkey: pubkey,
+        sig: signatures[index],
+        eventId: eventId,
+        expTimestamp: Date.now() + duration.minutes(1.5),
+      })
       )
 
       setQrCodeData(qrCodesArray)
       setLoading(false)
     }
 
-    tickets.length > 0 && timer === 60 && run()
-  }, [tickets, state.web3, timer])
+    tickets.length > 0 && signatures.length > 0 && timer === 60 && run()
+  }, [signatures, timer])
 
   const renderHeader = () => (
     <View style={classes.firstInnerContainer}>
       <View style={{flex: 2}}>
         <Button
-          color="white"
+          color='white'
           onPress={navigation.goBack}
           buttonStyle={classes.backButton}
         >
-          <AntIcon name="left" size={15} style={classes.leftButtonIcon} />
+          <Icon name='left' size={15} type='ant-design' style={classes.leftButtonIcon} />
         </Button>
       </View>
       <Text h4 style={classes.eventName}>
@@ -191,18 +218,30 @@ const Ticket = ({route, navigation}) => {
       style={classes.carouselItem}
       key={index}
     >
-      {qrCodeData.length > 0 ? (
+      {qrCodeData.length > 0 && !item.attended ? (
         <QRCode
           value={qrCodeData[index]}
           logo={Logo}
           logoSize={70}
-          logoBackgroundColor="white"
+          logoBackgroundColor='white'
           size={250}
         />
-      ) : null}
-      <View
-        style={classes.ticketButton(item.attended)}
-      >
+      ) : (
+        <Icon
+          name='checksquareo'
+          type='ant-design'
+          color='green'
+          size={100}
+          containerStyle={classes.checkIcon}
+        />
+      )
+      }
+      {!item.attended &&
+        <Text style={classes.timerText}>
+          Refresh in: {timer}
+        </Text>
+      }
+      <View style={classes.ticketButton(item.attended)}>
         <Image source={TicketIcon} style={classes.ticketIcon} />
         <Text h7>
           {item.name} #{item.seat_index}
@@ -257,8 +296,6 @@ const Ticket = ({route, navigation}) => {
           {renderHeader()}
           {renderEvent()}
           <View style={classes.qrCodeContainer}>
-            <Text h4>Scan the ticket QR Code</Text>
-            <Text>Refresh in: {timer}</Text>
             <View style={classes.carouselContainer}>
               {renderCarousel()}
             </View>

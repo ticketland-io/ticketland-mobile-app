@@ -24,7 +24,8 @@ export default makeStyles(theme => ({
     backgroundColor: theme.palette.common.gray96,
     paddingHorizontal: 16,
     paddingVertical: 8,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   backButton: {
     width: 36,
@@ -132,8 +133,6 @@ export default makeStyles(theme => ({
     alignSelf: 'center',
   },
   carouselContainer: {
-    position: 'absolute',
-    top: 80,
     width: 450,
     height: 350
   },
@@ -154,5 +153,15 @@ export default makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 85,
+  },
+  checkIcon: {
+    height: 250,
+    width: 250,
+    justifyContent: 'center',
+    marginBottom: 27
+  },
+  timerText: {
+    textAlign: 'center',
+    marginTop: 10
   }
 }))

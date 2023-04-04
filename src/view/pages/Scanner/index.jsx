@@ -80,7 +80,7 @@ const Scanner = props => {
 
   const checkEventId = data => {
     if (eventId !== data.eventId) {
-      throw new Error('Ticket is not from selected event')
+      throw new Error('Wrong event ticket!')
     }
   }
 

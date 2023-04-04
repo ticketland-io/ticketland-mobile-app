@@ -41,10 +41,7 @@ const Ticket = ({route, navigation}) => {
     return result.filter((ticket) => !ticket.sell_listing)
   }
 
-  const getEventData = async () => {
-    setLoading(true)
-    try {
-      const [result] = (await fetchEvent(state.firebase, eventId)).result
+  const getTickets = async event => {
       let tickets = await getFilteredTickets()
 
       tickets = tickets.map(ticket => {
@@ -54,11 +51,20 @@ const Ticket = ({route, navigation}) => {
 
         return {
           ...ticket,
-          name: result.sales[ticket.ticket_type_index].ticket_type_name
+        name: event.sales[ticket.ticket_type_index].ticket_type_name
         }
       })
 
       setTickets(tickets)
+  }
+
+  const getEventData = async () => {
+    setLoading(true)
+
+    try {
+      const [result] = (await fetchEvent(state.firebase, eventId)).result
+      await getTickets(result)
+
       setEvent(result)
       setEventImage(
         get_event_cover_image_path(result.event_id),

@@ -33,7 +33,7 @@ const Ticket = ({route, navigation}) => {
   const [timerId, setTimerId] = useState(0)
   const [signatures, setSignatures] = useState([])
   const [allTicketsScanned, setAllTicketsScanned] = useState(true)
-  let pubkey
+  const [pubkey, setPubkey] = useState()
 
   const getFilteredTickets = async () => {
     const {result} = await fetchTickets(state.firebase, eventId)
@@ -77,6 +77,12 @@ const Ticket = ({route, navigation}) => {
   }
 
   useEffect(() => {
+    const run = async () => setPubkey((await state.walletCore.fetchAccount()).pubkey)
+
+    run()
+  }, [])
+
+  useEffect(() => {
     const run = async () => {
       pubkey = (await state.walletCore.fetchAccount()).pubkey
       setSignatures(await Promise.all(
@@ -95,8 +101,8 @@ const Ticket = ({route, navigation}) => {
       ))
     }
 
-    tickets.length > 0 && run()
-  }, [tickets])
+    tickets.length > 0 && pubkey && run()
+  }, [tickets, pubkey])
 
 
   useEffect(() => {

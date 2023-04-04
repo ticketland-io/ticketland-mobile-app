@@ -84,7 +84,6 @@ const Ticket = ({route, navigation}) => {
 
   useEffect(() => {
     const run = async () => {
-      pubkey = (await state.walletCore.fetchAccount()).pubkey
       setSignatures(await Promise.all(
         tickets.map(async ticket => {
           try {
@@ -135,7 +134,7 @@ const Ticket = ({route, navigation}) => {
         ticketOwnerPubkey: pubkey,
         sig: signatures[index],
         eventId: eventId,
-        expTimestamp: Date.now() + duration.minutes(1),
+        expTimestamp: Date.now() + duration.minutes(1.5),
       })
       )
 

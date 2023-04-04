@@ -2138,8 +2138,8 @@
 
 "@ticketland-io/firebase-auth-rn@0.1.0":
   version "0.1.0"
-  resolved "https://npm.pkg.github.com/download/@ticketland-io/firebase-auth-rn/0.1.0/d954ce012eb039430660a0e20bd8a313b207fc79#d954ce012eb039430660a0e20bd8a313b207fc79"
-  integrity sha512-ii2DPV07O6hOykTowi48TpuJ4PlAm9Zet3MtsUfKES3SP8mu+EAWBUi2bpq4wDmtXI8FnHwk/OEuMUvCU5N9Nw==
+  resolved "https://npm.pkg.github.com/download/@ticketland-io/firebase-auth-rn/0.1.0/f4b82210f21c824130d5df684b68c6e775686db2#f4b82210f21c824130d5df684b68c6e775686db2"
+  integrity sha512-yUYOMZCINAeyVtH8e06I3LphSPCS5gXui1AXzdYgQ9TNtKzcdH8l0Pql/d9I8tIQVOLA5jV9Or9um7iGX26EhA==
   dependencies:
     "@invertase/react-native-apple-authentication" "^2.2.2"
     "@ppoliani/im-record" "^2.0.0"

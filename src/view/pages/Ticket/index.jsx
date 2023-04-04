@@ -113,6 +113,8 @@ const Ticket = ({route, navigation}) => {
   }, [eventId])
 
   useEffect(() => {
+    clearTimeout(timerId)
+
     if (timer % 10 === 0 && event.sales) {// Fetch tickets every 10 seconds
       getTickets(event)
     }
@@ -123,8 +125,7 @@ const Ticket = ({route, navigation}) => {
           setTimer(timer - 1)
         }, duration.seconds(1)),
       )
-    } else if (!allTicketsScanned) {
-      clearTimeout(timerId)
+    } else {
       setTimer(60)
     }
   }, [timer, qrCodeData, allTicketsScanned, event])

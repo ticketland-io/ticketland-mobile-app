@@ -158,11 +158,18 @@ const Scanner = props => {
       </View>
     )
 
+  const onBackdropPress = () => {
+    setScanned(false)
+    setDialogVisible(false)
+    setError('')
+    ref.reactivate()
+  }
 
   const renderDialog = () => (
     <Dialog
       isVisible={dialogVisible}
       overlayStyle={classes.dialog}
+      onBackdropPress={onBackdropPress}
     >
       <View style={{flexDirection: 'row'}}>
         {renderDialogIcon()}

@@ -113,7 +113,7 @@ const Ticket = ({route, navigation}) => {
   }, [eventId])
 
   useEffect(() => {
-    if (timer % 20 === 0) {// Fetch tickets every 20 seconds
+    if (timer % 10 === 0 && event.sales) {// Fetch tickets every 10 seconds
       getTickets(event)
     }
 

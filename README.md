@@ -15,7 +15,7 @@ Prior to executing these commands you need to download the `google-services.json
 
 For the android app to run you need to run these commands
 - yarn install
-- yarn start(starting the bunlder)
+- yarn start(starting the bundler)
 - yarn android(building and starting the app)
 
 no need fot further linking since the react-native version we are using has auto-linking for the android

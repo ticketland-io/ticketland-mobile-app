@@ -7,7 +7,7 @@ Prior to executing these commands you need to download the `GoogleService-Info.p
 For the IOS app to run you need to run these commands
 - yarn install
 - cd ios && pod install
-- yarn start(starting the bunlder)
+- yarn start(starting the bundler)
 - yarn ios(building and starting the app)
 
 ## Android Build

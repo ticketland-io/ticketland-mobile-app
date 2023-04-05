@@ -22,7 +22,7 @@ no need fot further linking since the react-native version we are using has auto
 
 ## Env configuration
 
-The envs for both app where set based on this article
+The envs for both app were set based on this article
 https://medium.com/armenotech/configure-environment-variables-with-react-native-config-for-ios-and-android-7079c0842d8b
 
 Attention!!!

@@ -80,7 +80,7 @@ const Scanner = props => {
 
   const checkEventId = data => {
     if (eventId !== data.eventId) {
-      throw new Error('Ticket is not from selected event')
+      throw new Error('Wrong event ticket!')
     }
   }
 
@@ -158,11 +158,20 @@ const Scanner = props => {
       </View>
     )
 
+  const onBackdropPress = () => {
+    if (!loading) {
+      setScanned(false)
+      setDialogVisible(false)
+      setError('')
+      ref.reactivate()
+    }
+  }
 
   const renderDialog = () => (
     <Dialog
       isVisible={dialogVisible}
       overlayStyle={classes.dialog}
+      onBackdropPress={onBackdropPress}
     >
       <View style={{flexDirection: 'row'}}>
         {renderDialogIcon()}

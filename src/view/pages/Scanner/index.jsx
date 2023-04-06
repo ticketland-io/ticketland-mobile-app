@@ -159,10 +159,12 @@ const Scanner = props => {
     )
 
   const onBackdropPress = () => {
-    setScanned(false)
-    setDialogVisible(false)
-    setError('')
-    ref.reactivate()
+    if (!loading) {
+      setScanned(false)
+      setDialogVisible(false)
+      setError('')
+      ref.reactivate()
+    }
   }
 
   const renderDialog = () => (

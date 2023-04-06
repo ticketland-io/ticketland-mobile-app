@@ -37,15 +37,15 @@ https://reactnative.dev/docs/publishing-to-app-store
 Choose the correct scheme for the env variable and set the target device to  `Any IOS device(arm64)` as shown to the picture below.Then select to Product>Archive.
 In order to see the archived app you can go to Window>Organizer.
 
-![Screenshot](./readmeAssets/ios-schemes.png)
+![Screenshot](./docs/ios-schemes.png)
 
 Make sure that on the Signing & Capabilities of the app you have set the bundle Identifier correctly(same as the appCenter) and the correct Provisioning profile
 
-![Screenshot](./readmeAssets/ios-signing.png)
+![Screenshot](./docs/ios-signing.png)
 
 On the organizer window hit Distribute app and follow the process
 
-![Screenshot](./readmeAssets/ios-organizer.png)
+![Screenshot](./docs/ios-organizer.png)
 
 ### Android:
 https://reactnative.dev/docs/signed-apk-android
@@ -128,8 +128,8 @@ and copy the SHA1 from the `Variant: debug`
 For the release to work you need to copy the SHA1 keys from Google Play Console on App Integrity Section
 
 copy both the SHA-1 certificate fingerprint for the App signing and the Upload
-![Screenshot](./readmeAssets/android-upload-key.png)
-![Screenshot](./readmeAssets/android-signing-key.png)
+![Screenshot](./docs/android-upload-key.png)
+![Screenshot](./docs/android-signing-key.png)
 
 ## Logging releases
 In order to log the released version two commands have been added

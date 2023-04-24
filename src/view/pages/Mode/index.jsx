@@ -1,11 +1,11 @@
-import {useContext, useEffect} from 'react'
-import {ImageBackground, SafeAreaView, View} from 'react-native';
-import {Button, Divider, Text} from '@rneui/themed';
-import RNBootSplash from "react-native-bootsplash";
+import React, {useContext, useEffect} from 'react'
+import {ImageBackground, SafeAreaView, View} from 'react-native'
+import {Button, Divider, Text} from '@rneui/themed'
+import RNBootSplash from 'react-native-bootsplash'
 import {Context} from '../../core/Store'
-import Circle from '../../../assets/circle.png';
-import {setMode} from '../../../data/actions';
-import Shadow from '../../components/Shadow';
+import Circle from '../../../assets/circle.png'
+import {setMode} from '../../../data/actions'
+import Shadow from '../../components/Shadow'
 import useStyles from './styles'
 
 const Mode = ({navigation}) => {
@@ -24,14 +24,15 @@ const Mode = ({navigation}) => {
   }
 
   return (
-    <ImageBackground source={Circle} resizeMode="cover" style={classes.background}>
+    <ImageBackground source={Circle} resizeMode='cover' style={classes.background}>
       <SafeAreaView style={classes.safeAreaView}>
         <Text alignSelf='center' style={{marginBottom: 16}}>
           <Text h1Bold>WELCOME </Text>
           <Text h1>BACK!</Text>
         </Text>
         <Text h6 alignSelf='center' style={classes.secondaryText}>
-          With our app, you can enjoy seamless access to your tickets in user mode, while organizer mode allows event hosts to quickly and easily verify tickets.
+          With our app, you can enjoy seamless access to your tickets in user mode,
+          while organizer mode allows event hosts to quickly and easily verify tickets.
         </Text>
         <View style={classes.shadow}>
           <Shadow style={{padding: 24}}>
@@ -57,7 +58,7 @@ const Mode = ({navigation}) => {
             </View>
           </Shadow>
         </View>
-      </SafeAreaView >
+      </SafeAreaView>
     </ImageBackground>
   )
 }

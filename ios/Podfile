@@ -65,7 +65,11 @@ target 'ticketlandMobileApp' do
         config.build_settings['SWIFT_VERSION'] = '5.0'
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'
      end
+    installer.pods_project.build_configurations.each do |config|
+      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+    end
   end
+
     react_native_post_install(
       installer,
       # Set `mac_catalyst_enabled` to `true` in order to apply patches
@@ -73,7 +77,6 @@ target 'ticketlandMobileApp' do
       :mac_catalyst_enabled => false
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
-    installer.pods_project.build_configurations.each do |config|     config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"   end 
   end
 
   permissions_path = '../node_modules/react-native-permissions/ios'

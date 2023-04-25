@@ -50,6 +50,13 @@ export default makeStyles(theme => ({
     borderColor: theme.palette.common.gray200,
     backgroundColor: theme.palette.common.error,
   },
+  deleteButton: {
+    width: '80%',
+    height: 45,
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: theme.palette.common.error,
+  },
   logoutIcon: {
     width: 16,
     height: 16,

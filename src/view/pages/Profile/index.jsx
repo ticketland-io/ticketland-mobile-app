@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react'
-import {SafeAreaView, View} from 'react-native'
+import {Linking, SafeAreaView, View} from 'react-native'
 import {Button, Icon, Image, Text} from '@rneui/themed'
 import {Context} from '../../core/Store'
 import {setMode, setWeb3} from '../../../data/actions';
@@ -31,6 +31,11 @@ const Profile = ({navigation}) => {
     navigation.reset({index: 1, routes: [{name: 'Mode'}]})
   }
 
+  const openURL = () => {
+    Linking
+    .openURL('https://field-end-63a.notion.site/Delete-Account-e012d2a4f87e4c6aaa51c5111087073a')
+    .catch(err => console.error("Couldn't load page", err))
+  }
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={classes.container}>
@@ -80,6 +85,7 @@ const Profile = ({navigation}) => {
           </Button>
           <Button
             type={'outline'}
+            containerStyle={{marginBottom: 12}}
             buttonStyle={[classes.logoutButton]}
             onPress={signOut}
           >
@@ -92,6 +98,15 @@ const Profile = ({navigation}) => {
             />
             <Text h7 style={{color: 'white'}}>
               Logout
+            </Text>
+          </Button>
+          <Button
+            type={'outline'}
+            buttonStyle={[classes.deleteButton]}
+            onPress={openURL}
+          >
+            <Text h7 style={{color: 'red'}}>
+              Delete account
             </Text>
           </Button>
         </View>

@@ -1,5 +1,5 @@
 import {useContext, useEffect} from 'react'
-import RNBootSplash from "react-native-bootsplash";
+import RNBootSplash from 'react-native-bootsplash'
 import {Context} from '../../core/Store'
 
 const Splash = ({navigation}) => {

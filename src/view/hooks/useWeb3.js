@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {useEffect, useState, useContext} from 'react'
 import Web3 from '@apocentre/solana-web3'
 import {Context} from '../core/Store'
@@ -8,7 +9,7 @@ export default () => {
 
   useEffect(() => {
     const initWeb3 = async () => {
-      if (state.connection && state.user?.uid && !state.web3) {
+      if (state.connection && state.user?.uid) {
         const _web3 = Web3()
 
         if (state.walletType === 'custody') {

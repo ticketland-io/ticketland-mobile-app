@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1210"
+   LastUpgradeVersion = "1430"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -39,22 +39,6 @@
             </ActionContent>
          </ExecutionAction>
       </PreActions>
-      <BuildActionEntries>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "organizerMobileApp.app"
-               BlueprintName = "organizerMobileApp"
-               ReferencedContainer = "container:organizerMobileApp.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -62,16 +46,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "organizerMobileAppTests.xctest"
-               BlueprintName = "organizerMobileAppTests"
-               ReferencedContainer = "container:organizerMobileApp.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -94,42 +68,6 @@
             ReferencedContainer = "container:ticketlandMobileApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "organizerMobileApp.app"
-            BlueprintName = "organizerMobileApp"
-            ReferencedContainer = "container:organizerMobileApp.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "TICKETLAND_API"
-            value = "https://ticketland-api.ticketland.io"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "VAULT"
-            value = "https://vault.ticketland.io/v1"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "TICKETLAND_API_PUBKEY"
-            value = "WzEzNSwxMzcsMjM0LDE0MSwxNTgsMTc2LDIxMCwyMTQsMTMsOTMsMTc3LDEwMyw3Miw4MiwyMTAsODcsMTEyLDI1MiwyMTIsMTE4LDE0NSwyNDcsMTYsMjU1LDgsMTEsMTM0LDE1MywxNzMsMzgsMjQ4LDExOF0"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "CLUSTER_ENDPOINT"
-            value = "https://api.testnet.solana.com"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "EUTOPIC_API"
-            value = "https://eutopic-api.ticketland.io"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -137,16 +75,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "organizerMobileApp.app"
-            BlueprintName = "organizerMobileApp"
-            ReferencedContainer = "container:organizerMobileApp.xcodeproj">
+            BuildableName = "ticketlandMobileApp.app"
+            BlueprintName = "ticketlandMobileApp"
+            ReferencedContainer = "container:ticketlandMobileApp.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

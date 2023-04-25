@@ -7,7 +7,7 @@
     "android:log": "npx react-native log-android",
     "android:build": "cd android && ./gradlew clean && ENVFILE=.env.production ./gradlew bundleRelease",
     "android:run": "react-native run-android --mode=release",
-    "ios": "react-native run-ios --scheme \"ticketlandMobileAppDev\"",
+    "ios": "react-native run-ios --scheme \"ticketlandMobileApp\"",
     "ios:build": "react-native run-ios --configuration Release --scheme \"ticketlandMobileAppProd\"",
     "ios:log": "npx react-native log-ios",
     "lint": "eslint .",

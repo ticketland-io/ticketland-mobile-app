@@ -1,7 +1,7 @@
 import {WalletCore, constants} from '@ticketland-io/wallet-core-rn'
 import SolanaWallet from '@ticketland-io/solana-wallet-rn'
-import FirebaseAuth from '@ticketland-io/firebase-auth-rn';
-import Config from 'react-native-config';
+import FirebaseAuth from '@ticketland-io/firebase-auth-rn'
+import Config from 'react-native-config'
 
 const Wallet = () => SolanaWallet()
 const walletCore = WalletCore({Wallet})
@@ -9,14 +9,14 @@ const firebase = FirebaseAuth()
 
 const web3AuthConfig = {
   clientId: Config.WEB3_AUTH_CLIENT_ID,
-  network: constants.OPENLOGIN_NETWORK.TESTNET,
+  network: constants.OPENLOGIN_NETWORK.MAINNET,
   verifier: Config.WEB3_AUTH_VERIFIER,
 }
 
 walletCore.init(
   Config.EUTOPIC_API,
   firebase,
-  web3AuthConfig
+  web3AuthConfig,
 )
 
 export const initState = {
@@ -27,7 +27,7 @@ export const initState = {
   firebase,
   loading: true,
   user: null,
-  mode: null
+  mode: null,
 }
 
 export const reducer = (state, action) => {

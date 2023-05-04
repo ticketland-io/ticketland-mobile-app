@@ -66,10 +66,10 @@ const Ticket = ({route, navigation}) => {
     try {
       const [result] = (await fetchEvent(state.firebase, eventId)).result
       const imageUrl = getEventTicketImagePath(
-          result.event_id,
-          result.start_date,
-          result.end_date,
-          result.ticket_images,
+        result.event_id,
+        result.start_date,
+        result.end_date,
+        result.ticket_images,
       )
 
       setEvent(result)
@@ -179,12 +179,16 @@ const Ticket = ({route, navigation}) => {
   const renderEvent = () => (
     <View style={classes.secondInnerContainer}>
       {!loading ? (
-        <Image
-          source={{uri: ticketImage}}
-          containerStyle={classes.ticketImage}
-        />
+        <View style={{alignItems: 'center'}}>
+          <Image
+            source={{uri: ticketImage}}
+            style={classes.ticketImage(ticketImageRatio)}
+          />
+        </View>
       ) : (
-        <Skeleton style={classes.ticketImage} />
+        <View style={{alignItems: 'center'}}>
+          <Skeleton style={classes.ticketImage()} />
+        </View>
       )}
       <View style={classes.dateContainer}>
         <View style={classes.dateItem}>
@@ -242,13 +246,12 @@ const Ticket = ({route, navigation}) => {
           size={100}
           containerStyle={classes.checkIcon}
         />
-      )
-      }
-      {!item.attended &&
+      )}
+      {!item.attended && (
         <Text style={classes.timerText}>
           Refresh in: {timer}
         </Text>
-      }
+      )}
       <View style={classes.ticketButton(item.attended)}>
         <Image source={TicketIcon} style={classes.ticketIcon} />
         <Text h7>
@@ -258,8 +261,8 @@ const Ticket = ({route, navigation}) => {
     </View>
   )
 
-  const renderCarousel = () =>
-    !loading ? (
+  const renderCarousel = () => !loading
+    ? (
       <Carousel
         width={270}
         loop={false}
@@ -296,7 +299,7 @@ const Ticket = ({route, navigation}) => {
     <SafeAreaView style={classes.safeAreaContainer}>
       {
         Platform.OS === 'ios' &&
-        <StatusBar animated={true} barStyle={'light-content'} />
+        <StatusBar animated={true} barStyle='light-content' />
       }
       {renderBgImage()}
       <GestureHandlerRootView style={{flex: 1}}>

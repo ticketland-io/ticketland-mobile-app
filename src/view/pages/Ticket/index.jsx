@@ -33,6 +33,7 @@ const Ticket = ({route, navigation}) => {
   const [qrCodeData, setQrCodeData] = useState([])
   const [eventImage, setEventImage] = useState()
   const [ticketImage, setTicketImage] = useState()
+  const [ticketImageRatio, setTicketImageRatio] = useState()
   const [event, setEvent] = useState({})
   const [loading, setLoading] = useState(false)
   const [timer, setTimer] = useState(60)
@@ -44,7 +45,7 @@ const Ticket = ({route, navigation}) => {
   const getFilteredTickets = async () => {
     const {result} = await fetchTickets(state.firebase, eventId)
 
-    return result.filter((ticket) => !ticket.sell_listing)
+    return result.filter(ticket => !ticket.sell_listing)
   }
 
   const getTickets = async event => {
@@ -64,19 +65,20 @@ const Ticket = ({route, navigation}) => {
 
     try {
       const [result] = (await fetchEvent(state.firebase, eventId)).result
+      const imageUrl = getEventTicketImagePath(
+          result.event_id,
+          result.start_date,
+          result.end_date,
+          result.ticket_images,
+      )
 
       setEvent(result)
       setEventImage(
         get_event_cover_image_path(result.event_id),
       )
-      setTicketImage(
-        get_event_ticket_image_path(
-          result.event_id,
-          result.start_date,
-          result.end_date,
-          result.ticket_images,
-        ),
-      )
+      setTicketImage(imageUrl)
+
+      Image.getSize(imageUrl, (width, height) => setTicketImageRatio(width / height))
     } catch (error) {
       //ignore
     }

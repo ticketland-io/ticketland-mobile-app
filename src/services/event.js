@@ -54,7 +54,7 @@ export const fetchAttendedCount = async (firebase, eventId) => {
 
 export const get_event_cover_image_path = eventId => `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-cover_image`
 
-export const get_event_ticket_image_path = (
+export const getEventTicketImagePath = (
   eventId,
   startDate,
   endDate,

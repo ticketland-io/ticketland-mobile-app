@@ -6,7 +6,7 @@ import {
   fetchAttendedCount,
   fetchEvent,
   get_event_cover_image_path,
-  get_event_ticket_image_path
+  getEventTicketImagePath
 } from '../../../services/event'
 import {Context} from '../../core/Store'
 import CalendarIcon from '../../../assets/calendarIcon.png'
@@ -48,7 +48,7 @@ const Event = ({route, navigation}) => {
         setTicketsCount(ticketCounts)
         setEventImage(get_event_cover_image_path(result.event_id))
         setTicketImage(
-          get_event_ticket_image_path(
+          getEventTicketImagePath(
             result.event_id,
             result.start_date,
             result.end_date,

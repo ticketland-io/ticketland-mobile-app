@@ -11,7 +11,7 @@ import {getSignedMessage} from '../../../services/message'
 import {
   fetchEvent,
   get_event_cover_image_path,
-  get_event_ticket_image_path
+  getEventTicketImagePath,
 } from '../../../services/event'
 import {duration} from '../../../helpers/time'
 import Logo from '../../../assets/logo.png'

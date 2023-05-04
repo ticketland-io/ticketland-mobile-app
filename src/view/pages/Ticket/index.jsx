@@ -4,7 +4,13 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import {format} from 'date-fns'
 import QRCode from 'react-native-qrcode-svg'
 import Carousel from 'react-native-reanimated-carousel'
-import {Button, Icon, Image, Skeleton, Text} from '@rneui/themed'
+import {
+  Button,
+  Icon,
+  Image,
+  Skeleton,
+  Text,
+} from '@rneui/themed'
 import {Context} from '../../core/Store'
 import {fetchTickets, normalizeEventId} from '../../../services/ticket'
 import {getSignedMessage} from '../../../services/message'

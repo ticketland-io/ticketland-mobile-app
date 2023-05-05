@@ -13,7 +13,7 @@ import {
 } from '@rneui/themed'
 import {formatDistance, addDays} from 'date-fns'
 import {Context} from '../../core/Store'
-import {deleteAccount, fetchAccount} from '../../../services/account'
+import {cancelAccountDeletion, deleteAccount, fetchAccount} from '../../../services/account'
 import SuccessIcon from '../../../assets/checkbox-circle-line.png'
 import ErrorIcon from '../../../assets/alert-fill.png'
 import WarnIcon from '../../../assets/warn-fill.png'
@@ -62,10 +62,11 @@ const DeleteAccount = () => {
     const requestDelete = !account?.delete_request_at
 
     try {
-      await deleteAccount(
-        state.firebase,
-        requestDelete,
-      )
+      if (requestDelete) {
+        await deleteAccount(state.firebase)
+      } else {
+        await cancelAccountDeletion(state.firebase)
+      }
 
       setAccount(prevAcc => ({
         ...prevAcc,

@@ -7,6 +7,7 @@ import React, {
 import {
   Dimensions,
   ImageBackground,
+  Platform,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -106,7 +107,9 @@ const Home = ({navigation}) => {
       getEvents()
     }
 
-    refreshing && run()
+    if (refreshing) {
+      run()
+    }
   }, [refreshing])
 
   const renderHeader = () => (

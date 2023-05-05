@@ -1,13 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Modal, View} from 'react-native'
-import QRCodeScanner from 'react-native-qrcode-scanner';
-import {Button, Image, Text, Dialog} from '@rneui/themed';
-import {Context} from '../../core/Store';
-import {verifyTicketService as verifyTicket} from '../../../services/verify-ticket';
-import {normalizeEventId, fetchTicket} from '../../../services/ticket';
+import QRCodeScanner from 'react-native-qrcode-scanner'
+import {
+  Button,
+  Image,
+  Text,
+  Dialog,
+} from '@rneui/themed'
+import {Context} from '../../core/Store'
+import {verifyTicketService as verifyTicket} from '../../../services/verify-ticket'
+import {normalizeEventId, fetchTicket} from '../../../services/ticket'
 import SuccessIcon from '../../../assets/checkbox-circle-line.png'
 import ErrorIcon from '../../../assets/alert-fill.png'
-import {qrCodeKeysCompare} from '../../../helpers/string';
+import {qrCodeKeysCompare} from '../../../helpers/string'
 import useStyles from './styles'
 
 const Scanner = props => {
@@ -16,7 +21,7 @@ const Scanner = props => {
     setModalVisible,
     eventId,
     onTicketVerified,
-    ticketsCount = []
+    ticketsCount = [],
   } = props
   const [state] = useContext(Context)
   const [scanned, setScanned] = useState(false)
@@ -49,7 +54,6 @@ const Scanner = props => {
     !error && scanned && qrCodeData && run()
   }, [qrCodeData, scanned])
 
-
   const verify = async () => {
     setLoading(true)
 
@@ -60,7 +64,7 @@ const Scanner = props => {
         qrCodeData.ticketMetadata,
         qrCodeData.ticketNft,
         qrCodeData.ticketOwnerPubkey,
-        qrCodeData.sig
+        qrCodeData.sig,
       )
 
       onTicketVerified(ticketInfo)
@@ -102,16 +106,15 @@ const Scanner = props => {
       setError(error.message)
       setDialogVisible(true)
     }
-  };
+  }
 
   const renderDialogButtonText = () => {
     if (!error && qrCodeData && !verified) {
       return 'Verify'
-    } else if (!error && qrCodeData && verified) {
+    } if (!error && qrCodeData && verified) {
       return 'Awesome!'
-    } else {
-      return 'Try again'
     }
+    return 'Try again'
   }
 
   const dialogButtonAction = () => {
@@ -134,15 +137,14 @@ const Scanner = props => {
     <View style={classes.errorIconItem}>
       {error
         ? <Image source={ErrorIcon} style={{height: 28}} />
-        : <Image source={SuccessIcon} style={{height: 26}} />
-      }
+        : <Image source={SuccessIcon} style={{height: 28}} />}
     </View>
   )
 
   const renderDialogMessage = () => error
     ? (
       <View style={{flex: 10}}>
-        <Dialog.Title titleProps={`h6`} title={'SCAN ERROR!'} />
+        <Dialog.Title titleProps='h6' title='SCAN ERROR!' />
         <View style={classes.dialogTextItem}>
           <Text>{error}</Text>
         </View>
@@ -150,7 +152,7 @@ const Scanner = props => {
     )
     : (
       <View style={{flex: 10}}>
-        <Dialog.Title title={'TICKET SCANNED'} />
+        <Dialog.Title title='TICKET SCANNED' />
         <View style={classes.dialogTextItem}>
           <Text>{ticketsCount[ticketInfo?.ticket_type_index]?.name}</Text>
           <Text>#{ticketInfo.seat_name}</Text>
@@ -192,14 +194,14 @@ const Scanner = props => {
   const renderCustomMarker = () => (
     <View style={classes.markerContainer}>
       <View style={classes.markerHeader}>
-        <Text title style={{color: "white"}}>
+        <Text title style={{color: 'white'}}>
           SCAN QR CODE
         </Text>
         <Text h7 style={classes.markerHeaderSubText}>
           Align QR code with the frame to scan
         </Text>
       </View>
-      <View style={{flexDirection: "row"}}>
+      <View style={{flexDirection: 'row'}}>
         <View style={classes.markerLeftOuterSide} />
         <View style={classes.markerCenter(scanned, error)} />
         <View style={classes.markerRightOuterSide} />
@@ -208,7 +210,8 @@ const Scanner = props => {
         <Button
           containerStyle={classes.cancelButtonContainerStyle}
           buttonStyle={classes.cancelButton}
-          onPress={() => setModalVisible(false)}>
+          onPress={() => setModalVisible(false)}
+        >
           <Text h7>Cancel scanning</Text>
         </Button>
       </View>
@@ -217,7 +220,7 @@ const Scanner = props => {
 
   return (
     <Modal
-      animationType="slide"
+      animationType='slide'
       visible={modalVisible}
     >
       {renderDialog()}
@@ -225,7 +228,7 @@ const Scanner = props => {
         onRead={onSuccess}
         cameraStyle={{height: '100%'}}
         showMarker
-        ref={(node) => {setRef(node)}}
+        ref={node => { setRef(node) }}
         customMarker={renderCustomMarker()}
       />
     </Modal>

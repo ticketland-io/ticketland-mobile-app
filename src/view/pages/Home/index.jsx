@@ -1,4 +1,9 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import {
   Dimensions,
   ImageBackground,
@@ -6,14 +11,18 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
-  View
+  View,
 } from 'react-native'
-import {Button, Image, Text} from '@rneui/themed'
-import {Input} from '@rneui/themed';
-import Carousel from 'react-native-reanimated-carousel';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {
+  Button,
+  Image,
+  Text,
+  Input,
+} from '@rneui/themed'
+import Carousel from 'react-native-reanimated-carousel'
+import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import {Context} from '../../core/Store'
-import {getEndOfDay, getStartOfDay, getStartOfTomorrow} from '../../../helpers/time';
+import {getEndOfDay, getStartOfDay, getStartOfTomorrow} from '../../../helpers/time'
 import {fetchEvents} from '../../../services/event'
 import SectionTitle from '../../components/SectionTitle'
 import Shadow from '../../components/Shadow'
@@ -31,6 +40,7 @@ const Home = ({navigation}) => {
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
   const [todayEvents, setTodayEvents] = useState([])
+  const [ongoingEvents, setOngoingEvents] = useState([])
   const [upcomingEvents, setUpcomingEvents] = useState([])
   const [searchFilter, setSearchFilter] = useState('')
   const [stopFetching, setStopFetching] = useState(false)
@@ -48,9 +58,23 @@ const Home = ({navigation}) => {
             limit: 20,
             search: searchFilter,
             startDateFrom: getStartOfDay(),
-            startDateTo: getEndOfDay()
+            startDateTo: getEndOfDay(),
           },
-          state.mode
+          state.mode,
+        )
+      ).result)
+
+      setOngoingEvents((
+        await fetchEvents(
+          state.firebase,
+          {
+            skip: 0,
+            limit: 20,
+            search: searchFilter,
+            endDateFrom: getStartOfDay(),
+            // endDateTo: getEndOfDay(),
+          },
+          state.mode,
         )
       ).result)
 
@@ -60,12 +84,11 @@ const Home = ({navigation}) => {
           {
             skip: 0,
             search: searchFilter,
-            startDateFrom: getStartOfTomorrow()
+            startDateFrom: getStartOfTomorrow(),
           },
-          state.mode
+          state.mode,
         )
       ).result)
-
     } catch (error) {
       // ignore
     }
@@ -107,7 +130,7 @@ const Home = ({navigation}) => {
             <Button
               type='clear'
               buttonStyle={classes.userImage}
-              onPress={() => {navigation.push('Profile')}}
+              onPress={() => { navigation.push('Profile') }}
             >
               <Image source={{uri: state.user?.photoURL}} style={classes.userImage} />
             </Button>
@@ -118,39 +141,38 @@ const Home = ({navigation}) => {
   )
 
   const renderUpcomingEvents = () => upcomingEvents.length > 0
-          ? upcomingEvents.map((event) => (
-            <View key={event.event_id} style={classes.upcomingEventsCardContainer}>
-              <Card
-                loading={false}
-                event={event}
-                containerStyle={classes.upcomingEventsCard}
+    ? upcomingEvents.map(event => (
+      <View key={event.event_id} style={classes.upcomingEventsCardContainer}>
+        <Card
+          loading={false}
+          event={event}
+          containerStyle={classes.upcomingEventsCard}
                 // this has to be like that cause of android issue of shadow package with percentages
-                style={{width: Dimensions.get("window").width - 32}}
-              />
-            </View>
-
-          )
-          ) : (
-            <Text h5 style={{textAlign: 'center'}}>
-              No events found
-            </Text>
-          )
+          style={{width: Dimensions.get('window').width - 32}}
+        />
+      </View>
+    )) : (
+      <Text h5 style={{textAlign: 'center'}}>
+        No events found
+      </Text>
+    )
 
   const renderUpcomingSection = () => (
     <View style={{marginBottom: 28}}>
       <SectionTitle
         style={classes.upcomingSectionTitle}
         innerStyle={{transform: 'rotate(-1.2deg)'}}
-        title={'Upcoming'}
+        title='Upcoming'
       />
       {!loading
         ? renderUpcomingEvents()
-        : <Card
-          loading={true}
-          containerStyle={classes.upcomingEventsCard}
-          style={{width: Dimensions.get("window").width - 32}}
-        />
-      }
+        : (
+          <Card
+            loading
+            containerStyle={classes.upcomingEventsCard}
+            style={{width: Dimensions.get('window').width - 32}}
+          />
+        )}
     </View>
   )
 
@@ -162,41 +184,43 @@ const Home = ({navigation}) => {
     />
   )
 
-  const renderTodayEvents = () => todayEvents.length > 0
-    ? <Carousel
-          snapEnabled={false}
-          pagingEnabled={false}
-          width={340}
-          height={330}
-          loop={false}
-          style={{width: '100%'}}
-          data={todayEvents}
-      renderItem={renderCarouselItem}
-        />
-        : (
-          <Text h5 style={{textAlign: 'center'}}>
-            No events found
-          </Text>
-        )
+  const renderCarouselEvents = events => (events.length > 0
+    ? (
+      <Carousel
+        snapEnabled={false}
+        pagingEnabled={false}
+        width={340}
+        height={330}
+        loop={false}
+        style={{width: '100%'}}
+        data={events}
+        renderItem={renderCarouselItem}
+      />
+    )
+    : (
+      <Text h5 style={{textAlign: 'center'}}>
+        No events found
+      </Text>
+    ))
 
-  const renderCarousel = () => !loading
-    ? renderTodayEvents()
+  const renderCarousel = events => (!loading
+    ? renderCarouselEvents(events)
     : (
       <View style={{flexDirection: 'row'}}>
         <Card
           containerStyle={classes.skeletonCard}
-          loading={true}
+          loading
         />
         <Card
           containerStyle={{paddingHorizontal: 16}}
-          loading={true}
+          loading
         />
       </View>
-    )
+    ))
 
   const onRefresh = useCallback(() => {
-    setRefreshing(true);
-  }, []);
+    setRefreshing(true)
+  }, [])
 
   const scrollRefresh = async () => {
     if (!stopFetching) {
@@ -205,9 +229,9 @@ const Home = ({navigation}) => {
         {
           skip: currentPage + 1,
           search: searchFilter,
-          startDateFrom: getStartOfTomorrow()
+          startDateFrom: getStartOfTomorrow(),
         },
-        state.mode
+        state.mode,
       )
 
       setUpcomingEvents([...upcomingEvents, ...result])
@@ -215,7 +239,7 @@ const Home = ({navigation}) => {
       if (result.length < DEFAULT_LIMIT) {
         setStopFetching(true)
       } else {
-      setCurrentPage(currentPage + 1)
+        setCurrentPage(currentPage + 1)
       }
     }
   }
@@ -223,20 +247,20 @@ const Home = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       {
-        Platform.OS === 'ios' &&
-        <StatusBar animated={true} barStyle={'dark-content'} />
+        Platform.OS === 'ios'
+        && <StatusBar animated barStyle='dark-content' />
       }
       {/* GestureHandlerRootView added for android use */}
       <GestureHandlerRootView>
         <ScrollView
-          refreshControl={
+          refreshControl={(
             <RefreshControl
               tintColor={classes.refreshIndicatorColor.color}
               colors={[classes.refreshIndicatorColor.color]}
               refreshing={refreshing}
               onRefresh={onRefresh}
             />
-          }
+          )}
           onMomentumScrollEnd={scrollRefresh}
           stickyHeaderIndices={[0]}
         >
@@ -247,21 +271,29 @@ const Home = ({navigation}) => {
             <Input
               placeholder='Find event'
               leftIcon={<Image source={SearchIcon} style={classes.searchIcon} />}
-              onChangeText={value => {setSearchFilter(value)}}
+              onChangeText={value => { setSearchFilter(value) }}
             />
           </View>
           <ImageBackground
             source={Dot}
-            resizeMode="repeat"
+            resizeMode='repeat'
             style={classes.imageBackgroundContainer}
           >
-            <SectionTitle style={classes.todaySectionTitle} title={'Today'} />
-            {renderCarousel()}
+            <SectionTitle style={classes.todaySectionTitle} title='Today' />
+            {renderCarousel(todayEvents)}
+          </ImageBackground>
+          <ImageBackground
+            source={Dot}
+            resizeMode='repeat'
+            style={classes.imageBackgroundContainer}
+          >
+            <SectionTitle style={classes.todaySectionTitle} title='Ongoing' />
+            {renderCarousel(ongoingEvents)}
           </ImageBackground>
           {renderUpcomingSection()}
         </ScrollView>
       </GestureHandlerRootView>
-    </SafeAreaView >
+    </SafeAreaView>
   )
 }
 

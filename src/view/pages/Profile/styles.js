@@ -73,4 +73,25 @@ export default makeStyles(theme => ({
   infoContainer: {
     paddingHorizontal: '10%',
   },
+  dialog: {
+    position: 'absolute',
+    width: '90%',
+    bottom: 50,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: 'yellow',
+    padding: 24,
+  },
+  dialogTextItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  dialogButton: {
+    backgroundColor: theme.palette.common.gray800,
+    marginTop: 24,
+  },
+  dialogIconContainer: {
+    flex: 2,
+    justifyContent: 'center',
+  },
 }))

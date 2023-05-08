@@ -92,7 +92,14 @@ const Event = ({route, navigation}) => {
   const renderEvent = () => (
     <View style={classes.secondInnerContainer}>
       {!loading
-        ? <Image source={{uri: ticketImage}} containerStyle={classes.ticketImage} />
+        ? (
+          <View style={{alignItems: 'center'}}>
+            <Image
+              source={{uri: ticketImage?.url}}
+              style={classes.ticketImage(ticketImageRatio)}
+            />
+          </View>
+        )
         : (
           <Skeleton style={classes.ticketImageSkeleton} />
         )}
@@ -167,7 +174,7 @@ const Event = ({route, navigation}) => {
   }
 
   const onTicketVerified = ticketInfo => {
-    let newVal = ticketsCount
+    const newVal = ticketsCount
     ticketsCount[ticketInfo?.ticket_type_index].attended_count += 1
     const allTicketsScanned = ticketsCount.every(t => t.attended_count === t.total_count)
 

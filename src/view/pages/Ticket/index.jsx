@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Dimensions, Modal, SafeAreaView, StatusBar, View} from 'react-native'
+import {SafeAreaView, StatusBar, View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import {format} from 'date-fns'
 import QRCode from 'react-native-qrcode-svg'
@@ -20,6 +20,7 @@ import {
   getEventTicketImagePath,
 } from '../../../services/event'
 import {duration} from '../../../helpers/time'
+import {sharePdf} from '../../../helpers/share'
 import Logo from '../../../assets/logo.png'
 import TicketIcon from '../../../assets/ticket.png'
 import CalendarIcon from '../../../assets/calendarIcon.png'
@@ -65,7 +66,7 @@ const Ticket = ({route, navigation}) => {
 
     try {
       const [result] = (await fetchEvent(state.firebase, eventId)).result
-      const imageUrl = getEventTicketImagePath(
+      const imageResult = getEventTicketImagePath(
         result.event_id,
         result.start_date,
         result.end_date,
@@ -76,11 +77,11 @@ const Ticket = ({route, navigation}) => {
       setEventImage(
         get_event_cover_image_path(result.event_id),
       )
-      setTicketImage(imageUrl)
+      setTicketImage(imageResult)
 
-      Image.getSize(imageUrl, (width, height) => setTicketImageRatio(width / height))
+      Image.getSize(imageResult.url, (width, height) => setTicketImageRatio(width / height))
     } catch (error) {
-      //ignore
+      // ignore
     }
   }
 
@@ -102,7 +103,7 @@ const Ticket = ({route, navigation}) => {
               ticket.ticket_metadata,
             )
           } catch (error) {
-            //ignore
+            // ignore
           }
         })
       ))
@@ -111,19 +112,18 @@ const Ticket = ({route, navigation}) => {
     tickets.length > 0 && pubkey && run()
   }, [JSON.stringify(tickets), pubkey])// Using stringify for deep comparison with prev state
 
-
   useEffect(() => {
     getEventData()
 
     return () => {
       clearTimeout(timerId)
-    };
+    }
   }, [eventId])
 
   useEffect(() => {
     clearTimeout(timerId)
 
-    if (timer % 10 === 0 && event.sales) {// Fetch tickets every 10 seconds
+    if (timer % 10 === 0 && event.sales) { // Fetch tickets every 10 seconds
       getTickets(event)
     }
 
@@ -146,10 +146,9 @@ const Ticket = ({route, navigation}) => {
         codeChallenge: '',
         ticketOwnerPubkey: pubkey,
         sig: signatures[index],
-        eventId: eventId,
+        eventId,
         expTimestamp: Date.now() + duration.minutes(1.5),
-      })
-      )
+      }))
 
       setQrCodeData(qrCodesArray)
       setLoading(false)
@@ -176,17 +175,32 @@ const Ticket = ({route, navigation}) => {
     </View>
   )
 
+  const renderTicket = () => ticketImage?.content_type === 'pdf'
+    ? (
+      <View>
+        <Button
+          buttonStyle={{backgroundColor: 'yellow', marginTop: 50}}
+          onPress={() => sharePdf(event.event_id, ticketImage)}
+        >
+          <Text h7>
+            Open PDF
+          </Text>
+        </Button>
+      </View>
+    )
+    : (
+      <View style={{alignItems: 'center'}}>
+        <Image
+          source={{uri: ticketImage?.url}}
+          style={classes.ticketImage(ticketImageRatio)}
+        />
+      </View>
+    )
+
   const renderEvent = () => (
     <View style={classes.secondInnerContainer}>
       {!loading
-        ? (
-          <View style={{alignItems: 'center'}}>
-            <Image
-              source={{uri: ticketImage}}
-              style={classes.ticketImage(ticketImageRatio)}
-            />
-          </View>
-        )
+        ? renderTicket()
         : (
           <Skeleton style={classes.ticketImageSkeleton} />
         )}

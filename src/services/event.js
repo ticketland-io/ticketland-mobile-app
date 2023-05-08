@@ -61,16 +61,24 @@ export const getEventTicketImagePath = (
   const now = Date.now()
   let ticketImageType = 0
   const sortedImages = ticketImages
-    .map(ticketImage => ticketImage.ticket_image_type)
+    .map(ticketImage => ({
+      ticket_image_type: ticketImage.ticket_image_type,
+      content_type: ticketImage.content_type,
+    }))
     .sort((a, b) => a - b)
 
   if (now >= startDate && now < endDate) {
-    ticketImageType = sortedImages.find(type => type === 1) || 0
+    ticketImageType = sortedImages.find(({ticket_image_type}) => ticket_image_type === 1) || 0
   } else if (now >= endDate) {
-    ticketImageType = sortedImages.find(type => type === 2) || sortedImages.find(type => type === 1) || 0
+    ticketImageType = sortedImages.find(({ticket_image_type}) => ticket_image_type === 2)
+      || sortedImages.find(({ticket_image_type}) => ticket_image_type === 1)
+      || 0
   }
 
-  return `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-ticket_image_${ticketImageType}`
+  return {
+    url: `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-ticket_image_${ticketImageType}`,
+    content_type: sortedImages[ticketImageType].content_type,
+  }
 }
 
 export const get_event_metadata_path = eventId => `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-event_metadata.json`

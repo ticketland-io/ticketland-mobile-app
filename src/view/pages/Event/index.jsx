@@ -1,16 +1,24 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {Button, Icon, Image, Skeleton, Text} from '@rneui/themed'
+import {
+  Button,
+  Icon,
+  Image,
+  Skeleton,
+  Text
+} from '@rneui/themed'
 import {SafeAreaView, StatusBar, View} from 'react-native'
 import {format} from 'date-fns'
 import {
   fetchAttendedCount,
   fetchEvent,
   get_event_cover_image_path,
-  getEventTicketImagePath
+  getEventTicketImagePath,
 } from '../../../services/event'
 import {Context} from '../../core/Store'
 import CalendarIcon from '../../../assets/calendarIcon.png'
 import QrIcon from '../../../assets/qr-code-line.png'
+import {handleCameraPermission} from '../../../helpers/permissions'
+import {sharePdf} from '../../../helpers/share'
 import Scanner from '../Scanner'
 import ScannedTickets from './ScannedTickets'
 import useStyles from './styles'
@@ -20,9 +28,8 @@ const Event = ({route, navigation}) => {
   const [event, setEvent] = useState({})
   const [eventImage, setEventImage] = useState()
   const [ticketImage, setTicketImage] = useState()
-  const [cameraModalVisible, setCameraModalVisible] = useState(false)
   const [ticketImageRatio, setTicketImageRatio] = useState()
-
+  const [cameraModalVisible, setCameraModalVisible] = useState(false)
   const [eventFullScanned, setEventFullScanned] = useState(false)
   const [ticketsCount, setTicketsCount] = useState([])
   const [loading, setLoading] = useState(false)
@@ -36,30 +43,30 @@ const Event = ({route, navigation}) => {
       try {
         const [result] = (await fetchEvent(state.firebase, eventId)).result
         let ticketCounts = (await fetchAttendedCount(state.firebase, eventId)).result
-        const imageUrl = getEventTicketImagePath(
-          result.event_id,
-          result.start_date,
-          result.end_date,
-          result.ticket_images,
-        )
-        ticketCounts = result.sales.map((sale) => {
+
+        ticketCounts = result.sales.map(sale => {
           ticketCounts[sale.ticket_type_index].name = sale.ticket_type_name
 
           return ticketCounts[sale.ticket_type_index]
         })
 
         const allTicketsScanned = ticketCounts.every(t => t.attended_count === t.total_count)
+        const imageResult = getEventTicketImagePath(
+          result.event_id,
+          result.start_date,
+          result.end_date,
+          result.ticket_images,
+        )
 
         setEventFullScanned(allTicketsScanned)
         setEvent(result)
         setTicketsCount(ticketCounts)
         setEventImage(get_event_cover_image_path(result.event_id))
-        setTicketImage(imageUrl)
+        setTicketImage(imageResult)
 
-        Image.getSize(imageUrl, (width, height) => setTicketImageRatio(width / height))
+        Image.getSize(imageResult.url, (width, height) => setTicketImageRatio(width / height))
       } catch (error) {
-        console.log(error)
-        //ignore
+        // ignore
       }
 
       setLoading(false)
@@ -72,13 +79,13 @@ const Event = ({route, navigation}) => {
     <View style={classes.firstInnerContainer}>
       <View style={{flex: 2}}>
         <Button
-          type="outline"
+          type='outline'
           onPress={navigation.goBack}
           buttonStyle={classes.backButton}
         >
           <Icon
-            type="ant-design"
-            name="left"
+            type='ant-design'
+            name='left'
             size={15}
             style={classes.leftButtonIcon}
           />
@@ -91,17 +98,32 @@ const Event = ({route, navigation}) => {
     </View>
   )
 
+  const renderTicket = () => ticketImage?.content_type === 'pdf'
+    ? (
+      <View>
+        <Button
+          buttonStyle={{backgroundColor: 'yellow', marginTop: 50}}
+          onPress={() => sharePdf(event.event_id, ticketImage)}
+        >
+          <Text h7>
+            Open PDF
+          </Text>
+        </Button>
+      </View>
+    )
+    : (
+      <View style={{alignItems: 'center'}}>
+        <Image
+          source={{uri: ticketImage?.url}}
+          style={classes.ticketImage(ticketImageRatio)}
+        />
+      </View>
+    )
+
   const renderEvent = () => (
     <View style={classes.secondInnerContainer}>
       {!loading
-        ? (
-          <View style={{alignItems: 'center'}}>
-            <Image
-              source={{uri: ticketImage}}
-              style={classes.ticketImage(ticketImageRatio)}
-            />
-          </View>
-        )
+        ? renderTicket()
         : (
           <Skeleton style={classes.ticketImageSkeleton} />
         )}
@@ -206,7 +228,7 @@ const Event = ({route, navigation}) => {
           <Button
             disabled={eventFullScanned}
             buttonStyle={classes.scanButton}
-            onPress={() => setCameraModalVisible(true)}
+            onPress={async () => setCameraModalVisible(await handleCameraPermission())}
             loading={loading}
           >
             {!eventFullScanned && (

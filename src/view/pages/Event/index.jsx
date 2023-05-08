@@ -11,7 +11,7 @@ import {format} from 'date-fns'
 import {
   fetchAttendedCount,
   fetchEvent,
-  get_event_cover_image_path,
+  getEventCoverImagePath,
   getEventTicketImagePath,
 } from '../../../services/event'
 import {Context} from '../../core/Store'
@@ -61,7 +61,7 @@ const Event = ({route, navigation}) => {
         setEventFullScanned(allTicketsScanned)
         setEvent(result)
         setTicketsCount(ticketCounts)
-        setEventImage(get_event_cover_image_path(result.event_id))
+        setEventImage(getEventCoverImagePath(result.event_id))
         setTicketImage(imageResult)
 
         Image.getSize(imageResult.url, (width, height) => setTicketImageRatio(width / height))

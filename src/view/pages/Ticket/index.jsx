@@ -16,7 +16,7 @@ import {fetchTickets, normalizeEventId} from '../../../services/ticket'
 import {getSignedMessage} from '../../../services/message'
 import {
   fetchEvent,
-  get_event_cover_image_path,
+  getEventCoverImagePath,
   getEventTicketImagePath,
 } from '../../../services/event'
 import {duration} from '../../../helpers/time'
@@ -75,7 +75,7 @@ const Ticket = ({route, navigation}) => {
 
       setEvent(result)
       setEventImage(
-        get_event_cover_image_path(result.event_id),
+        getEventCoverImagePath(result.event_id),
       )
       setTicketImage(imageResult)
 

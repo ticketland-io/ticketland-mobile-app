@@ -21,6 +21,8 @@ const Event = ({route, navigation}) => {
   const [eventImage, setEventImage] = useState()
   const [ticketImage, setTicketImage] = useState()
   const [cameraModalVisible, setCameraModalVisible] = useState(false)
+  const [ticketImageRatio, setTicketImageRatio] = useState()
+
   const [eventFullScanned, setEventFullScanned] = useState(false)
   const [ticketsCount, setTicketsCount] = useState([])
   const [loading, setLoading] = useState(false)
@@ -34,7 +36,12 @@ const Event = ({route, navigation}) => {
       try {
         const [result] = (await fetchEvent(state.firebase, eventId)).result
         let ticketCounts = (await fetchAttendedCount(state.firebase, eventId)).result
-
+        const imageUrl = getEventTicketImagePath(
+          result.event_id,
+          result.start_date,
+          result.end_date,
+          result.ticket_images,
+        )
         ticketCounts = result.sales.map((sale) => {
           ticketCounts[sale.ticket_type_index].name = sale.ticket_type_name
 
@@ -47,14 +54,9 @@ const Event = ({route, navigation}) => {
         setEvent(result)
         setTicketsCount(ticketCounts)
         setEventImage(get_event_cover_image_path(result.event_id))
-        setTicketImage(
-          getEventTicketImagePath(
-            result.event_id,
-            result.start_date,
-            result.end_date,
-            result.ticket_images,
-          ),
-        )
+        setTicketImage(imageUrl)
+
+        Image.getSize(imageUrl, (width, height) => setTicketImageRatio(width / height))
       } catch (error) {
         console.log(error)
         //ignore
@@ -95,7 +97,7 @@ const Event = ({route, navigation}) => {
         ? (
           <View style={{alignItems: 'center'}}>
             <Image
-              source={{uri: ticketImage?.url}}
+              source={{uri: ticketImage}}
               style={classes.ticketImage(ticketImageRatio)}
             />
           </View>

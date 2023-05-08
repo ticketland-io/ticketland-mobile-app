@@ -180,16 +180,16 @@ const Ticket = ({route, navigation}) => {
     <View style={classes.secondInnerContainer}>
       {!loading
         ? (
-        <View style={{alignItems: 'center'}}>
-          <Image
-              source={{uri: ticketImage?.url}}
-            style={classes.ticketImage(ticketImageRatio)}
-          />
-        </View>
+          <View style={{alignItems: 'center'}}>
+            <Image
+              source={{uri: ticketImage}}
+              style={classes.ticketImage(ticketImageRatio)}
+            />
+          </View>
         )
         : (
           <Skeleton style={classes.ticketImageSkeleton} />
-      )}
+        )}
       <View style={classes.dateContainer}>
         <View style={classes.dateItem}>
           <Image source={CalendarIcon} style={classes.calendarIcon} />

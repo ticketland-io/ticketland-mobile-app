@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {SafeAreaView, StatusBar, View} from 'react-native'
+import {Dimensions, Modal, SafeAreaView, StatusBar, View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import {format} from 'date-fns'
 import QRCode from 'react-native-qrcode-svg'

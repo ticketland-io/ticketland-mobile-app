@@ -93,8 +93,9 @@ const Event = ({route, navigation}) => {
     <View style={classes.secondInnerContainer}>
       {!loading
         ? <Image source={{uri: ticketImage}} containerStyle={classes.ticketImage} />
-        : <Skeleton style={classes.ticketImage} />
-      }
+        : (
+          <Skeleton style={classes.ticketImageSkeleton} />
+        )}
       <View style={classes.dateContainer}>
         <View style={classes.dateItem}>
           <Image

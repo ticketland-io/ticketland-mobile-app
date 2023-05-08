@@ -3,18 +3,18 @@ import {makeStyles} from '@rneui/themed'
 export default makeStyles(theme => ({
   safeAreaContainer: {
     flex: 1,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   container: {
     flex: 1,
-    padding: 16
+    padding: 16,
   },
   firstInnerContainer: {
     flexDirection: 'row',
-    marginBottom: 38
+    marginBottom: 38,
   },
   secondInnerContainer: {
-    marginBottom: 24
+    marginBottom: 24,
   },
   qrCodeContainer: {
     flex: 1,
@@ -25,25 +25,31 @@ export default makeStyles(theme => ({
     paddingHorizontal: 16,
     paddingVertical: 8,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   backButton: {
     width: 36,
-    height: 36
+    height: 36,
   },
   leftButtonIcon: {
     width: 15,
-    height: 15
+    height: 15,
   },
   eventName: {
     flex: 10,
     fontWeight: 600,
     textAlign: 'center',
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
   },
-  ticketImage: {
+  ticketImage: ratio => ({
     borderRadius: 8,
-    height: 114
+    width: '100%',
+    resizeMode: 'contain',
+    aspectRatio: ratio,
+  }),
+  ticketImageSkeleton: {
+    borderRadius: 8,
+    height: 114,
   },
   dateContainer: {
     marginTop: 8,
@@ -53,21 +59,21 @@ export default makeStyles(theme => ({
     borderColor: theme.palette.common.gray100,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   dateItem: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   calendarIcon: {
     width: 14,
     height: 14,
-    marginRight: 17
+    marginRight: 17,
   },
   dateLine: {
     height: 1,
     width: 9,
-    backgroundColor: 'black'
+    backgroundColor: 'black',
   },
   qrIcon: {
     width: 20,
@@ -93,7 +99,7 @@ export default makeStyles(theme => ({
     height: 34,
     backgroundColor: attended
       ? theme.palette.common.green100
-      : theme.palette.common.yellow500
+      : theme.palette.common.yellow500,
   }),
   eventBgImageContainer: {
     position: 'absolute',
@@ -114,19 +120,19 @@ export default makeStyles(theme => ({
     top: 0,
     borderBottomRightRadius: 24,
     borderBottomLeftRadius: 24,
-    height: 180
+    height: 180,
   },
   bgViewOverlay: {
     width: '100%',
     position: 'absolute',
     height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.5)'
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   carousel: {
     flex: 1,
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   carouselItem: {
     flex: 1,
@@ -134,18 +140,18 @@ export default makeStyles(theme => ({
   },
   carouselContainer: {
     width: 450,
-    height: 350
+    height: 350,
   },
   skeletonContainer: {
     flex: 1,
     alignSelf: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   skeletonButtonContainer: {
     flex: 1,
     alignSelf: 'center',
     justifyContent: 'center',
-    marginTop: 85
+    marginTop: 85,
   },
   outerSkeletonContainer: {
     flex: 1,
@@ -158,10 +164,10 @@ export default makeStyles(theme => ({
     height: 250,
     width: 250,
     justifyContent: 'center',
-    marginBottom: 27
+    marginBottom: 27,
   },
   timerText: {
     textAlign: 'center',
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 }))

@@ -1,17 +1,23 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {SafeAreaView, StatusBar, View} from 'react-native'
+import {Dimensions, Modal, SafeAreaView, StatusBar, View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import {format} from 'date-fns'
 import QRCode from 'react-native-qrcode-svg'
 import Carousel from 'react-native-reanimated-carousel'
-import {Button, Icon, Image, Skeleton, Text} from '@rneui/themed'
+import {
+  Button,
+  Icon,
+  Image,
+  Skeleton,
+  Text,
+} from '@rneui/themed'
 import {Context} from '../../core/Store'
 import {fetchTickets, normalizeEventId} from '../../../services/ticket'
 import {getSignedMessage} from '../../../services/message'
 import {
   fetchEvent,
   get_event_cover_image_path,
-  get_event_ticket_image_path
+  getEventTicketImagePath,
 } from '../../../services/event'
 import {duration} from '../../../helpers/time'
 import Logo from '../../../assets/logo.png'
@@ -27,6 +33,7 @@ const Ticket = ({route, navigation}) => {
   const [qrCodeData, setQrCodeData] = useState([])
   const [eventImage, setEventImage] = useState()
   const [ticketImage, setTicketImage] = useState()
+  const [ticketImageRatio, setTicketImageRatio] = useState()
   const [event, setEvent] = useState({})
   const [loading, setLoading] = useState(false)
   const [timer, setTimer] = useState(60)
@@ -38,7 +45,7 @@ const Ticket = ({route, navigation}) => {
   const getFilteredTickets = async () => {
     const {result} = await fetchTickets(state.firebase, eventId)
 
-    return result.filter((ticket) => !ticket.sell_listing)
+    return result.filter(ticket => !ticket.sell_listing)
   }
 
   const getTickets = async event => {
@@ -58,19 +65,20 @@ const Ticket = ({route, navigation}) => {
 
     try {
       const [result] = (await fetchEvent(state.firebase, eventId)).result
+      const imageUrl = getEventTicketImagePath(
+        result.event_id,
+        result.start_date,
+        result.end_date,
+        result.ticket_images,
+      )
 
       setEvent(result)
       setEventImage(
         get_event_cover_image_path(result.event_id),
       )
-      setTicketImage(
-        get_event_ticket_image_path(
-          result.event_id,
-          result.start_date,
-          result.end_date,
-          result.ticket_images,
-        ),
-      )
+      setTicketImage(imageUrl)
+
+      Image.getSize(imageUrl, (width, height) => setTicketImageRatio(width / height))
     } catch (error) {
       //ignore
     }
@@ -170,14 +178,18 @@ const Ticket = ({route, navigation}) => {
 
   const renderEvent = () => (
     <View style={classes.secondInnerContainer}>
-      {!loading ? (
-        <Image
-          source={{uri: ticketImage}}
-          containerStyle={classes.ticketImage}
-        />
-      ) : (
-        <Skeleton style={classes.ticketImage} />
-      )}
+      {!loading
+        ? (
+          <View style={{alignItems: 'center'}}>
+            <Image
+              source={{uri: ticketImage}}
+              style={classes.ticketImage(ticketImageRatio)}
+            />
+          </View>
+        )
+        : (
+          <Skeleton style={classes.ticketImageSkeleton} />
+        )}
       <View style={classes.dateContainer}>
         <View style={classes.dateItem}>
           <Image source={CalendarIcon} style={classes.calendarIcon} />
@@ -234,13 +246,12 @@ const Ticket = ({route, navigation}) => {
           size={100}
           containerStyle={classes.checkIcon}
         />
-      )
-      }
-      {!item.attended &&
+      )}
+      {!item.attended && (
         <Text style={classes.timerText}>
           Refresh in: {timer}
         </Text>
-      }
+      )}
       <View style={classes.ticketButton(item.attended)}>
         <Image source={TicketIcon} style={classes.ticketIcon} />
         <Text h7>
@@ -250,8 +261,8 @@ const Ticket = ({route, navigation}) => {
     </View>
   )
 
-  const renderCarousel = () =>
-    !loading ? (
+  const renderCarousel = () => !loading
+    ? (
       <Carousel
         width={270}
         loop={false}
@@ -288,7 +299,7 @@ const Ticket = ({route, navigation}) => {
     <SafeAreaView style={classes.safeAreaContainer}>
       {
         Platform.OS === 'ios' &&
-        <StatusBar animated={true} barStyle={'light-content'} />
+        <StatusBar animated={true} barStyle='light-content' />
       }
       {renderBgImage()}
       <GestureHandlerRootView style={{flex: 1}}>

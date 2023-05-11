@@ -185,7 +185,7 @@ const Event = ({route, navigation}) => {
     )
 
   const getButtonText = () => {
-    const totalTickets = ticketsCount.reduce((acc, cur, index) => acc += cur.total_count, 0)
+    const totalTickets = ticketsCount.reduce((acc, cur) => acc + cur.total_count, 0)
 
     switch (true) {
       case totalTickets === 0:

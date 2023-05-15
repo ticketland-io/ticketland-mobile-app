@@ -41,16 +41,6 @@ export default makeStyles(theme => ({
     textAlign: 'center',
     color: theme.palette.common.white,
   },
-  ticketImage: ratio => ({
-    borderRadius: 8,
-    width: '100%',
-    resizeMode: 'contain',
-    aspectRatio: ratio,
-  }),
-  ticketImageSkeleton: {
-    borderRadius: 8,
-    height: 114,
-  },
   dateContainer: {
     marginTop: 8,
     padding: 7,

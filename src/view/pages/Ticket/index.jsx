@@ -17,10 +17,9 @@ import {getSignedMessage} from '../../../services/message'
 import {
   fetchEvent,
   getEventCoverImagePath,
-  getEventTicketImagePath,
 } from '../../../services/event'
 import {duration} from '../../../helpers/time'
-import {sharePdf} from '../../../helpers/share'
+import TicketImage from '../../components/TicketImage'
 import Logo from '../../../assets/logo.png'
 import TicketIcon from '../../../assets/ticket.png'
 import CalendarIcon from '../../../assets/calendarIcon.png'
@@ -33,8 +32,6 @@ const Ticket = ({route, navigation}) => {
   const [tickets, setTickets] = useState([])
   const [qrCodeData, setQrCodeData] = useState([])
   const [eventImage, setEventImage] = useState()
-  const [ticketImage, setTicketImage] = useState()
-  const [ticketImageRatio, setTicketImageRatio] = useState()
   const [event, setEvent] = useState({})
   const [loading, setLoading] = useState(false)
   const [timer, setTimer] = useState(60)
@@ -66,20 +63,11 @@ const Ticket = ({route, navigation}) => {
 
     try {
       const [result] = (await fetchEvent(state.firebase, eventId)).result
-      const imageResult = getEventTicketImagePath(
-        result.event_id,
-        result.start_date,
-        result.end_date,
-        result.ticket_images,
-      )
 
       setEvent(result)
       setEventImage(
         getEventCoverImagePath(result.event_id),
       )
-      setTicketImage(imageResult)
-
-      Image.getSize(imageResult.url, (width, height) => setTicketImageRatio(width / height))
     } catch (error) {
       // ignore
     }
@@ -175,35 +163,9 @@ const Ticket = ({route, navigation}) => {
     </View>
   )
 
-  const renderTicket = () => ticketImage?.content_type === 'pdf'
-    ? (
-      <View>
-        <Button
-          buttonStyle={{backgroundColor: 'yellow', marginTop: 50}}
-          onPress={() => sharePdf(event.event_id, ticketImage)}
-        >
-          <Text h7>
-            Open PDF
-          </Text>
-        </Button>
-      </View>
-    )
-    : (
-      <View style={{alignItems: 'center'}}>
-        <Image
-          source={{uri: ticketImage?.url}}
-          style={classes.ticketImage(ticketImageRatio)}
-        />
-      </View>
-    )
-
   const renderEvent = () => (
     <View style={classes.secondInnerContainer}>
-      {!loading
-        ? renderTicket()
-        : (
-          <Skeleton style={classes.ticketImageSkeleton} />
-        )}
+      <TicketImage event={event} />
       <View style={classes.dateContainer}>
         <View style={classes.dateItem}>
           <Image source={CalendarIcon} style={classes.calendarIcon} />

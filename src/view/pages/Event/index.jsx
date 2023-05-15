@@ -12,13 +12,12 @@ import {
   fetchAttendedCount,
   fetchEvent,
   getEventCoverImagePath,
-  getEventTicketImagePath,
 } from '../../../services/event'
 import {Context} from '../../core/Store'
 import CalendarIcon from '../../../assets/calendarIcon.png'
 import QrIcon from '../../../assets/qr-code-line.png'
 import {handleCameraPermission} from '../../../helpers/permissions'
-import {sharePdf} from '../../../helpers/share'
+import TicketImage from '../../components/TicketImage'
 import Scanner from '../Scanner'
 import ScannedTickets from './ScannedTickets'
 import useStyles from './styles'
@@ -27,8 +26,6 @@ const Event = ({route, navigation}) => {
   const [state] = useContext(Context)
   const [event, setEvent] = useState({})
   const [eventImage, setEventImage] = useState()
-  const [ticketImage, setTicketImage] = useState()
-  const [ticketImageRatio, setTicketImageRatio] = useState()
   const [cameraModalVisible, setCameraModalVisible] = useState(false)
   const [eventFullScanned, setEventFullScanned] = useState(false)
   const [ticketsCount, setTicketsCount] = useState([])
@@ -51,20 +48,11 @@ const Event = ({route, navigation}) => {
         })
 
         const allTicketsScanned = ticketCounts.every(t => t.attended_count === t.total_count)
-        const imageResult = getEventTicketImagePath(
-          result.event_id,
-          result.start_date,
-          result.end_date,
-          result.ticket_images,
-        )
 
         setEventFullScanned(allTicketsScanned)
         setEvent(result)
         setTicketsCount(ticketCounts)
         setEventImage(getEventCoverImagePath(result.event_id))
-        setTicketImage(imageResult)
-
-        Image.getSize(imageResult.url, (width, height) => setTicketImageRatio(width / height))
       } catch (error) {
         // ignore
       }
@@ -98,35 +86,9 @@ const Event = ({route, navigation}) => {
     </View>
   )
 
-  const renderTicket = () => ticketImage?.content_type === 'pdf'
-    ? (
-      <View>
-        <Button
-          buttonStyle={{backgroundColor: 'yellow', marginTop: 50}}
-          onPress={() => sharePdf(event.event_id, ticketImage)}
-        >
-          <Text h7>
-            Open PDF
-          </Text>
-        </Button>
-      </View>
-    )
-    : (
-      <View style={{alignItems: 'center'}}>
-        <Image
-          source={{uri: ticketImage?.url}}
-          style={classes.ticketImage(ticketImageRatio)}
-        />
-      </View>
-    )
-
   const renderEvent = () => (
     <View style={classes.secondInnerContainer}>
-      {!loading
-        ? renderTicket()
-        : (
-          <Skeleton style={classes.ticketImageSkeleton} />
-        )}
+      <TicketImage event={event} />
       <View style={classes.dateContainer}>
         <View style={classes.dateItem}>
           <Image

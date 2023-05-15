@@ -206,6 +206,8 @@ const Event = ({route, navigation}) => {
     setEventFullScanned(allTicketsScanned)
   }
 
+  const onClickOpenCamera = async () => setCameraModalVisible(await handleCameraPermission())
+
   return (
     <SafeAreaView style={{flex: 1}}>
       {
@@ -228,7 +230,7 @@ const Event = ({route, navigation}) => {
           <Button
             disabled={eventFullScanned}
             buttonStyle={classes.scanButton}
-            onPress={async () => setCameraModalVisible(await handleCameraPermission())}
+            onPress={onClickOpenCamera}
             loading={loading}
           >
             {!eventFullScanned && (

@@ -17,7 +17,7 @@ export const sharePdf = (eventId, ticketImage) => {
       filePath = resp.path()
       const options = {
         type: 'application/pdf',
-        url: Platform.OS === 'ios' ? filePath : `file://${filePath}`// (Platform.OS === 'android' ? 'file://' + filePath)
+        url: Platform.OS === 'ios' ? filePath : `file://${filePath}`
       }
 
       await Share.open(options)

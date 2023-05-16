@@ -12,9 +12,16 @@ export default () => {
       if (state.connection && state.user?.uid) {
         const _web3 = Web3()
 
-        if (state.walletType === 'custody') {
-          const custodyWallet = await state.walletCore.bootstrap(state.user)
-          await _web3.init(state.connection, custodyWallet)
+        while (true) {
+          try {
+            if (state.walletType === 'custody') {
+              const custodyWallet = await state.walletCore.bootstrap(state.user)
+              await _web3.init(state.connection, custodyWallet)
+              break
+            }
+          } catch (error) {
+            console.log(error)
+          }
         }
 
         setWeb3(_web3)

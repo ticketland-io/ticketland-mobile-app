@@ -7,7 +7,7 @@ import {Context} from '../../core/Store'
 import Shadow from '../../components/Shadow'
 import UserIcon from '../../../assets/userIcon.png'
 import CalendarIcon from '../../../assets/calendarIcon.png'
-import {fetchAttendedCount, get_event_cover_image_path} from '../../../services/event'
+import {fetchAttendedCount, getEventCoverImagePath} from '../../../services/event'
 import useStyles from './styles'
 
 const Card = props => {
@@ -46,7 +46,7 @@ const Card = props => {
           <View justifyContent='center'>
             {!loading
               ? <Image
-                source={{uri: get_event_cover_image_path(event?.event_id, event?.file_type)}}
+                source={{uri: getEventCoverImagePath(event?.event_id, event?.file_type)}}
                 style={classes.imageCard}
               />
               : <Skeleton width={'100%'} style={{borderRadius: 16, height: 212}} />

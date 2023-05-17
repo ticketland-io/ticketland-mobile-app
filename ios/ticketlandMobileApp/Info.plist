@@ -63,8 +63,6 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Required for qr-code scanning</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

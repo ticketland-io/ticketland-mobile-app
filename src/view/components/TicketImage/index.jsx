@@ -18,28 +18,21 @@ const TicketImage = props => {
   const classes = useStyles()
 
   useEffect(() => {
-    const run = () => {
-      setLoading(true)
+    if (event?.event_id) {
+      const imageResult = getEventTicketImagePath(
+        event.event_id,
+        event.start_date,
+        event.end_date,
+        event.ticket_images,
+      )
 
-      try {
-        const imageResult = getEventTicketImagePath(
-          event.event_id,
-          event.start_date,
-          event.end_date,
-          event.ticket_images,
-        )
+      setTicketImage(imageResult)
 
-        setTicketImage(imageResult)
-
-        Image.getSize(imageResult.url, (width, height) => setTicketImageRatio(width / height))
-      } catch (error) {
-        // ignore
-      }
-
-      setLoading(false)
+      Image.getSize(imageResult.url, (width, height) => {
+        setTicketImageRatio(width / height)
+        setLoading(false)
+      })
     }
-
-    event?.event_id && run()
   }, [event?.event_id])
 
   const renderTicket = () => ticketImage?.content_type === 'pdf'

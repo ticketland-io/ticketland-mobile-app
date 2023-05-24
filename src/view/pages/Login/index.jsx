@@ -4,7 +4,6 @@ import {
   View,
   ImageBackground,
   TouchableOpacity,
-  Modal,
   Platform,
   ActivityIndicator
 } from 'react-native'
@@ -88,37 +87,20 @@ const Login = ({navigation}) => {
   )
 
   const renderModal = () => (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {setModalVisible(!modalVisible)}}
+    <Dialog
+      isVisible={modalVisible}
+      onBackdropPress={() => setModalVisible(!modalVisible)}
     >
-      <View style={classes.modalViewContainer}>
-        <View style={classes.modalViewItem}>
-          <View style={{alignSelf: 'flex-end'}}>
-            <Button type='clear' onPress={() => {setModalVisible(false)}}>
-              <Icon
-                type="ant-design"
-                name="close"
-                size={20}
-              />
-            </Button>
-          </View>
-          <View style={classes.modalTextContainer}>
-            <Icon
-              type="ant-design"
-              name="warning"
-              color={'#E24A30'}
-              style={classes.warningIcon}
-              size={50}
-            />
-            <Text style={classes.modalText} h6>Email already registered with different provider</Text>
-            <Text style={classes.modalText} h6>({registeredProvider})</Text>
-          </View>
-        </View>
-      </View>
-    </Modal>
+      <Icon
+        type="ant-design"
+        name="warning"
+        color={'#E24A30'}
+        style={classes.warningIcon}
+        size={50}
+      />
+      <Text style={classes.modalText} h6>Email already registered with different provider</Text>
+      <Text style={classes.modalText} h6>({registeredProvider})</Text>
+    </Dialog>
   )
 
   return (

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react'
 import {ThemeProvider} from '@rneui/themed'
-import Config from 'react-native-config';
+import Config from 'react-native-config'
 import {Context} from './Store'
 import Router from './Router'
 import Auth from '../components/Auth'

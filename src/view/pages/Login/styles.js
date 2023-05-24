@@ -32,5 +32,9 @@ export default makeStyles(theme => ({
   shadow: loading => ({
     padding: 24,
     opacity: loading ? 0.8 : 1
-  })
+  }),
+  dialogButton: {
+    backgroundColor: theme.palette.common.gray800,
+    marginTop: 24,
+  },
 }))

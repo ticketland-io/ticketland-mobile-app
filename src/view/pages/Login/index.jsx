@@ -96,17 +96,24 @@ const Login = ({navigation}) => {
   const renderModal = () => (
     <Dialog
       isVisible={modalVisible}
-      onBackdropPress={() => setModalVisible(!modalVisible)}
     >
       <Icon
-        type="ant-design"
-        name="warning"
-        color={'#E24A30'}
+        type='ant-design'
+        name='warning'
+        color='#E24A30'
         style={classes.warningIcon}
         size={50}
       />
       <Text style={classes.modalText} h6>Email already registered with different provider</Text>
       <Text style={classes.modalText} h6>({registeredProvider})</Text>
+      <Button
+        buttonStyle={classes.dialogButton}
+        onPress={() => setModalVisible(!modalVisible)}
+      >
+        <Text style={{color: 'white'}}>
+          Dismiss
+        </Text>
+      </Button>
     </Dialog>
   )
 
@@ -151,6 +158,5 @@ const Login = ({navigation}) => {
     </ImageBackground>
   )
 }
-
 
 export default Login

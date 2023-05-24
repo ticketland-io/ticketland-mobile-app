@@ -5,9 +5,16 @@ import {
   ImageBackground,
   TouchableOpacity,
   Platform,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native'
-import {Button, Image, Text, Divider, Icon, Dialog} from '@rneui/themed'
+import {
+  Button,
+  Image,
+  Text,
+  Divider,
+  Icon,
+  Dialog,
+} from '@rneui/themed'
 import {Context} from '../../core/Store'
 import {capitalizeFirstLetter} from '../../../helpers/string'
 import Shadow from '../../components/Shadow'
@@ -29,7 +36,7 @@ const Login = ({navigation}) => {
     google: GoogleIcon,
     facebook: FacebookIcon,
     twitter: TwitterIcon,
-    apple: AppleIcon
+    apple: AppleIcon,
   }
 
   const logIn = provider => async () => {
@@ -56,9 +63,9 @@ const Login = ({navigation}) => {
         default:
           break
       }
+
       navigation.replace('Mode')
-    }
-    catch (error) {
+    } catch (error) {
       if (error.message === 'User already singed up with a different provider') {
         setRegisteredProvider(error.data.provider)
         setModalVisible(true)
@@ -74,7 +81,7 @@ const Login = ({navigation}) => {
       type='clear'
       TouchableComponent={TouchableOpacity}
     >
-      <View style={{flex: 3}} >
+      <View style={{flex: 3}}>
         <Image
           source={providerImages[provider]}
           style={classes.providerImage}
@@ -104,7 +111,7 @@ const Login = ({navigation}) => {
   )
 
   return (
-    <ImageBackground source={Circle} resizeMode="cover" style={classes.background}>
+    <ImageBackground source={Circle} resizeMode='cover' style={classes.background}>
       <SafeAreaView style={classes.safeAreaView}>
         {renderModal()}
         <Text alignSelf='center' style={{marginBottom: 16}}>
@@ -116,11 +123,11 @@ const Login = ({navigation}) => {
         </Text>
         <View style={classes.shadowContainer}>
           <Shadow style={classes.shadow(loading)}>
-            <View justifyContent='center' >
+            <View justifyContent='center'>
               <View style={{marginBottom: 24}}>
                 <Text alignSelf='center' style={{marginBottom: 24}}>
                   <Text h6>
-                    {`Sign in with `}
+                    {'Sign in with '}
                   </Text>
                   <Text h6Bold>
                     social media
@@ -128,9 +135,11 @@ const Login = ({navigation}) => {
                 </Text>
                 <Divider />
               </View>
-              {loading && <View style={{position: 'absolute', zIndex: 1, alignSelf: 'center'}}>
-                <ActivityIndicator size="large" />
-              </View>}
+              {loading && (
+                <View style={{position: 'absolute', zIndex: 1, alignSelf: 'center'}}>
+                  <ActivityIndicator size='large' />
+                </View>
+              )}
               {renderProviderButtons('facebook')}
               {renderProviderButtons('google')}
               {renderProviderButtons('twitter')}
@@ -138,7 +147,7 @@ const Login = ({navigation}) => {
             </View>
           </Shadow>
         </View>
-      </SafeAreaView >
+      </SafeAreaView>
     </ImageBackground>
   )
 }

@@ -40,9 +40,7 @@ const Web3Auth = () => {
   }, [state.connection, state.user?.uid, initWeb3State])
 
   return (
-    <Dialog
-      isVisible={openDialog}
-    >
+    <Dialog isVisible={openDialog}>
       <Text>You need to access openlogin.com to complete login authentication</Text>
       <Button
         buttonStyle={classes.dialogButton}

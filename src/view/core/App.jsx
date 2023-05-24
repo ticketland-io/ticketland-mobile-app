@@ -4,7 +4,7 @@ import Config from 'react-native-config'
 import {setConnection} from '../../data/actions'
 import useConnection from '../hooks/useConnection'
 import Auth from '../components/Auth'
-import Web3 from '../components/Web3'
+import Web3Auth from '../components/Web3Auth'
 import {Context} from './Store'
 import Router from './Router'
 import {getTheme} from './theme'
@@ -21,7 +21,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Web3 />
+      <Web3Auth />
       <Auth />
       <Router />
     </ThemeProvider>

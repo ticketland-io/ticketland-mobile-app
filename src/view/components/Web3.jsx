@@ -21,9 +21,7 @@ const Web3 = () => {
     <Dialog
       isVisible={open}
       onBackdropPress={() => setOpen(false)}
-      overlayStyle={{borderRadius:10}}
     >
-      <Dialog.Title title="Error!" />
       <Text>You need to access openlogin.com to complete login authentication</Text>
     </Dialog>
   )

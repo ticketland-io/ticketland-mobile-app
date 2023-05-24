@@ -135,6 +135,15 @@ export const getTheme = () => createTheme({
           lineHeight: 18
         })
     }),
+    Dialog: {
+      animationType: 'fade',
+      overlayStyle: {
+        borderWidth: 2,
+        borderColor: colors.yellow500,
+        padding: 24,
+        borderRadius: 16
+      }
+    },
     Button: {
       buttonStyle: {
         borderColor: colors.gray500,

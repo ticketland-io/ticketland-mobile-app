@@ -31,10 +31,6 @@ export default makeStyles(theme => {
       position: 'absolute',
       width: '90%',
       bottom: 50,
-      borderRadius: 16,
-      borderWidth: 2,
-      borderColor: 'yellow',
-      padding: 24
     },
     errorIconItem: {
       flex: 2,

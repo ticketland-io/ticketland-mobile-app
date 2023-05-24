@@ -8,15 +8,15 @@ import {
   Platform,
   ActivityIndicator
 } from 'react-native'
-import {Button, Image, Text, Divider, Icon} from '@rneui/themed'
+import {Button, Image, Text, Divider, Icon, Dialog} from '@rneui/themed'
 import {Context} from '../../core/Store'
 import {capitalizeFirstLetter} from '../../../helpers/string'
 import Shadow from '../../components/Shadow'
-import FacebookIcon from '../../../assets/facebookIcon.png';
-import GoogleIcon from '../../../assets/googleIcon.png';
-import TwitterIcon from '../../../assets/twitterIcon.png';
-import AppleIcon from '../../../assets/appleIcon.png';
-import Circle from '../../../assets/circle.png';
+import FacebookIcon from '../../../assets/facebookIcon.png'
+import GoogleIcon from '../../../assets/googleIcon.png'
+import TwitterIcon from '../../../assets/twitterIcon.png'
+import AppleIcon from '../../../assets/appleIcon.png'
+import Circle from '../../../assets/circle.png'
 import useStyles from './styles'
 
 const Login = ({navigation}) => {
@@ -40,22 +40,22 @@ const Login = ({navigation}) => {
       switch (provider) {
         case 'google': {
           await state.firebase.signInWithGoogle()
-          break;
+          break
         }
         case 'facebook': {
           await state.firebase.signInWithFacebook()
-          break;
+          break
         }
         case 'twitter': {
           await state.firebase.signInWithTwitter()
-          break;
+          break
         }
         case 'apple': {
           await state.firebase.signInWithAppleId()
-          break;
+          break
         }
         default:
-          break;
+          break
       }
       navigation.replace('Mode')
     }

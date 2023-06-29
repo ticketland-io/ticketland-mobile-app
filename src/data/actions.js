@@ -1,6 +1,6 @@
 export const setLoading = value => ({type: 'loading', value})
 export const setWalletType = value => ({type: 'walletType', value})
 export const setUser = value => ({type: 'user', value})
-export const setWeb3 = value => ({type: 'web3', value})
+export const setWallet = value => ({type: 'wallet', value})
 export const setConnection = value => ({type: 'connection', value})
 export const setMode = value => ({type: 'mode', value})

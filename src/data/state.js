@@ -38,8 +38,8 @@ export const reducer = (state, action) => {
       return {...state, walletType: action.value}
     case 'user':
       return {...state, user: action.value}
-    case 'web3':
-      return {...state, web3: action.value}
+    case 'wallet':
+      return {...state, wallet: action.value}
     case 'connection':
       return {...state, connection: action.value}
     case 'mode':

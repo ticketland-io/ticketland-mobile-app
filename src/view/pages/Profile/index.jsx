@@ -7,17 +7,16 @@ import {
   Text,
 } from '@rneui/themed'
 import {Context} from '../../core/Store'
-import {setMode, setWeb3} from '../../../data/actions'
+import {setMode, setWallet} from '../../../data/actions'
 import Shadow from '../../components/Shadow'
 import useStyles from './styles'
-import {formatValue} from '../../../helpers/format'
-import {currencies} from '../../../helpers/constants'
+import {formatValue, fromBase} from '../../../helpers/format'
 import DeleteAccount from './DeleteAccount'
 
 const Profile = ({navigation}) => {
   const [state, dispatch] = useContext(Context)
   const [usdcBalance, setUsdcBalance] = useState(0)
-  const [solBalance, setSolBalance] = useState(0)
+  const [suiBalance, setSuiBalance] = useState(0)
   const classes = useStyles()
 
   const signOut = async () => {
@@ -25,7 +24,7 @@ const Profile = ({navigation}) => {
       await state.firebase.signOutUser()
       await state.walletCore.logout()
 
-      dispatch(setWeb3(null))
+      dispatch(setWallet(null))
     } catch (error) {
       // ignore
     }
@@ -34,24 +33,26 @@ const Profile = ({navigation}) => {
   useEffect(() => {
     const run = async () => {
       try {
-        const usdcAta = await state.web3.getAssociatedTokenAddress(
-          currencies.USDC,
-          state.web3.wallet.publicKey,
-          true,
-        )
-        const {value: {amount}} = await state.web3.getTokenAccountBalance(usdcAta)
+        const allCoins = await state.wallet.signer.provider.getAllCoins({
+          owner: state.wallet?.publicKey.toSuiAddress(),
+        })
 
-        setUsdcBalance(amount)
-        setSolBalance(await state.web3.getBalance(state.web3.wallet.publicKey))
+        const result = allCoins.data.reduce((acc, cur) => ({
+          ...acc,
+          [cur.coinType.split('::')[2]]: cur.balance,
+        }), {})
+
+        setSuiBalance(result.SUI || 0)
+        setUsdcBalance(result.USDC || 0)
       } catch (error) {
         console.error('Error loading account balances', error)
       }
     }
 
-    if (state.web3 && state.web3.wallet && state.user) {
+    if (state.wallet && state.user) {
       run()
     }
-  }, [state.web3, state.user])
+  }, [state.wallet, state.user])
 
   useEffect(() => {
     if (!state.user) {
@@ -102,16 +103,16 @@ const Profile = ({navigation}) => {
           </Text>
           <View style={classes.infoContainer}>
             <Text email style={classes.label}>
-              SOL account:
+              SUI account:
             </Text>
             <Text email style={classes.centeredBold}>
-              {state.web3?.wallet?.publicKey.toBase58()}
+              {state.wallet?.publicKey?.toSuiAddress()}
             </Text>
             <Text email style={classes.label}>
-              SOL Balance:
+              SUI Balance:
             </Text>
             <Text email style={classes.centeredBold}>
-              {formatValue(state.web3?.fromBase(solBalance))}
+              {formatValue(fromBase(suiBalance))}
             </Text>
             <Text email style={classes.label}>
               USDC Balance:

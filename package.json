@@ -24,6 +24,7 @@
     "@react-native-firebase/app": "^17.3.2",
     "@react-native-firebase/auth": "^17.3.2",
     "@react-native-google-signin/google-signin": "^9.0.2",
+    "@react-native-picker/picker": "^2.4.10",
     "@react-native-twitter-signin/twitter-signin": "git+https://github.com/ticketland-io/twitter-signin.git",
     "@react-navigation/native": "^6.1.4",
     "@react-navigation/native-stack": "^6.9.10",

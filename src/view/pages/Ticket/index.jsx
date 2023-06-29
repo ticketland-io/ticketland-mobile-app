@@ -85,7 +85,7 @@ const Ticket = ({route, navigation}) => {
         tickets.map(async ticket => {
           try {
             return await getSignedMessage(
-              state.web3,
+              state.wallet.signer,
               normalizeEventId(eventId),
               '',
               ticket.ticket_metadata,

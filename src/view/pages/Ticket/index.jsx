@@ -51,7 +51,7 @@ const Ticket = ({route, navigation}) => {
 
     tickets = tickets.map(ticket => ({
       ...ticket,
-      name: event.sales[ticket.ticket_type_index].ticket_type_name
+      name: event.sales[ticket.ticket_type_index].ticket_type_name,
     }))
 
     setAllTicketsScanned(tickets.every(ticket => ticket.attended))
@@ -62,7 +62,7 @@ const Ticket = ({route, navigation}) => {
     setLoading(true)
 
     try {
-      const [result] = (await fetchEvent(state.firebase, eventId)).result
+      const result = await fetchEvent(state.firebase, eventId)
 
       setEvent(result)
       setEventImage(
@@ -93,7 +93,7 @@ const Ticket = ({route, navigation}) => {
           } catch (error) {
             // ignore
           }
-        })
+        }),
       ))
     }
 
@@ -165,7 +165,8 @@ const Ticket = ({route, navigation}) => {
 
   const renderEvent = () => (
     <View style={classes.secondInnerContainer}>
-      <TicketImage event={event} />
+      {/* TODO: add ticketType from current qrCode selected */}
+      <TicketImage event={event} ticketType={tickets[currentQr]?.ticketType} />
       <View style={classes.dateContainer}>
         <View style={classes.dateItem}>
           <Image source={CalendarIcon} style={classes.calendarIcon} />

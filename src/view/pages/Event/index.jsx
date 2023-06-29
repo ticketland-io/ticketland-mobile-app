@@ -4,7 +4,7 @@ import {
   Icon,
   Image,
   Skeleton,
-  Text
+  Text,
 } from '@rneui/themed'
 import {SafeAreaView, StatusBar, View} from 'react-native'
 import {format} from 'date-fns'
@@ -38,20 +38,8 @@ const Event = ({route, navigation}) => {
       setLoading(true)
 
       try {
-        const [result] = (await fetchEvent(state.firebase, eventId)).result
-        let ticketCounts = (await fetchAttendedCount(state.firebase, eventId)).result
-
-        ticketCounts = result.sales.map(sale => {
-          ticketCounts[sale.ticket_type_index].name = sale.ticket_type_name
-
-          return ticketCounts[sale.ticket_type_index]
-        })
-
-        const allTicketsScanned = ticketCounts.every(t => t.attended_count === t.total_count)
-
-        setEventFullScanned(allTicketsScanned)
+        const result = await fetchEvent(state.firebase, eventId)
         setEvent(result)
-        setTicketsCount(ticketCounts)
         setEventImage(getEventCoverImagePath(result.event_id))
       } catch (error) {
         // ignore
@@ -173,8 +161,8 @@ const Event = ({route, navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       {
-        Platform.OS === 'ios' &&
-        <StatusBar animated={true} barStyle={'light-content'} />
+        Platform.OS === 'ios'
+        && <StatusBar animated barStyle='light-content' />
       }
       {renderBgImage()}
       <View style={classes.container}>

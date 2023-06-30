@@ -38,8 +38,20 @@ const Event = ({route, navigation}) => {
       setLoading(true)
 
       try {
-        const result = await fetchEvent(state.firebase, eventId)
+        const [result] = (await fetchEvent(state.firebase, eventId)).result
+        let ticketCounts = (await fetchAttendedCount(state.firebase, eventId)).result
+
+        ticketCounts = result.ticket_types.map(ticketType => {
+          ticketCounts[ticketType.ticket_type_index].name = ticketType.ticket_type_name
+
+          return ticketCounts[ticketType.ticket_type_index]
+        })
+
+        const allTicketsScanned = ticketCounts.every(t => t.attended_count === t.total_count)
+
+        setEventFullScanned(allTicketsScanned)
         setEvent(result)
+        setTicketsCount(ticketCounts)
         setEventImage(getEventCoverImagePath(result.event_id))
       } catch (error) {
         // ignore
@@ -94,8 +106,7 @@ const Event = ({route, navigation}) => {
                 </Text>
               </>
             )
-            : <Skeleton style={classes.eventDateSkeleton} />
-          }
+            : <Skeleton style={classes.eventDateSkeleton} />}
         </View>
         <View style={classes.dateLine} />
         <View style={classes.dateItem}>
@@ -110,8 +121,7 @@ const Event = ({route, navigation}) => {
                 </Text>
               </>
             )
-            : <Skeleton style={classes.eventDateSkeleton} />
-          }
+            : <Skeleton style={classes.eventDateSkeleton} />}
         </View>
       </View>
     </View>

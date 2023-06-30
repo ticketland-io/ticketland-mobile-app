@@ -15,10 +15,10 @@ export default makeStyles(theme => ({
     backgroundColor: theme.palette.common.yellow500,
     marginTop: 50,
   },
-  buttonsContainer: length => ({
+  buttonsContainer: hasTicketType => ({
     width: '100%',
     flexDirection: 'row',
-    justifyContent: !length ? 'space-between' : 'center',
+    justifyContent: hasTicketType ? 'center' : 'space-between',
   }),
   dialog: {
     width: '80%',

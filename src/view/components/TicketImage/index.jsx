@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, {useEffect, useState} from 'react'
 import {View} from 'react-native'
 import {
@@ -9,17 +10,13 @@ import {
 } from '@rneui/themed'
 import {Picker} from '@react-native-picker/picker'
 import {sharePdf} from '../../../helpers/share'
-import {getEventTicketImagePath} from '../../../services/event'
 import useStyles from './styles'
+import {getTicketNftImagePath} from '../../../services/event'
 
 const TicketImage = props => {
-  const {event, ticketType = ''} = props
-  const [ticketImage, setTicketImage] = useState([])
-  const [ticketFiles, setTicketFiles] = useState([])
+  const {event, ticketType} = props
+  const [ticketTypeFiles, setTicketTypeFiles] = useState([])
   const [ticketImageRatio, setTicketImageRatio] = useState()
-  const [loading, setLoading] = useState(true)
-  const [ticketTypes, setTicketTypes] = useState([])
-  const [ticketFileNames, setTicketFileNames] = useState([])
   const [isVisibleTicketType, setIsVisibleTicketType] = useState(false)
   const [isVisibleTicketImage, setIsVisibleTicketImage] = useState(false)
   const [curTicketTypeIndex, setCurTicketTypeIndex] = useState(0)
@@ -28,43 +25,36 @@ const TicketImage = props => {
   const classes = useStyles()
 
   useEffect(() => {
-    const run = () => {
-      setLoading(true)
+    if (event?.event_id) {
+      const ticketFilesResult = event.ticket_types.reduce((acc, cur) => [...acc, cur.ticket_type_nft_details], [])
 
-      try {
-        const types = event.ticketTypes.reduce((acc, cur) => [...acc, cur.label], [])
-        const ticketFilesResult = event.ticketTypes.reduce((acc, cur) => [...acc, cur.ticketFiles], [])
-
-        setTicketTypes([...types])
-        setTicketFiles(ticketFilesResult)
-      } catch (error) {
-        // ignore
-      }
-
-      setLoading(false)
+      setTicketTypeFiles(ticketFilesResult)
     }
-
-    event?.event_id && run()
   }, [event?.event_id])
 
   useEffect(() => {
     const run = () => {
-      setTicketImage(ticketFiles[curTicketTypeIndex][curTicketImageIndex])
+      const url = getTicketNftImagePath(
+        event.event_id,
+        ticketTypeFiles[curTicketTypeIndex][curTicketImageIndex].ref_name,
+      )
 
-      const names = ticketFiles[curTicketTypeIndex].map(cur => cur.name)
-
-      setTicketFileNames(names)
-      Image.getSize(ticketFiles[curTicketTypeIndex][curTicketImageIndex].url, (width, height) => setTicketImageRatio(width / height))
+      Image.getSize(url, (width, height) => setTicketImageRatio(width / height))
     }
 
-    ticketFiles.length && run()
-  }, [curTicketTypeIndex, curTicketImageIndex, ticketFiles])
+    if (event && ticketTypeFiles.length) {
+      run()
+    }
+  }, [event, curTicketTypeIndex, curTicketImageIndex, ticketTypeFiles])
 
-  const renderTicket = () => ticketImage?.content_type === 'pdf'
+  const renderTicket = () => ticketTypeFiles?.[curTicketTypeIndex]?.[curTicketImageIndex]?.nft_details?.content_type === 'pdf'
     ? (
       <View>
         <Button
-          onPress={() => sharePdf(event.event_id, ticketImage)}
+          onPress={() => sharePdf(event.event_id, getTicketNftImagePath(
+            event.event_id,
+            ticketTypeFiles[curTicketTypeIndex][curTicketImageIndex].ref_name,
+          ))}
           buttonStyle={classes.pdfButton}
         >
           <Text h7>
@@ -76,20 +66,25 @@ const TicketImage = props => {
     : (
       <View style={{alignItems: 'center'}}>
         <Image
-          source={{uri: ticketImage.url}}
+          source={{
+            uri: getTicketNftImagePath(
+              event.event_id,
+              ticketTypeFiles[curTicketTypeIndex][curTicketImageIndex].ref_name,
+            ),
+          }}
           style={classes.ticketImage(ticketImageRatio)}
         />
-        <View style={classes.buttonsContainer(ticketType.length)}>
-          {ticketType.length === 0 && (
-          <Button
-            onPress={() => setIsVisibleTicketType(true)}
-            buttonStyle={{backgroundColor: '#272A32'}}
-            style={{marginTop: 10}}
-          >
-            <Text h7 style={{color: 'white'}}>
-              Choose ticket Type
-            </Text>
-          </Button>
+        <View style={classes.buttonsContainer(ticketType)}>
+          {!ticketType && (
+            <Button
+              onPress={() => setIsVisibleTicketType(true)}
+              buttonStyle={{backgroundColor: '#272A32'}}
+              style={{marginTop: 10}}
+            >
+              <Text h7 style={{color: 'white'}}>
+                Choose ticket Type
+              </Text>
+            </Button>
           )}
           <Button
             onPress={() => setIsVisibleTicketImage(true)}
@@ -101,29 +96,34 @@ const TicketImage = props => {
             </Text>
           </Button>
         </View>
-        {ticketType.length === 0 && (
-        <Dialog
-          animationType='slide'
-          visible={isVisibleTicketType}
-          overlayStyle={classes.dialog}
-        >
-          <Picker
-            selectedValue={curTicketTypeIndex}
-            onValueChange={(itemValue, itemIndex) => setCurTicketTypeIndex(itemValue)}
-            style={{width: '100%'}}
+        {!ticketType && (
+          <Dialog
+            animationType='slide'
+            visible={isVisibleTicketType}
+            overlayStyle={classes.dialog}
           >
-            {ticketTypes.map((cur, index) => <Picker.Item key={index} label={`${cur}`} value={`${index}`} />)}
-          </Picker>
-          <Button
-            onPress={() => setIsVisibleTicketType(false)}
-            buttonStyle={{backgroundColor: '#272A32'}}
-            style={{marginTop: 10}}
-          >
-            <Text h7 style={{color: 'white'}}>
-              Close
-            </Text>
-          </Button>
-        </Dialog>
+            <Picker
+              selectedValue={curTicketTypeIndex}
+              onValueChange={itemValue => {
+                setCurTicketTypeIndex(itemValue)
+                setCurTicketImageIndex(0)
+              }}
+              style={{width: '100%'}}
+            >
+              {event.ticket_types.map(({ticket_type_name}, index) => (
+                <Picker.Item key={index} label={`${ticket_type_name}`} value={`${index}`} />
+              ))}
+            </Picker>
+            <Button
+              onPress={() => setIsVisibleTicketType(false)}
+              buttonStyle={{backgroundColor: '#272A32'}}
+              style={{marginTop: 10}}
+            >
+              <Text h7 style={{color: 'white'}}>
+                Close
+              </Text>
+            </Button>
+          </Dialog>
         )}
         <Dialog
           animationType='slide'
@@ -132,10 +132,11 @@ const TicketImage = props => {
         >
           <Picker
             selectedValue={curTicketImageIndex}
-            onValueChange={(itemValue, itemIndex) => setCurTicketImageIndex(itemValue)}
+            onValueChange={itemValue => setCurTicketImageIndex(itemValue)}
             style={{width: '100%'}}
           >
-            {ticketFileNames.map((cur, index) => <Picker.Item key={index} label={`${cur}`} value={`${index}`} />)}
+            {ticketTypeFiles[curTicketTypeIndex].map((cur, index) => (
+              <Picker.Item key={index} label={`${cur.nft_details.nft_name}`} value={`${index}`} />))}
           </Picker>
           <Button
             onPress={() => setIsVisibleTicketImage(false)}
@@ -150,7 +151,7 @@ const TicketImage = props => {
       </View>
     )
 
-  return !loading
+  return ticketTypeFiles.length > 0
     ? renderTicket()
     : <Skeleton style={classes.ticketImageSkeleton} />
 }

@@ -1,6 +1,5 @@
 export const qrCodeKeys = [
-  'ticketMetadata',
-  'ticketNft',
+  'cntSuiAddress',
   'codeChallenge',
   'ticketOwnerPubkey',
   'sig',

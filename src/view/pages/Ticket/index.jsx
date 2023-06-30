@@ -1,5 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {SafeAreaView, StatusBar, View} from 'react-native'
+import {
+  Platform, SafeAreaView, StatusBar, View,
+} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import {format} from 'date-fns'
 import QRCode from 'react-native-qrcode-svg'
@@ -42,28 +44,27 @@ const Ticket = ({route, navigation}) => {
   const [currentQr, setCurrentQr] = useState(0)
 
   const getFilteredTickets = async () => {
-    const {result} = await fetchTickets(state.firebase, eventId)
+    try {
+      const {result} = await fetchTickets(state.firebase, eventId)
 
-    return result.filter(ticket => !ticket.sell_listing)
+      return result.filter(ticket => !ticket.listing)
+    } catch (error) {
+      return []
+    }
   }
 
-  const getTickets = async event => {
-    let tickets = await getFilteredTickets()
+  const getTickets = async () => {
+    const filteredTickets = await getFilteredTickets()
 
-    tickets = tickets.map(ticket => ({
-      ...ticket,
-      name: event.sales[ticket.ticket_type_index].ticket_type_name,
-    }))
-
-    setAllTicketsScanned(tickets.every(ticket => ticket.attended))
-    setTickets(tickets)
+    setAllTicketsScanned(filteredTickets.every(ticket => ticket.attended))
+    setTickets(filteredTickets)
   }
 
   const getEventData = async () => {
     setLoading(true)
 
     try {
-      const result = await fetchEvent(state.firebase, eventId)
+      const [result] = (await fetchEvent(state.firebase, eventId)).result
 
       setEvent(result)
       setEventImage(
@@ -89,16 +90,19 @@ const Ticket = ({route, navigation}) => {
               state.wallet.signer,
               normalizeEventId(eventId),
               '',
-              ticket.ticket_metadata,
+              ticket.cnt_sui_address,
             )
           } catch (error) {
+            return undefined
             // ignore
           }
         }),
       ))
     }
 
-    tickets.length > 0 && pubkey && run()
+    if (tickets.length > 0 && pubkey) {
+      run()
+    }
   }, [JSON.stringify(tickets), pubkey])// Using stringify for deep comparison with prev state
 
   useEffect(() => {
@@ -112,8 +116,8 @@ const Ticket = ({route, navigation}) => {
   useEffect(() => {
     clearTimeout(timerId)
 
-    if (timer % 10 === 0 && event.sales) { // Fetch tickets every 10 seconds
-      getTickets(event)
+    if (timer % 10 === 0 && event.ticket_types) { // Fetch tickets every 10 seconds
+      getTickets()
     }
 
     if (timer > 0 && qrCodeData.length > 0 && !allTicketsScanned) {
@@ -130,8 +134,7 @@ const Ticket = ({route, navigation}) => {
   useEffect(() => {
     const run = async () => {
       const qrCodesArray = tickets.map((ticket, index) => JSON.stringify({
-        ticketMetadata: ticket.ticket_metadata,
-        ticketNft: ticket.ticket_nft,
+        cntSuiAddress: ticket.cnt_sui_address,
         codeChallenge: '',
         ticketOwnerPubkey: pubkey,
         sig: signatures[index],
@@ -143,7 +146,9 @@ const Ticket = ({route, navigation}) => {
       setLoading(false)
     }
 
-    tickets.length > 0 && signatures.length > 0 && timer === 60 && run()
+    if (tickets.length > 0 && signatures.length > 0 && timer === 60) {
+      run()
+    }
   }, [signatures, timer])
 
   const renderHeader = () => (

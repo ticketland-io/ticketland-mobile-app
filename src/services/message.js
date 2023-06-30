@@ -1,5 +1,4 @@
 import * as borsh from 'borsh'
-import * as bs58 from 'bs58'
 
 class VerifyTicketMsg {
   constructor(eventId, codeChallenge, cntSuiAddress) {
@@ -18,11 +17,11 @@ const VerifyTicketMsgType = {
   ],
 }
 
-export const getSignedMessage = async (signer, eventId, codeChallenge, cntSuiAddress) => {
+export const getSignedMessage = async (wallet, eventId, codeChallenge, cntSuiAddress) => {
   const msg = new VerifyTicketMsg(eventId, codeChallenge, cntSuiAddress)
   const schema = new Map([[VerifyTicketMsg, VerifyTicketMsgType]])
   const message = borsh.serialize(schema, msg)
-  const {signature} = (await signer.signMessage({message}))
+  const signature = (await wallet.signMessage(message))
 
-  return bs58.encode(Buffer.from(signature))
+  return Buffer.from(signature).toString('hex')
 }

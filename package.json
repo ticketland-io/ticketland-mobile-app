@@ -35,6 +35,7 @@
     "@ticketland-io/wallet-core-rn": "file:../wallet/packages/core-rn",
     "@toruslabs/react-native-web-browser": "^1.1.0",
     "@web3auth/react-native-sdk": "4.0.0",
+    "borsh": "^0.7.0",
     "date-fns": "^2.29.3",
     "jwt-decode": "^3.1.2",
     "node-libs-react-native": "^1.2.1",

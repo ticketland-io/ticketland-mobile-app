@@ -39,6 +39,7 @@ const Ticket = ({route, navigation}) => {
   const [signatures, setSignatures] = useState([])
   const [allTicketsScanned, setAllTicketsScanned] = useState(true)
   const [pubkey, setPubkey] = useState()
+  const [currentQr, setCurrentQr] = useState(0)
 
   const getFilteredTickets = async () => {
     const {result} = await fetchTickets(state.firebase, eventId)
@@ -245,6 +246,7 @@ const Ticket = ({route, navigation}) => {
         loop={false}
         style={classes.carousel}
         data={tickets}
+        onSnapToItem={index => setCurrentQr(index)}
         renderItem={renderCarouselItem}
       />
     ) : (
@@ -275,8 +277,8 @@ const Ticket = ({route, navigation}) => {
   return (
     <SafeAreaView style={classes.safeAreaContainer}>
       {
-        Platform.OS === 'ios' &&
-        <StatusBar animated={true} barStyle='light-content' />
+        Platform.OS === 'ios'
+        && <StatusBar animated barStyle='light-content' />
       }
       {renderBgImage()}
       <GestureHandlerRootView style={{flex: 1}}>

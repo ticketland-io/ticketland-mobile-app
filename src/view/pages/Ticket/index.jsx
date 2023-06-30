@@ -40,7 +40,6 @@ const Ticket = ({route, navigation}) => {
   const [timerId, setTimerId] = useState(0)
   const [signatures, setSignatures] = useState([])
   const [allTicketsScanned, setAllTicketsScanned] = useState(true)
-  const [pubkey, setPubkey] = useState()
   const [currentQr, setCurrentQr] = useState(0)
 
   const getFilteredTickets = async () => {
@@ -76,18 +75,12 @@ const Ticket = ({route, navigation}) => {
   }
 
   useEffect(() => {
-    const run = async () => setPubkey((await state.walletCore.fetchAccount()).pubkey)
-
-    run()
-  }, [])
-
-  useEffect(() => {
     const run = async () => {
       setSignatures(await Promise.all(
         tickets.map(async ticket => {
           try {
             return await getSignedMessage(
-              state.wallet.signer,
+              state.wallet,
               normalizeEventId(eventId),
               '',
               ticket.cnt_sui_address,
@@ -100,10 +93,10 @@ const Ticket = ({route, navigation}) => {
       ))
     }
 
-    if (tickets.length > 0 && pubkey) {
+    if (tickets.length > 0 && state.wallet.signer) {
       run()
     }
-  }, [JSON.stringify(tickets), pubkey])// Using stringify for deep comparison with prev state
+  }, [JSON.stringify(tickets), state.wallet.signer])// Using stringify for deep comparison with prev state
 
   useEffect(() => {
     getEventData()
@@ -132,11 +125,11 @@ const Ticket = ({route, navigation}) => {
   }, [timer, qrCodeData, allTicketsScanned, event])
 
   useEffect(() => {
-    const run = async () => {
+    if (state.wallet.signer && tickets.length > 0 && signatures.length > 0 && timer === 60) {
       const qrCodesArray = tickets.map((ticket, index) => JSON.stringify({
         cntSuiAddress: ticket.cnt_sui_address,
         codeChallenge: '',
-        ticketOwnerPubkey: pubkey,
+        ticketOwnerPubkey: state.wallet.signer.keypair.getPublicKey().toString(),
         sig: signatures[index],
         eventId,
         expTimestamp: Date.now() + duration.minutes(1.5),
@@ -145,11 +138,7 @@ const Ticket = ({route, navigation}) => {
       setQrCodeData(qrCodesArray)
       setLoading(false)
     }
-
-    if (tickets.length > 0 && signatures.length > 0 && timer === 60) {
-      run()
-    }
-  }, [signatures, timer])
+  }, [signatures, timer, state.wallet.signer])
 
   const renderHeader = () => (
     <View style={classes.firstInnerContainer}>

@@ -1,9 +1,9 @@
 import {WalletCore, constants} from '@ticketland-io/wallet-core-rn'
-import SolanaWallet from '@ticketland-io/solana-wallet-rn'
+import SuiWallet from '@ticketland-io/sui-wallet-rn'
 import FirebaseAuth from '@ticketland-io/firebase-auth-rn'
 import Config from 'react-native-config'
 
-const Wallet = () => SolanaWallet()
+const Wallet = () => SuiWallet()
 const walletCore = WalletCore({Wallet})
 const firebase = FirebaseAuth()
 
@@ -20,7 +20,7 @@ walletCore.init(
 )
 
 export const initState = {
-  web3: null,
+  wallet: null,
   connection: null,
   walletType: 'custody', // custody or injected
   walletCore,

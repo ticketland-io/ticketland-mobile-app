@@ -1,7 +1,6 @@
 import Config from 'react-native-config'
 import qs from 'qs'
 import fetch, {createBearerHeader} from './api'
-import {data} from '../data/mocks'
 
 export const fetchEvents = async (firebase, params, mode) => {
   const query = qs.stringify({
@@ -35,15 +34,13 @@ export const fetchEvents = async (firebase, params, mode) => {
   }
 }
 
-// export const fetchEvent = async (firebase, eventId) => await fetch(
-//   `${Config.TICKETLAND_API}/events/${eventId}`,
-//   'GET',
-//   {
-//     headers: createBearerHeader(await firebase.accessToken()),
-//   },
-// )
-
-export const fetchEvent = async (firebase, eventId) => data
+export const fetchEvent = async (firebase, eventId) => await fetch(
+  `${Config.TICKETLAND_API}/events/${eventId}`,
+  'GET',
+  {
+    headers: createBearerHeader(await firebase.accessToken()),
+  },
+)
 
 export const fetchAttendedCount = async (firebase, eventId) => await fetch(
   `${Config.TICKETLAND_API}/events/${eventId}/attended-count`,
@@ -53,36 +50,10 @@ export const fetchAttendedCount = async (firebase, eventId) => await fetch(
   },
 )
 
-export const getEventCoverImagePath = eventId => `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-cover_image`
+export const getEventCoverImagePath = eventId => (
+  `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-cover_image`
+)
 
-export const getEventTicketImagePath = (
-  eventId,
-  startDate,
-  endDate,
-  ticketImages = [],
-) => {
-  // const now = Date.now()
-  // let ticketImageType = 0
-  // const sortedImages = ticketImages
-  //   .map(ticketImage => ({
-  //     ticket_image_type: ticketImage.ticket_image_type,
-  //     content_type: ticketImage.content_type,
-  //   }))
-  //   .sort((a, b) => a - b)
-
-  // if (now >= startDate && now < endDate) {
-  //   ticketImageType = sortedImages.find(({ticket_image_type}) => ticket_image_type === 1) || 0
-  // } else if (now >= endDate) {
-  //   ticketImageType = sortedImages.find(({ticket_image_type}) => ticket_image_type === 2)
-  //     || sortedImages.find(({ticket_image_type}) => ticket_image_type === 1)
-  //     || 0
-  // }
-
-  // return {
-  //   url: `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-ticket_image_${ticketImageType}`,
-  //   content_type: sortedImages[ticketImageType].content_type,
-  // }
-  return data.ticketTypes
-}
-
-export const get_event_metadata_path = eventId => `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-event_metadata.json`
+export const getTicketNftImagePath = (eventId, nftRefName) => (
+  `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-nft_file_${nftRefName}`
+)

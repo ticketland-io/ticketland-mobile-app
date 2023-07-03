@@ -13,7 +13,7 @@ const Web3Auth = () => {
 
   useEffect(() => {
     if (state.connection && state.user?.uid) {
-      setOpenDialog(true)
+      setInitWalletState(true)
     }
   }, [state.connection, state.user?.uid])
 

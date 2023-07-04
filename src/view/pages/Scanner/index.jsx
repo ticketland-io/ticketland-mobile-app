@@ -37,7 +37,7 @@ const Scanner = props => {
   useEffect(() => {
     const run = async () => {
       try {
-        const result = await fetchTicket(state.firebase, qrCodeData?.ticketNft)
+        const result = await fetchTicket(state.firebase, qrCodeData?.cntSuiAddress)
 
         setTicketInfo(result)
 
@@ -61,8 +61,7 @@ const Scanner = props => {
       await verifyTicket(
         normalizeEventId(eventId),
         '',
-        qrCodeData.ticketMetadata,
-        qrCodeData.ticketNft,
+        qrCodeData.cntSuiAddress,
         qrCodeData.ticketOwnerPubkey,
         qrCodeData.sig,
       )

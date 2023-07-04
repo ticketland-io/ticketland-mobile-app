@@ -1,5 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {SafeAreaView, StatusBar, View} from 'react-native'
+import {
+  Platform, SafeAreaView, StatusBar, View,
+} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import {format} from 'date-fns'
 import QRCode from 'react-native-qrcode-svg'
@@ -38,24 +40,23 @@ const Ticket = ({route, navigation}) => {
   const [timerId, setTimerId] = useState(0)
   const [signatures, setSignatures] = useState([])
   const [allTicketsScanned, setAllTicketsScanned] = useState(true)
-  const [pubkey, setPubkey] = useState()
+  const [currentQr, setCurrentQr] = useState(0)
 
   const getFilteredTickets = async () => {
-    const {result} = await fetchTickets(state.firebase, eventId)
+    try {
+      const {result} = await fetchTickets(state.firebase, eventId)
 
-    return result.filter(ticket => !ticket.sell_listing)
+      return result.filter(ticket => !ticket.listing)
+    } catch (error) {
+      return []
+    }
   }
 
-  const getTickets = async event => {
-    let tickets = await getFilteredTickets()
+  const getTickets = async () => {
+    const filteredTickets = await getFilteredTickets()
 
-    tickets = tickets.map(ticket => ({
-      ...ticket,
-      name: event.sales[ticket.ticket_type_index].ticket_type_name
-    }))
-
-    setAllTicketsScanned(tickets.every(ticket => ticket.attended))
-    setTickets(tickets)
+    setAllTicketsScanned(filteredTickets.every(ticket => ticket.attended))
+    setTickets(filteredTickets)
   }
 
   const getEventData = async () => {
@@ -74,31 +75,28 @@ const Ticket = ({route, navigation}) => {
   }
 
   useEffect(() => {
-    const run = async () => setPubkey((await state.walletCore.fetchAccount()).pubkey)
-
-    run()
-  }, [])
-
-  useEffect(() => {
     const run = async () => {
       setSignatures(await Promise.all(
         tickets.map(async ticket => {
           try {
             return await getSignedMessage(
-              state.web3,
+              state.wallet,
               normalizeEventId(eventId),
               '',
-              ticket.ticket_metadata,
+              ticket.cnt_sui_address,
             )
           } catch (error) {
+            return undefined
             // ignore
           }
-        })
+        }),
       ))
     }
 
-    tickets.length > 0 && pubkey && run()
-  }, [JSON.stringify(tickets), pubkey])// Using stringify for deep comparison with prev state
+    if (tickets.length > 0 && state.wallet.signer) {
+      run()
+    }
+  }, [JSON.stringify(tickets), state.wallet.signer])// Using stringify for deep comparison with prev state
 
   useEffect(() => {
     getEventData()
@@ -111,8 +109,8 @@ const Ticket = ({route, navigation}) => {
   useEffect(() => {
     clearTimeout(timerId)
 
-    if (timer % 10 === 0 && event.sales) { // Fetch tickets every 10 seconds
-      getTickets(event)
+    if (timer % 10 === 0 && event.ticket_types) { // Fetch tickets every 10 seconds
+      getTickets()
     }
 
     if (timer > 0 && qrCodeData.length > 0 && !allTicketsScanned) {
@@ -127,12 +125,11 @@ const Ticket = ({route, navigation}) => {
   }, [timer, qrCodeData, allTicketsScanned, event])
 
   useEffect(() => {
-    const run = async () => {
+    if (state.wallet.signer && tickets.length > 0 && signatures.length > 0 && timer === 60) {
       const qrCodesArray = tickets.map((ticket, index) => JSON.stringify({
-        ticketMetadata: ticket.ticket_metadata,
-        ticketNft: ticket.ticket_nft,
+        cntSuiAddress: ticket.cnt_sui_address,
         codeChallenge: '',
-        ticketOwnerPubkey: pubkey,
+        ticketOwnerPubkey: state.wallet.signer.keypair.getPublicKey().toString(),
         sig: signatures[index],
         eventId,
         expTimestamp: Date.now() + duration.minutes(1.5),
@@ -141,9 +138,7 @@ const Ticket = ({route, navigation}) => {
       setQrCodeData(qrCodesArray)
       setLoading(false)
     }
-
-    tickets.length > 0 && signatures.length > 0 && timer === 60 && run()
-  }, [signatures, timer])
+  }, [signatures, timer, state.wallet.signer])
 
   const renderHeader = () => (
     <View style={classes.firstInnerContainer}>
@@ -165,7 +160,8 @@ const Ticket = ({route, navigation}) => {
 
   const renderEvent = () => (
     <View style={classes.secondInnerContainer}>
-      <TicketImage event={event} />
+      {/* TODO: add ticketType from current qrCode selected */}
+      <TicketImage event={event} ticketType={tickets[currentQr]?.ticketType} />
       <View style={classes.dateContainer}>
         <View style={classes.dateItem}>
           <Image source={CalendarIcon} style={classes.calendarIcon} />
@@ -244,6 +240,7 @@ const Ticket = ({route, navigation}) => {
         loop={false}
         style={classes.carousel}
         data={tickets}
+        onSnapToItem={index => setCurrentQr(index)}
         renderItem={renderCarouselItem}
       />
     ) : (
@@ -274,8 +271,8 @@ const Ticket = ({route, navigation}) => {
   return (
     <SafeAreaView style={classes.safeAreaContainer}>
       {
-        Platform.OS === 'ios' &&
-        <StatusBar animated={true} barStyle='light-content' />
+        Platform.OS === 'ios'
+        && <StatusBar animated barStyle='light-content' />
       }
       {renderBgImage()}
       <GestureHandlerRootView style={{flex: 1}}>

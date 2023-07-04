@@ -118,7 +118,7 @@ const Profile = ({navigation}) => {
               USDC Balance:
             </Text>
             <Text email style={classes.centeredBold}>
-              {formatValue(state.web3?.fromBase(usdcBalance, 6))}
+              {formatValue(fromBase(usdcBalance, 6))}
             </Text>
           </View>
         </View>

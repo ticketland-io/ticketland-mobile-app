@@ -50,35 +50,10 @@ export const fetchAttendedCount = async (firebase, eventId) => await fetch(
   },
 )
 
-export const getEventCoverImagePath = eventId => `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-cover_image`
+export const getEventCoverImagePath = eventId => (
+  `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-cover_image`
+)
 
-export const getEventTicketImagePath = (
-  eventId,
-  startDate,
-  endDate,
-  ticketImages = [],
-) => {
-  const now = Date.now()
-  let ticketImageType = 0
-  const sortedImages = ticketImages
-    .map(ticketImage => ({
-      ticket_image_type: ticketImage.ticket_image_type,
-      content_type: ticketImage.content_type,
-    }))
-    .sort((a, b) => a - b)
-
-  if (now >= startDate && now < endDate) {
-    ticketImageType = sortedImages.find(({ticket_image_type}) => ticket_image_type === 1) || 0
-  } else if (now >= endDate) {
-    ticketImageType = sortedImages.find(({ticket_image_type}) => ticket_image_type === 2)
-      || sortedImages.find(({ticket_image_type}) => ticket_image_type === 1)
-      || 0
-  }
-
-  return {
-    url: `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-ticket_image_${ticketImageType}`,
-    content_type: sortedImages[ticketImageType].content_type,
-  }
-}
-
-export const get_event_metadata_path = eventId => `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-event_metadata.json`
+export const getTicketNftImagePath = (eventId, nftRefName) => (
+  `https://ticketland-metadata.s3.eu-central-1.amazonaws.com/${eventId}-nft_file_${nftRefName}`
+)

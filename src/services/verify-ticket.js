@@ -1,16 +1,15 @@
-import {verifyTicket} from './ticket'
 import {validateServerVerificationResponse} from '@ticketland-io/ticket-verification-js'
-import Config from 'react-native-config';
+import Config from 'react-native-config'
+import {verifyTicket} from './ticket'
 
-export const verifyTicketService = async (eventId, codeChallenge, ticketMetadata, ticketNft, ticketOwnerPubkey, sig) => {
+export const verifyTicketService = async (eventId, codeChallenge, cntSuiAddress, ticketOwnerPubkey, sig) => {
   try {
     const response = await verifyTicket(
-      ticketMetadata,
-      ticketNft,
+      cntSuiAddress,
       eventId,
       codeChallenge,
       ticketOwnerPubkey,
-      sig
+      sig,
     )
 
     const validationResult = await validateServerVerificationResponse(
@@ -20,7 +19,6 @@ export const verifyTicketService = async (eventId, codeChallenge, ticketMetadata
     )
 
     return {response, validationResult}
-
   } catch (error) {
     // Ignore
     console.log(error)

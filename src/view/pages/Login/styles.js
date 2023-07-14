@@ -22,29 +22,6 @@ export default makeStyles(theme => ({
     width: 40,
     height: 40
   },
-  modalViewContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  modalViewItem: {
-    margin: 20,
-    backgroundColor: theme.palette.common.white,
-    borderRadius: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  modalTextContainer: {
-    paddingHorizontal: 35,
-    paddingBottom: 10
-  },
   modalText: {
     textAlign: 'center'
   },
@@ -55,5 +32,9 @@ export default makeStyles(theme => ({
   shadow: loading => ({
     padding: 24,
     opacity: loading ? 0.8 : 1
-  })
+  }),
+  dialogButton: {
+    backgroundColor: theme.palette.common.gray800,
+    marginTop: 24,
+  },
 }))

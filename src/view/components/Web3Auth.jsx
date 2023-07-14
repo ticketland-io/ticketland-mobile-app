@@ -1,14 +1,14 @@
 import React, {useEffect, useContext, useState} from 'react'
 import {Button, Dialog, Text} from '@rneui/themed'
-import Web3 from '@apocentre/solana-web3'
+import Config from 'react-native-config'
 import {Context} from '../core/Store'
-import {setWeb3} from '../../data/actions'
+import {setWallet} from '../../data/actions'
 import useStyles from './styles'
 
 const Web3Auth = () => {
   const [state, dispatch] = useContext(Context)
   const [openDialog, setOpenDialog] = useState(false)
-  const [initWeb3State, setInitWeb3State] = useState(null)
+  const [initWalletState, setInitWalletState] = useState(null)
   const classes = useStyles()
 
   useEffect(() => {
@@ -18,26 +18,25 @@ const Web3Auth = () => {
   }, [state.connection, state.user?.uid])
 
   useEffect(() => {
-    const initWeb3 = async () => {
-      if (state.connection && state.user?.uid && initWeb3State) {
-        const _web3 = Web3()
+    const initWallet = async () => {
+      if (state.connection && state.user?.uid && initWalletState) {
+        let custodyWallet
 
         if (state.walletType === 'custody') {
-          const custodyWallet = await state.walletCore.bootstrap(state.user)
-          await _web3.init(state.connection, custodyWallet)
+          custodyWallet = await state.walletCore.bootstrap(Config.CLUSTER_ENDPOINT)
         }
 
-        dispatch(setWeb3(_web3))
-        setInitWeb3State(false)
+        dispatch(setWallet(custodyWallet))
+        setInitWalletState(false)
       }
     }
 
-    initWeb3().catch(error => {
-      setInitWeb3State(false)
+    initWallet().catch(error => {
+      setInitWalletState(false)
       setOpenDialog(true)
       console.error('Failed to initialize web3: ', error)
     })
-  }, [state.connection, state.user?.uid, initWeb3State])
+  }, [state.connection, state.user?.uid, initWalletState])
 
   return (
     <Dialog isVisible={openDialog}>
@@ -45,7 +44,7 @@ const Web3Auth = () => {
       <Button
         buttonStyle={classes.dialogButton}
         onPress={() => {
-          setInitWeb3State(true)
+          setInitWalletState(true)
           setOpenDialog(false)
         }}
       >
